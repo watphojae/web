@@ -9,7 +9,11 @@
         content="วัดโพธิ์แจ้ ร่วมสืบสานพระพุทธศาสนา ทำบุญ ตักบาตร และปฏิบัติธรรม เพื่อความสงบสุขของจิตใจ">
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2">
-    <script src="script.js?v=2"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="script.js?v=2" defer></script>
 </head>
 
 <body>
@@ -275,7 +279,7 @@
 
             <!-- Ordination Notice Card -->
             <div class="ordination-notice reveal-hidden">
-                <div class="notice-icon">🔔</div>
+                <div class="notice-icon"><i class="fas fa-bell"></i></div>
                 <div class="notice-content">
                     <h3>การสมัครบวช</h3>
                     <p>กรุณาเดินทางมาแจ้งความจำนงที่วัดด้วยตนเอง เพื่อสอบทานคุณสมบัติเบื้องต้น</p>
@@ -285,47 +289,21 @@
             <div class="contact-container-grid reveal-hidden">
                 <!-- Map / Address Card (Large) -->
                 <div class="contact-card address-card">
-                    <div class="card-icon">📍</div>
+                    <div class="card-icon"><i class="fas fa-map-marked-alt"></i></div>
                     <div class="card-content">
                         <h3>ที่ตั้งวัด</h3>
                         <p>เลขที่ 1 หมู่ 3 ต.บางน้ำจืด อ.เมืองสมุทรสาคร จ.สมุทรสาคร 74000</p>
                         <a href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B9%82%E0%B8%9E%E0%B8%98%E0%B8%B4%E0%B9%8C%E0%B9%81%E0%B8%88%E0%B9%89/@13.6178556,100.3618304,15z/data=!4m6!3m5!1s0x30e2bc1dcf3946b3:0x62af2ea2acd1d039!8m2!3d13.6221866!4d100.3517209!16s%2Fg%2F1hc37td5y?entry=ttu"
                             target="_blank" class="btn-map-glow">
-                            🗺️ นำทางผ่าน Google Maps
+                            <i class="fas fa-location-arrow"></i> นำทางผ่าน Google Maps
                         </a>
                     </div>
                 </div>
 
                 <!-- Info Cards Grid -->
                 <div class="info-grid">
-                    <div class="contact-card info-item">
-                        <div class="card-icon">📞</div>
-                        <div>
-                            <h3>โทรศัพท์</h3>
-                            <p class="highlight-text">087-774-0111</p>
-                        </div>
-                    </div>
-
-                    <a href="https://line.me/ti/p/~watphojae" target="_blank"
-                        class="contact-card info-item social-link line">
-                        <div class="card-icon">�</div>
-                        <div>
-                            <h3>Line ID</h3>
-                            <p class="highlight-text">watphojae</p>
-                        </div>
-                    </a>
-
-                    <a href="https://www.facebook.com/watphojae" target="_blank"
-                        class="contact-card info-item social-link facebook">
-                        <div class="card-icon">🔵</div>
-                        <div>
-                            <h3>Facebook</h3>
-                            <p class="highlight-text">วัดโพธิ์แจ้</p>
-                        </div>
-                    </a>
-
-                    <div class="contact-card info-item">
-                        <div class="card-icon">�</div>
+                    <div class="contact-card info-item" data-aos="zoom-in" data-aos-delay="500">
+                        <div class="card-icon"><i class="fas fa-envelope"></i></div>
                         <div>
                             <h3>อีเมล</h3>
                             <p>watphojae@gmail.com</p>
@@ -365,6 +343,8 @@
     </div>
 
     <script src="script.js"></script>
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 
 </html>

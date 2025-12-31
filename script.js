@@ -86,23 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Scroll Reveal Animation (Intersection Observer)
-    const revealCallback = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('reveal-active');
-                observer.unobserve(entry.target); // Reveal only once
-            }
-        });
-    };
-
-    const revealObserver = new IntersectionObserver(revealCallback, {
-        threshold: 0.1
-    });
-
-    document.querySelectorAll('section, .news-card, .directory-card, .ordination-notice, .contact-container-grid').forEach(el => {
-        el.classList.add('reveal-hidden');
-        revealObserver.observe(el);
+    // 3. Initialize AOS (Animate On Scroll)
+    AOS.init({
+        once: true,
+        duration: 800,
+        offset: 100
     });
 
     // 4. News Modal Logic
