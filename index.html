@@ -272,33 +272,65 @@
 
         <section id="contact" class="container section-padding">
             <h2 class="section-title">ติดต่อสอบถาม</h2>
-            <div class="ordination-notice">
+
+            <!-- Ordination Notice Card -->
+            <div class="ordination-notice reveal-hidden">
                 <div class="notice-icon">🔔</div>
                 <div class="notice-content">
                     <h3>การสมัครบวช</h3>
                     <p>กรุณาเดินทางมาแจ้งความจำนงที่วัดด้วยตนเอง เพื่อสอบทานคุณสมบัติเบื้องต้น</p>
                 </div>
             </div>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <strong>📍 ที่อยู่:</strong> เลขที่ 1 หมู่ 3 ต.บางน้ำจืด อ.เมืองสมุทรสาคร จ.สมุทรสาคร 74000
-                    <div style="margin-top: 10px;">
-                        <a href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B9%82%E0%B8%9E%E0%B8%98%E0%B8%B4%E0%B9%8C%E0%B9%81%E0%B8%88%E0%B9%89/@13.6178556,100.3618304,15z/data=!4m6!3m5!1s0x30e2bc1dcf3946b3:0x62af2ea2acd1d039!8m2!3d13.6221866!4d100.3517209!16s%2Fg%2F1hc37td5y?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D"
-                            target="_blank" class="btn-map">🗺️ เปิดใน Google Maps</a>
+
+            <div class="contact-container-grid reveal-hidden">
+                <!-- Map / Address Card (Large) -->
+                <div class="contact-card address-card">
+                    <div class="card-icon">📍</div>
+                    <div class="card-content">
+                        <h3>ที่ตั้งวัด</h3>
+                        <p>เลขที่ 1 หมู่ 3 ต.บางน้ำจืด อ.เมืองสมุทรสาคร จ.สมุทรสาคร 74000</p>
+                        <a href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B9%82%E0%B8%9E%E0%B8%98%E0%B8%B4%E0%B9%8C%E0%B9%81%E0%B8%88%E0%B9%89/@13.6178556,100.3618304,15z/data=!4m6!3m5!1s0x30e2bc1dcf3946b3:0x62af2ea2acd1d039!8m2!3d13.6221866!4d100.3517209!16s%2Fg%2F1hc37td5y?entry=ttu"
+                            target="_blank" class="btn-map-glow">
+                            🗺️ นำทางผ่าน Google Maps
+                        </a>
                     </div>
                 </div>
-                <div class="contact-item">
-                    <strong>📞 โทรศัพท์:</strong> 087-774-0111
-                </div>
-                <div class="contact-item">
-                    <strong>📧 อีเมล:</strong> watphojae@gmail.com
-                </div>
-                <div class="contact-item">
-                    <strong>🔵 Facebook:</strong> <a href="https://www.facebook.com/watphojae"
-                        target="_blank">วัดโพธิ์แจ้</a>
-                </div>
-                <div class="contact-item">
-                    <strong>🟢 Line ID:</strong> <a href="https://line.me/ti/p/~watphojae" target="_blank">watphojae</a>
+
+                <!-- Info Cards Grid -->
+                <div class="info-grid">
+                    <div class="contact-card info-item">
+                        <div class="card-icon">📞</div>
+                        <div>
+                            <h3>โทรศัพท์</h3>
+                            <p class="highlight-text">087-774-0111</p>
+                        </div>
+                    </div>
+
+                    <a href="https://line.me/ti/p/~watphojae" target="_blank"
+                        class="contact-card info-item social-link line">
+                        <div class="card-icon">�</div>
+                        <div>
+                            <h3>Line ID</h3>
+                            <p class="highlight-text">watphojae</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.facebook.com/watphojae" target="_blank"
+                        class="contact-card info-item social-link facebook">
+                        <div class="card-icon">🔵</div>
+                        <div>
+                            <h3>Facebook</h3>
+                            <p class="highlight-text">วัดโพธิ์แจ้</p>
+                        </div>
+                    </a>
+
+                    <div class="contact-card info-item">
+                        <div class="card-icon">�</div>
+                        <div>
+                            <h3>อีเมล</h3>
+                            <p>watphojae@gmail.com</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
