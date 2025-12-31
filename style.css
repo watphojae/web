@@ -76,23 +76,20 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100px;
-    /* Initial height */
+    height: 90px;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+    /* Solid for readability */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     transition: var(--transition);
     display: flex;
     align-items: center;
 }
 
 header.header-scrolled {
-    height: 80px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    height: 70px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
 }
 
 .nav-bar {
@@ -100,50 +97,55 @@ header.header-scrolled {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap;
+    /* Prevent wrapping */
 }
 
 /* Logo Area */
 .logo {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+    flex-shrink: 0;
+    /* Prevent logo from squishing */
 }
 
 .logo-img {
-    height: 70px;
+    height: 60px;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     transition: var(--transition);
 }
 
 header.header-scrolled .logo-img {
-    height: 55px;
+    height: 50px;
 }
 
 .brand-text-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .brand-name {
     font-family: 'Pridi', serif;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    line-height: 1;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 .brand-address {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 500;
+    display: none;
+    /* Hide address in header for cleaner look */
 }
 
 /* Navigation Links */
 nav {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     align-items: center;
 }
 
@@ -151,9 +153,11 @@ nav a {
     position: relative;
     font-weight: 600;
     color: var(--text-main);
+    /* Dark text on white header */
     padding: 8px 12px;
     font-size: 1rem;
-    overflow: hidden;
+    white-space: nowrap;
+    /* Force single line */
 }
 
 /* Hover Effect: Gold Underline Expansion */
