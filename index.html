@@ -1,269 +1,520 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="emerald">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>วัดโพธิ์แจ้</title>
+    <title>วัดโพธิ์แจ้ - ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร</title>
     <meta name="description"
-        content="วัดโพธิ์แจ้ ร่วมสืบสานพระพุทธศาสนา ทำบุญ ตักบาตร และปฏิบัติธรรม เพื่อความสงบสุขของจิตใจ">
+        content="วัดโพธิ์แจ้ ร่วมสืบสานพระพุทธศาสนา ทำบุญ ตักบาตร และปฏิบัติธรรม เพื่อความสงบสุขของจิตใจ ตั้งอยู่ที่ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร">
+    <meta name="keywords" content="วัดโพธิ์แจ้, สมุทรสาคร, ทำบุญ, ตักบาตร, ปฏิบัติธรรม, หลวงพ่อโต, บางน้ำจืด">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://watphojae.github.io/">
+    <meta property="og:title" content="วัดโพธิ์แจ้ - ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร">
+    <meta property="og:description"
+        content="ร่วมสืบสานพระพุทธศาสนา ทำบุญ ตักบาตร และปฏิบัติธรรม เพื่อความสงบสุขของจิตใจ">
+    <meta property="og:image" content="static/images/temple_logo.png">
+
+    <link rel="icon" type="image/png" href="static/images/temple_logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="script.js?v=2" defer></script>
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- Tailwind CSS & DaisyUI CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b4d3e',
+                        gold: '#c5a059',
+                    },
+                    animation: {
+                        'slow-fade': 'fadeIn 2s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes zoom-slow {
+            from {
+                transform: scale(1.1);
+            }
+
+            to {
+                transform: scale(1.3);
+            }
+        }
+    </style>
+
+    <!-- React CDN & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="script.js?v=3" defer></script>
+    <script type="text/babel" src="static/js/components.jsx" defer></script>
 </head>
 
 <body>
 
-    <header>
-        <div class="container nav-bar">
-            <div class="logo">
-                <img src="static/images/temple_logo.png" alt="วัดโพธิ์แจ้ Logo" class="logo-img">
-                <div class="brand-text-container">
-                    <span class="brand-name">วัดโพธิ์แจ้</span>
-                    <span class="brand-address">ตำบลบางน้ำจืด อำเภอเมืองสมุทรสาคร จังหวัดสมุทรสาคร 74000</span>
+    <header class="fixed top-0 left-0 w-full z-[1000] transition-all bg-base-100/95 backdrop-blur shadow-md">
+        <div class="navbar container mx-auto px-4 py-2">
+            <div class="flex-1 lg:gap-4 md:gap-2">
+                <div class="flex items-center gap-4">
+                    <img src="static/images/temple_logo.png" alt="วัดโพธิ์แจ้ Logo"
+                        class="h-16 md:h-20 drop-shadow-md transition-all logo-glow">
+                    <div class="flex flex-col">
+                        <span
+                            class="font-['Pridi'] text-2xl md:text-3xl font-extrabold text-primary leading-tight shine-effect">วัดโพธิ์แจ้</span>
+                        <span class="brand-address font-semibold">ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร 74000</span>
+                    </div>
                 </div>
             </div>
-            <nav>
-                <a href="#hero">หน้าแรก</a>
-                <a href="#about">ประวัติความเป็นมา</a>
-                <a href="#news">ข่าวสาร</a>
-                <a href="#abbots">ทำเนียบเจ้าอาวาส</a>
-                <a href="#officials">พระสังฆาธิการ</a>
-                <a href="#contact">ติดต่อสอบถาม</a>
 
-                <!-- Admin Link Removed for Public Site -->
-            </nav>
+            <div class="flex-none hidden lg:block">
+                <ul class="menu menu-horizontal px-1 font-semibold text-base">
+                    <li><a href="#hero" class="hover:text-gold transition-colors">หน้าแรก</a></li>
+                    <li><a href="#about" class="hover:text-gold transition-colors">ประวัติความเป็นมา</a></li>
+                    <li><a href="#news" class="hover:text-gold transition-colors">ข่าวสาร</a></li>
+                    <li><a href="#abbots" class="hover:text-gold transition-colors">ทำเนียบเจ้าอาวาส</a></li>
+                    <li><a href="#officials" class="hover:text-gold transition-colors">พระสังฆาธิการ</a></li>
+                    <li><a href="#contact" class="hover:text-gold transition-colors">ติดต่อสอบถาม</a></li>
+                </ul>
+            </div>
+
+            <div class="flex-none lg:hidden">
+                <div class="dropdown dropdown-end">
+                    <button tabindex="0" class="btn btn-ghost btn-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h7" />
+                        </svg>
+                    </button>
+                    <ul tabindex="0"
+                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a href="#hero">หน้าแรก</a></li>
+                        <li><a href="#about">ประวัติความเป็นมา</a></li>
+                        <li><a href="#news">ข่าวสาร</a></li>
+                        <li><a href="#abbots">ทำเนียบเจ้าอาวาส</a></li>
+                        <li><a href="#officials">พระสังฆาธิการ</a></li>
+                        <li><a href="#contact">ติดต่อสอบถาม</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="hero">
-            <div class="hero-content">
-                <!-- เนื้อหาในส่วน Hero ถูกนำออกตามความต้องการ เพื่อโชว์บรรยากาศภาพพื้นหลัง -->
+        <section id="hero"
+            class="relative h-[85vh] min-h-[600px] flex items-center justify-center text-center overflow-hidden -mt-[100px]">
+            <!-- Hero Background with Zoom Animation -->
+            <div class="absolute inset-0 z-[-2] animate__animated animate__fadeIn">
+                <div
+                    class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-fixed brightness-[0.9] transform scale-110 animate-[zoom-slow_20s_infinite_alternate]">
+                </div>
+            </div>
+            <!-- Subtle Overlay Gradient (Reduced for clearer image) -->
+            <div class="absolute inset-0 z-[-1] bg-gradient-to-b from-primary/20 via-transparent to-primary/40"></div>
+
+            <div class="container mx-auto px-4 z-10">
+                <!-- Content removed as per user request to showcase background image -->
+            </div>
+
+            <!-- Floating Scroll Indicator -->
+            <div
+                class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 animate-bounce">
+                <span class="text-white text-xs uppercase tracking-widest font-semibold">Scroll</span>
+                <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
             </div>
         </section>
 
-        <section id="about" class="about-section">
-            <div class="container">
-                <div class="about-content"
-                    style="max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-                    <h2 class="section-title">ประวัติวัดโพธิ์แจ้</h2>
+        <section id="about" class="py-20 bg-base-100 relative overflow-hidden">
+            <!-- Decorative Pattern -->
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
+                style="background-image: radial-gradient(#1b4d3e 1px, transparent 1px); background-size: 40px 40px;">
+            </div>
 
-                    <h3 style="color: var(--primary); margin-top: 30px;">๑. ข้อมูลทั่วไปและที่ตั้ง</h3>
-                    <p>วัดโพธิ์แจ้ ตั้งอยู่เลขที่ ๑ หมู่ที่ ๓ ถนนเอกชัย ตำบลบางน้ำจืด อำเภอเมืองสมุทรสาคร
-                        จังหวัดสมุทรสาคร สังกัดคณะสงฆ์มหานิกาย มีอาณาเขตติดต่อดังนี้</p>
-                    <ul style="margin-left: 20px; margin-bottom: 20px;">
-                        <li><strong>ทิศเหนือ:</strong> ติดกับคลองสี่วา</li>
-                        <li><strong>ทิศใต้:</strong> ติดกับโรงเรียนวัดโพธิ์แจ้</li>
-                        <li><strong>ทิศตะวันออก:</strong> ติดกับถนนเอกชัย</li>
-                        <li><strong>ทิศตะวันตก:</strong> ติดกับที่ดินเอกชน</li>
-                    </ul>
-                    <p>วัดมีเนื้อที่จำนวน ๒๔ ไร่ ๘.๕ ตารางวา ปัจจุบันมีพระภิกษุจำพรรษาประมาณ ๓๐–๔๐ รูป</p>
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="max-w-4xl mx-auto bg-base-100 p-8 md:p-14 rounded-[2rem] shadow-2xl border border-base-200">
+                    <h2
+                        class="text-3xl md:text-5xl font-['Pridi'] text-center text-primary mb-16 relative flex flex-col items-center font-bold">
+                        ประวัติวัดโพธิ์แจ้
+                        <span class="w-24 h-1.5 bg-gold rounded-full mt-6"></span>
+                    </h2>
 
-                    <h3 style="color: var(--primary); margin-top: 30px;">๒. ประวัติการสร้างและนามวัด</h3>
-                    <p>วัดโพธิ์แจ้ก่อตั้งขึ้นเมื่อประมาณ พ.ศ. ๒๔๕๔ เริ่มต้นจากการเป็นสำนักสงฆ์ โดยชาวบ้านเรียกขานกันว่า
-                        <strong>“วัดตายิ้ม”</strong> ตามชื่อผู้ริเริ่มก่อตั้ง คือ นายยิ้ม จูพราย ร่วมกับนายแดง จูพราย
-                        และนายทับ มุขจั่น ซึ่งเป็นผู้บริจาคที่ดิน
-                    </p>
-                    <p>เมื่อมีการสร้างอุโบสถหลังแรกแล้วเสร็จในปี พ.ศ. ๒๔๖๖ ปรากฏหลักฐานจารึกนามวัดที่หน้าบันว่า
-                        <strong>“วัดโพธิ์ศิริราช จ๊ะ”</strong> ต่อมาได้เปลี่ยนชื่อเป็น <strong>“วัดโพธิ์แจ้”</strong>
-                        เพื่อให้สอดคล้องกับนามชุมชน <strong>“บ้านโพธิ์แจ้”</strong>
-                        ซึ่งมีที่มาจากสภาพพื้นที่ในอดีตบริเวณวัดและชุมชนรายล้อมไปด้วย <strong>ต้นโพธิ์แจ้</strong>
-                        (หมายถึง ต้นโพธิ์ที่มีลักษณะต้นเล็ก เตี้ย ไม่สูงใหญ่) ขึ้นอยู่เป็นจำนวนมาก
-                        จึงเป็นที่มาของชื่อหมู่บ้านและชื่อวัดในเวลาต่อมา
-                    </p>
+                    <div class="space-y-12 text-base-content/80 leading-relaxed font-['Sarabun',sans-serif]">
+                        <!-- 1. ข้อมูลทั่วไปและที่ตั้ง -->
+                        <div class="section-block">
+                            <h3 class="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+                                <span
+                                    class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-base font-bold shadow-sm">๑</span>
+                                ข้อมูลทั่วไปและที่ตั้ง
+                            </h3>
+                            <p class="mb-6 indent-8 text-lg">
+                                วัดโพธิ์แจ้ ตั้งอยู่เลขที่ ๑ หมู่ที่ ๓ ถนนเอกชัย ตำบลบางน้ำจืด อำเภอเมืองสมุทรสาคร
+                                จังหวัดสมุทรสาคร สังกัดคณะสงฆ์มหานิกาย มีอาณาเขตติดต่อดังนี้
+                            </p>
+                            <div
+                                class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-emerald-50/50 p-8 rounded-3xl border border-emerald-100/50">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-2 h-2 rounded-full bg-gold"></div>
+                                    <span class="font-bold text-primary min-w-[100px]">ทิศเหนือ:</span>
+                                    <span>ติดกับคลองสี่วา</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-2 h-2 rounded-full bg-gold"></div>
+                                    <span class="font-bold text-primary min-w-[100px]">ทิศใต้:</span>
+                                    <span>ติดกับโรงเรียนวัดโพธิ์แจ้</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-2 h-2 rounded-full bg-gold"></div>
+                                    <span class="font-bold text-primary min-w-[100px]">ทิศตะวันออก:</span>
+                                    <span>ติดกับถนนเอกชัย</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-2 h-2 rounded-full bg-gold"></div>
+                                    <span class="font-bold text-primary min-w-[100px]">ทิศตะวันตก:</span>
+                                    <span>ติดกับที่ดินเอกชน</span>
+                                </div>
+                            </div>
+                            <p
+                                class="mt-6 text-center font-medium text-primary/70 bg-primary/5 py-4 rounded-3xl border border-primary/10">
+                                <i class="fas fa-layer-group mr-2 text-gold"></i>
+                                วัดมีเนื้อที่จำนวน ๒๔ ไร่ ๘.๕ ตารางวา | ปัจจุบันมีพระภิกษุจำพรรษาประมาณ ๓๐–๔๐ รูป
+                            </p>
+                        </div>
 
-                    <h3 style="color: var(--primary); margin-top: 30px;">๓. ปูชนียวัตถุและเสนาสนะ</h3>
-                    <ul style="margin-left: 20px; margin-bottom: 20px;">
-                        <li style="margin-bottom: 10px;"><strong>พระประธาน (หลวงพ่อโต):</strong>
-                            ประดิษฐานในอุโบสถหลังเก่า (วิหาร) เป็นพระพุทธรูปปางมารวิชัย เนื้อทองเหลืองลงรักปิดทอง
-                            หน้าตักกว้าง ๓ ศอก เดิมประดิษฐานอยู่ที่วัดบางประทุน (วัดแก้วไพฑูรย์) เขตบางขุนเทียน
-                            โดยนางชื่น แก้วงาม ได้อัญเชิญมาและบูรณะซ่อมแซมเพื่อถวายเป็นพระประธานแก่วัดโพธิ์แจ้เมื่อ พ.ศ.
-                            ๒๔๖๙</li>
-                        <li style="margin-bottom: 10px;"><strong>อุโบสถหลังใหม่:</strong> สร้างเมื่อวันที่ ๑๒ มกราคม
-                            พ.ศ. ๒๕๒๑ เป็นอาคารคอนกรีตเสริมเหล็กประดับลวดลายปูนปั้นทรงไทย
-                            สร้างขึ้นทดแทนหลังเก่าที่ทรุดโทรมและได้รับผลกระทบจากเสียงรบกวนเนื่องจากการขยายถนนเอกชัย
-                            ได้รับพระราชทานวิสุงคามสีมาเมื่อวันที่ ๓๐ สิงหาคม พ.ศ. ๒๕๒๐
-                            และประกอบพิธีผูกพัทธสีมาเมื่อวันที่ ๖ กุมภาพันธ์ พ.ศ. ๒๕๒๙</li>
-                        <li><strong>เสนาสนะอื่น ๆ:</strong> ภายในวัดประกอบด้วยศาลาการเปรียญ, <strong>ศาลาบำเพ็ญกุศล ๗
-                                หลัง</strong>, <strong>หอฉัน</strong>, หอพระไตรปิฎก, หอกลอง, หอระฆัง, ฌาปนสถาน (เมรุ),
-                            ศาลาปฏิบัติธรรม, โรงเรียนพระปริยัติธรรม และกุฏิสงฆ์รวมกว่า ๓๐ หลัง</li>
-                    </ul>
+                        <!-- 2. ประวัติการสร้างและนามวัด -->
+                        <div class="section-block">
+                            <h3 class="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+                                <span
+                                    class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-base font-bold shadow-sm">๒</span>
+                                ประวัติการสร้างและนามวัด
+                            </h3>
+                            <div class="space-y-6 text-lg">
+                                <p class="indent-8">
+                                    วัดโพธิ์แจ้ก่อตั้งขึ้นเมื่อประมาณ พ.ศ. ๒๔๕๔ เริ่มต้นจากการเป็นสำนักสงฆ์
+                                    โดยชาวบ้านเรียกขานกันว่า <strong>“วัดตายิ้ม”</strong> ตามชื่อผู้ริเริ่มก่อตั้ง คือ
+                                    นายยิ้ม จูพราย ร่วมกับนายแดง จูพราย และนายทับ มุขจั่น ซึ่งเป็นผู้บริจาคที่ดิน
+                                </p>
+                                <div
+                                    class="relative p-8 bg-gold/5 rounded-3xl border-l-8 border-gold shadow-sm overflow-hidden">
+                                    <i class="fas fa-quote-left absolute top-4 right-6 text-gold/10 text-6xl"></i>
+                                    <p class="relative z-10 leading-loose">
+                                        เมื่อมีการสร้างอุโบสถหลังแรกแล้วเสร็จในปี พ.ศ. ๒๔๖๖
+                                        ปรากฏหลักฐานจารึกนามวัดที่หน้าบันว่า <strong>“วัดโพธิ์ศิริราช จ๊ะ”</strong>
+                                        ต่อมาได้เปลี่ยนชื่อเป็น <strong>“วัดโพธิ์แจ้”</strong>
+                                        เพื่อให้สอดคล้องกับนามชุมชน <strong>“บ้านโพธิ์แจ้”</strong>
+                                        ซึ่งมีที่มาจากสภาพพื้นที่ในอดีตบริเวณวัดและชุมชนรายล้อมไปด้วย
+                                        <strong>ต้นโพธิ์แจ้</strong> (หมายถึง ต้นโพธิ์ที่มีลักษณะต้นเล็ก เตี้ย
+                                        ไม่สูงใหญ่) ขึ้นอยู่เป็นจำนวนมาก
+                                        จึงเป็นที่มาของชื่อหมู่บ้านและชื่อวัดในเวลาต่อมา
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-                    <h3 style="color: var(--primary); margin-top: 30px;">๔. ลำดับเจ้าอาวาสและการพัฒนา</h3>
-                    <ul style="margin-left: 20px; margin-bottom: 20px;">
-                        <li style="margin-bottom: 10px;"><strong>ยุคพระอธิการป๋อ ปชฺโชโต (พระครูวิธานสุตโสภณ):</strong>
-                            ท่านได้วางผังวัดใหม่ ขยายเขตที่ดิน และสร้างถาวรวัตถุสำคัญ เช่น ศาลาการเปรียญ หอสวดมนต์
-                            และจัดระเบียบกุฏิสงฆ์ ท่านมรณภาพเมื่อ พ.ศ. ๒๕๐๕</li>
-                        <li style="margin-bottom: 10px;"><strong>ยุคพระครูสาครปิยธรรม (เปี้ยว ปิยธมฺโม):</strong>
-                            ดำรงตำแหน่งตั้งแต่ พ.ศ. ๒๕๐๖ – ๒๕๖๐ (๕๔ ปี) เป็นยุคที่มีการพัฒนาอย่างต่อเนื่อง
-                            ทั้งการสร้างอุโบสถหลังใหม่ การสร้างรั้วคอนกรีตรอบวัด การจัดซื้อที่ดินขยายวัด
-                            และการสร้างศาสนสถานครบวงจร</li>
-                        <li><strong>ยุคปัจจุบัน (พระมหาอรุณ ธมฺมสาโร ดร.):</strong> ดำรงตำแหน่งตั้งแต่วันที่ ๑ พฤษภาคม
-                            พ.ศ. ๒๕๖๐ จนถึงปัจจุบัน ท่านได้สานต่องานพัฒนา ปรับปรุงภูมิทัศน์
-                            และจัดซื้อที่ดินเพิ่มเติมจนวัดมีความสวยงามดังที่ปรากฏ</li>
-                    </ul>
+                        <!-- 3. ปูชนียวัตถุและเสนาสนะ -->
+                        <div class="section-block">
+                            <h3 class="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+                                <span
+                                    class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-base font-bold shadow-sm">๓</span>
+                                ปูชนียวัตถุและเสนาสนะ
+                            </h3>
+                            <div class="grid grid-cols-1 gap-6">
+                                <div
+                                    class="p-8 bg-white border border-base-200 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                    <h4 class="font-bold text-primary mb-3 flex items-center gap-2 text-xl">
+                                        พระประธาน (หลวงพ่อโต)
+                                    </h4>
+                                    <p class="text-base text-justify">ประดิษฐานในอุโบสถหลังเก่า (วิหาร)
+                                        เป็นพระพุทธรูปปางมารวิชัย เนื้อทองเหลืองลงรักปิดทอง หน้าตักกว้าง ๓ ศอก
+                                        เดิมประดิษฐานอยู่ที่วัดบางประทุน (วัดแก้วไพฑูรย์) เขตบางขุนเทียน โดยนางชื่น
+                                        แก้วงาม ได้อัญเชิญมาและบูรณะซ่อมแซมเพื่อถวายเป็นพระประธานแก่วัดโพธิ์แจ้เมื่อ
+                                        พ.ศ. ๒๔๖๙</p>
+                                </div>
+                                <div
+                                    class="p-8 bg-white border border-base-200 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                    <h4 class="font-bold text-primary mb-3 flex items-center gap-2 text-xl">
+                                        อุโบสถหลังใหม่
+                                    </h4>
+                                    <p class="text-base text-justify">สร้างเมื่อวันที่ ๑๒ มกราคม พ.ศ. ๒๕๒๑
+                                        เป็นอาคารคอนกรีตเสริมเหล็กประดับลวดลายปูนปั้นทรงไทย
+                                        สร้างขึ้นทดแทนหลังเก่าที่ทรุดโทรมและได้รับผลกระทบจากเสียงรบกวนเนื่องจากการขยายถนนเอกชัย
+                                        ได้รับพระราชทานวิสุงคามสีมาเมื่อวันที่ ๓๐ สิงหาคม พ.ศ. ๒๕๒๐
+                                        และประกอบพิธีผูกพัทธสีมาเมื่อวันที่ ๖ กุมภาพันธ์ พ.ศ. ๒๕๒๙</p>
+                                </div>
+                                <div
+                                    class="p-8 bg-white border border-base-200 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                    <h4 class="font-bold text-primary mb-3 flex items-center gap-2 text-xl">
+                                        เสนาสนะอื่น ๆ
+                                    </h4>
+                                    <p class="text-base text-justify">ภายในวัดประกอบด้วยศาลาการเปรียญ,
+                                        <strong>ศาลาบำเพ็ญกุศล ๗ หลัง</strong>, <strong>หอฉัน</strong>, หอพระไตรปิฎก,
+                                        หอกลอง, หอระฆัง, ฌาปนสถาน (เมรุ), ศาลาปฏิบัติธรรม, โรงเรียนพระปริยัติธรรม
+                                        และกุฏิสงฆ์รวมกว่า ๓๐ หลัง
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-                    <h3 style="color: var(--primary); margin-top: 30px;">๕. การศึกษาและการเผยแผ่พระพุทธศาสนา</h3>
-                    <p>ทางวัดให้ความสำคัญกับการศึกษาทั้งทางธรรมและทางโลก
-                        โดยสนับสนุนให้พระภิกษุสามเณรศึกษาและเข้าสอบนักธรรม-บาลีสนามหลวงเป็นประจำทุกปี
-                        ในด้านสังคมสงเคราะห์ ได้มอบทุนการศึกษาและอุปกรณ์การเรียนแก่โรงเรียนวัดโพธิ์แจ้ (มาลีราษฎร์บำรุง)
-                        และโรงเรียนอื่นๆ อย่างต่อเนื่อง</p>
-                    <p>ด้านการเผยแผ่ธรรมะ ทางวัดได้จัดส่งพระวิทยากรไปทำการสอนและบรรยายธรรม ณ สถานศึกษาต่าง ๆ ได้แก่
-                        <strong>โรงเรียนวัดโพธิ์แจ้ (มาลีราษฎร์บำรุง) โรงเรียนบ้านหนองหาดใหญ่ โรงเรียนศึกษานารีวิทยา
-                            และโรงเรียนทานตะวันไตรภาษา</strong> นอกจากนี้ <strong>โรงเรียนวัดโพธิ์แจ้ (มาลีราษฎร์บำรุง)
-                            ยังได้รับเลือกให้เป็นสนามสอบธรรมศึกษา</strong>
-                        รวมถึงทางวัดยังได้จัดอบรมประชาชนในวันสำคัญทางศาสนา
-                        และมีการบริหารจัดการวัดตามหลักพระธรรมวินัยและกฎมหาเถรสมาคมอย่างเคร่งครัด
-                    </p>
+                        <!-- 4. ลำดับเจ้าอาวาสและการพัฒนา -->
+                        <div class="section-block">
+                            <h3 class="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+                                <span
+                                    class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-base font-bold shadow-sm">๔</span>
+                                ลำดับเจ้าอาวาสและการพัฒนา
+                            </h3>
+                            <div class="relative border-l-4 border-emerald-100 ml-5 space-y-12 py-4">
+                                <div class="relative pl-10">
+                                    <div
+                                        class="absolute -left-[14px] top-2 w-6 h-6 rounded-full bg-white border-4 border-gold">
+                                    </div>
+                                    <span class="text-gold font-bold text-sm uppercase tracking-wider">ยุคพระอธิการป๋อ
+                                        ปชฺโชโต (พระครูวิธานสุตโสภณ)</span>
+                                    <p class="mt-3">ท่านได้วางผังวัดใหม่ ขยายเขตที่ดิน และสร้างถาวรวัตถุสำคัญ เช่น
+                                        ศาลาการเปรียญ หอสวดมนต์ และจัดระเบียบกุฏิสงฆ์ ท่านมรณภาพเมื่อ พ.ศ. ๒๕๐๕</p>
+                                </div>
+                                <div class="relative pl-10">
+                                    <div
+                                        class="absolute -left-[14px] top-2 w-6 h-6 rounded-full bg-white border-4 border-gold">
+                                    </div>
+                                    <span
+                                        class="text-gold font-bold text-sm uppercase tracking-wider">ยุคพระครูสาครปิยธรรม
+                                        (เปี้ยว ปิยธมฺโม)</span>
+                                    <p class="mt-3 text-justify">ดำรงตำแหน่งตั้งแต่ พ.ศ. ๒๕๐๖ – ๒๕๖๐ (๕๔ ปี)
+                                        เป็นยุคที่มีการพัฒนาอย่างต่อเนื่อง ทั้งการสร้างอุโบสถหลังใหม่
+                                        การสร้างรั้วคอนกรีตรอบวัด การจัดซื้อที่ดินขยายวัด และการสร้างศาสนสถานครบวงจร</p>
+                                </div>
+                                <div class="relative pl-10">
+                                    <div
+                                        class="absolute -left-[14px] top-2 w-6 h-6 rounded-full bg-white border-4 border-gold">
+                                    </div>
+                                    <span class="text-gold font-bold text-sm uppercase tracking-wider">ยุคปัจจุบัน
+                                        (พระมหาอรุณ ธมฺมสาโร ดร.)</span>
+                                    <p class="mt-3 text-justify">ดำรงตำแหน่งตั้งแต่วันที่ ๑ พฤษภาคม พ.ศ. ๒๕๖๐
+                                        จนถึงปัจจุบัน ท่านได้สานต่องานพัฒนา ปรับปรุงภูมิทัศน์
+                                        และจัดซื้อที่ดินเพิ่มเติมจนวัดมีความสวยงามดังที่ปรากฏ</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5. การศึกษาและการเผยแผ่พระพุทธศาสนา -->
+                        <div class="section-block pb-6">
+                            <h3 class="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+                                <span
+                                    class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-base font-bold shadow-sm">๕</span>
+                                การศึกษาและการเผยแผ่พระพุทธศาสนา
+                            </h3>
+                            <div class="bg-primary/5 p-8 rounded-3xl border border-primary/10 space-y-8">
+                                <p class="indent-8 text-lg">
+                                    ทางวัดให้ความสำคัญกับการศึกษาทั้งทางธรรมและทางโลก
+                                    โดยสนับสนุนให้พระภิกษุสามเณรศึกษาและเข้าสอบนักธรรม-บาลีสนามหลวงเป็นประจำทุกปี
+                                    ในด้านสังคมสงเคราะห์ ได้มอบทุนการศึกษาและอุปกรณ์การเรียนแก่โรงเรียนวัดโพธิ์แจ้
+                                    (มาลีราษฎร์บำรุง) และโรงเรียนอื่นๆ อย่างต่อเนื่อง
+                                </p>
+                                <div class="pt-8 border-t border-primary/10">
+                                    <h4 class="font-bold text-primary mb-4 text-xl">ด้านการเผยแผ่ธรรมะ</h4>
+                                    <p class="text-lg text-justify">
+                                        ทางวัดได้จัดส่งพระวิทยากรไปทำการสอนและบรรยายธรรม ณ สถานศึกษาต่าง ๆ ได้แก่
+                                        <strong>โรงเรียนวัดโพธิ์แจ้ (มาลีราษฎร์บำรุง) โรงเรียนบ้านหนองหาดใหญ่
+                                            โรงเรียนศึกษานารีวิทยา และโรงเรียนทานตะวันไตรภาษา</strong> นอกจากนี้
+                                        <strong>โรงเรียนวัดโพธิ์แจ้ (มาลีราษฎร์บำรุง)
+                                            ยังได้รับเลือกให้เป็นสนามสอบธรรมศึกษา</strong>
+                                        รวมถึงทางวัดยังได้จัดอบรมประชาชนในวันสำคัญทางศาสนา
+                                        และมีการบริหารจัดการวัดตามหลักพระธรรมวินัยและกฎมหาเถรสมาคมอย่างเคร่งครัด
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="news" class="container section-padding">
-            <h2 class="section-title">ข่าวประชาสัมพันธ์</h2>
-            <div class="news-grid">
-                <article class="news-card" data-news-id="3">
-                    <div class="news-img"
-                        style="background-image: url('static/images/dhamma_sunday_poster.png'); background-size: cover; background-position: center;">
-                        <!-- Image set via CSS background -->
+        <section id="news" class="bg-base-200/50 py-24">
+            <div class="container mx-auto px-4">
+                <h2
+                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
+                    ข่าวประชาสัมพันธ์
+                </h2>
+                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
+                </div>
+
+                <!-- React Section for News -->
+                <div id="news-react-root">
+                    <div class="flex justify-center p-10">
+                        <span class="loading loading-spinner loading-lg text-primary"></span>
                     </div>
-                    <div class="news-body">
-                        <h3>พิธีเจริญพระพุทธมนต์ฯ วันอาทิตย์</h3>
-                        <p>ขอเชิญร่วมพิธีเจริญพระพุทธมนต์ ทำวัตรเย็นและเจริญกัมมัฏฐาน ทุกวันอาทิตย์ ตลอดเดือนมกราคม 2569
-                            เวลา 17.30 น. เพื่อถวายเป็นพระราชกุศล</p>
-                        <span class="read-more">อ่านต่อ →</span>
-                    </div>
-                </article>
-                <article class="news-card" data-news-id="1">
-                    <div class="news-img"
-                        style="background-image: url('static/images/NewYearPrayer2026.jpg'); background-size: cover; background-position: center;">
-                        <!-- Image set via CSS background -->
-                    </div>
-                    <div class="news-body">
-                        <h3>สวดมนต์ข้ามปี</h3>
-                        <p>ขอเชิญพุทธศาสนิกชนร่วมเจริญจิตตภาวนา และสวดมนต์ข้ามปี
-                            เพื่อความเป็นสิริมงคลต้อนรับศักราชใหม่...</p>
-                        <span class="read-more">อ่านต่อ →</span>
-                    </div>
-                </article>
-                <article class="news-card" data-news-id="2">
-                    <div class="news-img"
-                        style="background-image: url('static/images/annual_event_poster.jpg'); background-size: cover; background-position: center;">
-                        <!-- Image set via CSS background -->
-                    </div>
-                    <div class="news-body">
-                        <h3>งานประจำปี ปิดทองหลวงพ่อโตวัดโพธิ์แจ้</h3>
-                        <p>ขอเชิญเที่ยวงานประจำปี ปิดทองนมัสการหลวงพ่อโต และรอยพระพุทธบาทจำลอง 24-26 มกราคม 2569
-                            ชมมหรสพฟรีตลอดงาน!</p>
-                        <span class="read-more">อ่านต่อ →</span>
-                    </div>
-                </article>
-            </div>
         </section>
 
         <!-- ทำเนียบเจ้าอาวาส -->
-        <section id="abbots" class="container section-padding">
-            <h2 class="section-title">ทำเนียบเจ้าอาวาส</h2>
-            <div class="directory-grid">
-                <div class="directory-card">
-                    <div class="directory-img"><span class="placeholder-icon">👤</span></div>
-                    <div class="directory-info">
-                        <h3>ลำดับที่ ๑</h3>
-                        <p class="monk-name">พระจัน</p>
-                        <span class="monk-period">ไม่ปรากฎปีที่ดำรงตำแหน่ง</span>
-                    </div>
+        <!-- ทำเนียบเจ้าอาวาส -->
+        <section id="abbots" class="py-24 bg-base-100">
+            <div class="container mx-auto px-4">
+                <h2
+                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
+                    ทำเนียบเจ้าอาวาส
+                </h2>
+                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
                 </div>
-                <div class="directory-card">
-                    <div class="directory-img"><span class="placeholder-icon">👤</span></div>
-                    <div class="directory-info">
-                        <h3>ลำดับที่ ๒</h3>
-                        <p class="monk-name">พระทิม</p>
-                        <span class="monk-period">ไม่ปรากฎปีที่ดำรงตำแหน่ง</span>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
+                    <!-- ลำดับที่ 1 -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp">
+                        <div class="portrait-frame">
+                            <div class="portrait-placeholder">👤</div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๑</span>
+                            <h3 class="monk-name">พระจัน</h3>
+                            <p class="monk-title italic">ไม่ปรากฎปีที่ดำรงตำแหน่ง</p>
+                        </div>
                     </div>
-                </div>
-                <div class="directory-card">
-                    <div class="directory-img"><span class="placeholder-icon">👤</span></div>
-                    <div class="directory-info">
-                        <h3>ลำดับที่ ๓</h3>
-                        <p class="monk-name">พระโก๋ อุตฺตโม</p>
-                        <span class="monk-period">พ.ศ. ๒๔๘๗</span>
+
+                    <!-- ลำดับที่ 2 -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp"
+                        style="animation-delay: 0.1s">
+                        <div class="portrait-frame">
+                            <div class="portrait-placeholder">👤</div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๒</span>
+                            <h3 class="monk-name">พระทิม</h3>
+                            <p class="monk-title italic">ไม่ปรากฎปีที่ดำรงตำแหน่ง</p>
+                        </div>
                     </div>
-                </div>
-                <div class="directory-card">
-                    <div class="directory-img"><span class="placeholder-icon">👤</span></div>
-                    <div class="directory-info">
-                        <h3>ลำดับที่ ๔</h3>
-                        <p class="monk-name">พระสด กมโล</p>
-                        <span class="monk-period">พ.ศ. ๒๔๘๘ - ๒๔๙๑</span>
+
+                    <!-- ลำดับที่ 3 -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp"
+                        style="animation-delay: 0.2s">
+                        <div class="portrait-frame">
+                            <div class="portrait-placeholder">👤</div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๓</span>
+                            <h3 class="monk-name">พระโก๋ อุตฺตโม</h3>
+                            <p class="monk-title italic">พ.ศ. ๒๔๘๗</p>
+                        </div>
                     </div>
-                </div>
-                <div class="directory-card">
-                    <div class="directory-img"><span class="placeholder-icon">👤</span></div>
-                    <div class="directory-info">
-                        <h3>ลำดับที่ ๕</h3>
-                        <p class="monk-name">พระครูวิธานสุตโสภณ<br>(ปชฺโชโต)</p>
-                        <span class="monk-period">พ.ศ. ๒๔๙๒ - ๒๕๐๕</span>
+
+                    <!-- ลำดับที่ 4 -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp"
+                        style="animation-delay: 0.3s">
+                        <div class="portrait-frame">
+                            <div class="portrait-placeholder">👤</div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๔</span>
+                            <h3 class="monk-name">พระสด กมโล</h3>
+                            <p class="monk-title italic">พ.ศ. ๒๔๘๘ - ๒๔๙๑</p>
+                        </div>
                     </div>
-                </div>
-                <div class="directory-card">
-                    <div class="directory-img"><span class="placeholder-icon">👤</span></div>
-                    <div class="directory-info">
-                        <h3>ลำดับที่ ๖</h3>
-                        <p class="monk-name">พระครูสาครปิยธรรม<br>(ปิยธมฺโม)</p>
-                        <span class="monk-period">พ.ศ. ๒๕๐๖ - ๒๕๖๐</span>
+
+                    <!-- ลำดับที่ 5 -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp"
+                        style="animation-delay: 0.4s">
+                        <div class="portrait-frame">
+                            <div class="portrait-placeholder">👤</div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๕</span>
+                            <h3 class="monk-name">พระครูวิธานสุตโสภณ</h3>
+                            <p class="monk-title italic">พ.ศ. ๒๔๙๒ - ๒๕๐๕</p>
+                        </div>
                     </div>
-                </div>
-                <div class="directory-card">
-                    <div class="directory-img">
-                        <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร" class="clickable-image"
-                            data-full-img="static/images/abbot_new.jpg">
+
+                    <!-- ลำดับที่ 6 -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp"
+                        style="animation-delay: 0.5s">
+                        <div class="portrait-frame">
+                            <div class="portrait-placeholder">👤</div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๖</span>
+                            <h3 class="monk-name">พระครูสาครปิยธรรม</h3>
+                            <p class="monk-title italic">พ.ศ. ๒๕๐๖ - ๒๕๖๐</p>
+                        </div>
                     </div>
-                    <div class="directory-info">
-                        <h3>ลำดับที่ ๗</h3>
-                        <p class="monk-name">พระครูวัชรธรรมสาคร ดร.<br>(ธมฺมสาโร)</p>
-                        <span class="monk-period">พ.ศ. ๒๕๖๐ - ปัจจุบัน</span>
+
+                    <!-- ลำดับที่ 7 (ปัจจุบัน) -->
+                    <div class="temple-directory-card border-gold border-2 shadow-2xl animate__animated animate__zoomIn"
+                        style="animation-delay: 0.6s">
+                        <div class="portrait-frame border-gold">
+                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร">
+                        </div>
+                        <div class="space-y-1">
+                            <span class="badge badge-warning font-bold badge-sm">ปัจจุบัน</span>
+                            <h3 class="monk-name">พระครูวัชรธรรมสาคร ดร.</h3>
+                            <p class="monk-title text-primary font-bold">พ.ศ. ๒๕๖๐ - ปัจจุบัน</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- พระสังฆาธิการ -->
-        <section id="officials" class="container section-padding bg-light">
-            <div class="container">
-                <h2 class="section-title">พระสังฆาธิการ</h2>
-                <div class="directory-grid">
-                    <div class="directory-card">
-                        <div class="directory-img">
-                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร" class="clickable-image"
-                                data-full-img="static/images/abbot_new.jpg">
+        <section id="officials" class="py-24 bg-base-200/50">
+            <div class="container mx-auto px-4">
+                <h2
+                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
+                    พระสังฆาธิการ
+                </h2>
+                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-5xl mx-auto">
+                    <!-- เจ้าอาวาส -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp">
+                        <div class="portrait-frame border-primary">
+                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร" />
                         </div>
-                        <div class="directory-info">
-                            <h3>เจ้าอาวาส</h3>
-                            <p class="monk-name">พระครูวัชรธรรมสาคร ดร.<br>(ธมฺมสาโร)</p>
-                        </div>
-                    </div>
-                    <div class="directory-card">
-                        <div class="directory-img">
-                            <span class="placeholder-icon">👤</span>
-                        </div>
-                        <div class="directory-info">
-                            <h3>ผู้ช่วยเจ้าอาวาส</h3>
-                            <p class="monk-name">พระมหาจริโชติ อรุโณ</p>
+                        <div class="pt-2">
+                            <span class="badge badge-primary badge-sm mb-2">เจ้าอาวาส</span>
+                            <h3 class="monk-name leading-tight">พระครูวัชรธรรมสาคร ดร.<br>(ธมฺมสาโร)</h3>
                         </div>
                     </div>
-                    <div class="directory-card">
-                        <div class="directory-img">
-                            <img src="static/images/monk_samran_new.jpg" alt="พระมหาสำราญ" class="clickable-image"
-                                data-full-img="static/images/monk_samran_new.jpg">
+
+                    <!-- ผู้ช่วยเจ้าอาวาส 1 -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp"
+                        style="animation-delay: 0.1s">
+                        <div class="portrait-frame">
+                            <div class="portrait-placeholder">👤</div>
                         </div>
-                        <div class="directory-info">
-                            <h3>ผู้ช่วยเจ้าอาวาส</h3>
-                            <p class="monk-name">พระมหาสำราญ พลวโร</p>
+                        <div class="pt-2">
+                            <span class="badge badge-outline badge-warning badge-sm mb-2">ผู้ช่วยเจ้าอาวาส</span>
+                            <h3 class="monk-name leading-tight">พระมหาจริโชติ อรุโณ</h3>
+                        </div>
+                    </div>
+
+                    <!-- ผู้ช่วยเจ้าอาวาส 2 -->
+                    <div class="temple-directory-card animate__animated animate__fadeInUp"
+                        style="animation-delay: 0.2s">
+                        <div class="portrait-frame">
+                            <img src="static/images/monk_samran_new.jpg" alt="พระมหาสำราญ พลวโร" />
+                        </div>
+                        <div class="pt-2">
+                            <span class="badge badge-outline badge-warning badge-sm mb-2">ผู้ช่วยเจ้าอาวาส</span>
+                            <h3 class="monk-name leading-tight">พระมหาสำราญ พลวโร</h3>
                         </div>
                     </div>
                 </div>
@@ -274,65 +525,85 @@
 
 
 
-        <section id="contact" class="container section-padding">
-            <h2 class="section-title">ติดต่อสอบถาม</h2>
-
-            <!-- Ordination Notice Card -->
-            <div class="ordination-notice reveal-hidden">
-                <div class="notice-icon"><i class="fas fa-bell"></i></div>
-                <div class="notice-content">
-                    <h3>การสมัครบวช</h3>
-                    <p>กรุณาเดินทางมาแจ้งความจำนงที่วัดด้วยตนเอง เพื่อสอบทานคุณสมบัติเบื้องต้น</p>
+        <section id="contact" class="py-24 bg-white relative">
+            <div class="container mx-auto px-4">
+                <h2
+                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
+                    ติดต่อสอบถาม
+                </h2>
+                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
                 </div>
-            </div>
 
-            <div class="contact-container-grid reveal-hidden">
-                <!-- Map / Address Card (Large) -->
-                <div class="contact-card address-card">
-                    <div class="card-icon"><i class="fas fa-map-marked-alt"></i></div>
-                    <div class="card-content">
-                        <h3>ที่ตั้งวัด</h3>
-                        <p>เลขที่ 1 หมู่ 3 ต.บางน้ำจืด อ.เมืองสมุทรสาคร จ.สมุทรสาคร 74000</p>
-                        <a href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B9%82%E0%B8%9E%E0%B8%98%E0%B8%B4%E0%B9%8C%E0%B9%81%E0%B8%88%E0%B9%89/@13.6178556,100.3618304,15z/data=!4m6!3m5!1s0x30e2bc1dcf3946b3:0x62af2ea2acd1d039!8m2!3d13.6221866!4d100.3517209!16s%2Fg%2F1hc37td5y?entry=ttu"
-                            target="_blank" class="btn-map-glow">
-                            <i class="fas fa-location-arrow"></i> นำทางผ่าน Google Maps
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
+                    <!-- Left: Info & Map -->
+                    <div class="space-y-8 animate__animated animate__fadeInLeft">
+                        <div class="card bg-base-100 shadow-xl border border-base-200 overflow-hidden group">
+                            <div class="card-body p-0 flex flex-row">
+                                <div
+                                    class="bg-primary p-8 flex items-center justify-center text-white text-3xl group-hover:bg-gold transition-colors duration-500">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </div>
+                                <div class="p-8">
+                                    <h3 class="text-xl font-bold text-primary mb-2 font-['Pridi']">ที่ตั้งวัด</h3>
+                                    <p class="text-base-content/70 mb-4">เลขที่ 1 หมู่ 3 ต.บางน้ำจืด อ.เมืองสมุทรสาคร
+                                        จ.สมุทรสาคร 74000</p>
+                                    <a href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B9%82%E0%B8%9E%E0%B8%98%E0%B8%B4%E0%B9%8C%E0%B9%81%E0%B8%88%E0%B9%89/@13.6178556,100.3618304,15z/data=!4m6!3m5!1s0x30e2bc1dcf3946b3:0x62af2ea2acd1d039!8m2!3d13.6221866!4d100.3517209!16s%2Fg%2F1hc37td5y?entry=ttu"
+                                        target="_blank"
+                                        class="btn btn-primary rounded-full px-8 shadow-lg hover:shadow-primary/30">
+                                        <i class="fas fa-location-arrow mr-2"></i> นำทางผ่าน Google Maps
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card bg-base-100 shadow-xl border border-base-200 overflow-hidden group">
+                            <div class="card-body p-0 flex flex-row">
+                                <div
+                                    class="bg-primary/5 p-8 flex items-center justify-center text-primary text-3xl group-hover:bg-primary group-hover:text-white transition-colors duration-500">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="p-8">
+                                    <h3 class="text-xl font-bold text-primary mb-2 font-['Pridi']">การสมัครบวช</h3>
+                                    <p class="text-base-content/70">กรุณาเดินทางมาแจ้งความจำนงที่วัดด้วยตนเอง
+                                        เพื่อสอบทานคุณสมบัติเบื้องต้น</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Contact Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate__animated animate__fadeInRight">
+                        <div
+                            class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:border-primary transition-all text-center group">
+                            <i
+                                class="fas fa-phone-alt text-3xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
+                            <h3 class="text-xs text-secondary-content uppercase font-bold mb-2">โทรศัพท์</h3>
+                            <p class="text-xl font-bold text-primary">087-774-0111</p>
+                        </div>
+
+                        <a href="https://line.me/ti/p/~watphojae" target="_blank"
+                            class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:bg-[#06C755] hover:text-white transition-all text-center group">
+                            <i
+                                class="fab fa-line text-3xl text-[#06C755] mb-4 group-hover:text-white group-hover:scale-110 transition-transform"></i>
+                            <h3 class="text-xs uppercase font-bold mb-2 opacity-70 group-hover:opacity-100">Line ID</h3>
+                            <p class="text-lg font-bold">watphojae</p>
                         </a>
-                    </div>
-                </div>
 
-                <!-- Info Cards Grid -->
-                <div class="info-grid">
-                    <div class="contact-card info-item" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="card-icon"><i class="fas fa-phone-alt"></i></div>
-                        <div>
-                            <h3>โทรศัพท์</h3>
-                            <p class="highlight-text">087-774-0111</p>
-                        </div>
-                    </div>
+                        <a href="https://www.facebook.com/watphojae" target="_blank"
+                            class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:bg-[#1877F2] hover:text-white transition-all text-center group">
+                            <i
+                                class="fab fa-facebook-f text-3xl text-[#1877F2] mb-4 group-hover:text-white group-hover:scale-110 transition-transform"></i>
+                            <h3 class="text-xs uppercase font-bold mb-2 opacity-70 group-hover:opacity-100">Facebook
+                            </h3>
+                            <p class="text-lg font-bold">วัดโพธิ์แจ้</p>
+                        </a>
 
-                    <a href="https://line.me/ti/p/~watphojae" target="_blank"
-                        class="contact-card info-item social-link line" data-aos="zoom-in" data-aos-delay="300">
-                        <div class="card-icon"><i class="fab fa-line"></i></div>
-                        <div>
-                            <h3>Line ID</h3>
-                            <p class="highlight-text">watphojae</p>
-                        </div>
-                    </a>
-
-                    <a href="https://www.facebook.com/watphojae" target="_blank"
-                        class="contact-card info-item social-link facebook" data-aos="zoom-in" data-aos-delay="400">
-                        <div class="card-icon"><i class="fab fa-facebook-f"></i></div>
-                        <div>
-                            <h3>Facebook</h3>
-                            <p class="highlight-text">วัดโพธิ์แจ้</p>
-                        </div>
-                    </a>
-
-                    <div class="contact-card info-item" data-aos="zoom-in" data-aos-delay="500">
-                        <div class="card-icon"><i class="fas fa-envelope"></i></div>
-                        <div>
-                            <h3>อีเมล</h3>
-                            <p>watphojae@gmail.com</p>
+                        <div
+                            class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:border-primary transition-all text-center group">
+                            <i
+                                class="fas fa-envelope text-3xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
+                            <h3 class="text-xs text-secondary-content uppercase font-bold mb-2">อีเมล</h3>
+                            <p class="text-sm font-bold truncate">watphojae@gmail.com</p>
                         </div>
                     </div>
                 </div>
@@ -347,28 +618,47 @@
             </div>
         </div>
 
-        <div class="container footer-content">
-            <p>© 2569 วัดโพธิ์แจ้ จ.สมุทรสาคร</p>
+        <div
+            class="container mx-auto px-4 py-16 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/10 mt-10">
+            <div class="text-center md:text-left">
+                <p className="text-white/60 text-sm mb-2 uppercase tracking-widest font-semibold">Copyright</p>
+                <p class="text-lg font-['Pridi']">© 2569 วัดโพธิ์แจ้ จ.สมุทรสาคร</p>
+            </div>
 
-            <div class="visitor-counter">
-                <span class="counter-label">จำนวนผู้เข้าชมเว็บไซต์:</span>
-                <span id="visitorCount" class="counter-number">Loading...</span>
-                <span class="counter-label">ท่าน</span>
+            <div class="flex flex-col items-center gap-2">
+                <!-- React Section for Visitor Counter -->
+                <div id="visitor-react-root"></div>
+                <p class="text-[10px] text-white/40 uppercase tracking-[0.2em]">Live Monitoring</p>
+            </div>
+
+            <div class="flex gap-4">
+                <a href="https://www.facebook.com/watphojae" target="_blank"
+                    class="btn btn-ghost btn-circle text-white hover:bg-gold hover:text-primary transition-all">
+                    <i class="fab fa-facebook-f text-xl"></i>
+                </a>
+                <a href="https://line.me/ti/p/~watphojae" target="_blank"
+                    class="btn btn-ghost btn-circle text-white hover:bg-gold hover:text-primary transition-all">
+                    <i class="fab fa-line text-xl"></i>
+                </a>
+                <a href="mailto:watphojae@gmail.com"
+                    class="btn btn-ghost btn-circle text-white hover:bg-gold hover:text-primary transition-all">
+                    <i class="fas fa-envelope text-xl"></i>
+                </a>
             </div>
         </div>
     </footer>
 
     <!-- News Modal -->
-    <div id="newsModal" class="modal">
-        <div class="modal-content reveal-active">
-            <span class="close-modal">&times;</span>
-            <div id="modalBody">
+    <div id="newsModal" class="temple-modal-overlay">
+        <div class="temple-modal-container relative">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 z-50 text-xl"
+                onclick="window.closeNewsModal()">&times;</button>
+            <div id="modalBody" class="p-2">
                 <!-- Content will be injected by JS -->
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
     <!-- AOS Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
