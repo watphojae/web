@@ -76,8 +76,8 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 110px;
-    /* Increased from 90px to fit bigger logo */
+    height: 150px;
+    /* Increased to accommodate a huge logo */
     z-index: 1000;
     background: rgba(255, 255, 255, 0.95);
     /* Solid for readability */
@@ -89,8 +89,7 @@ header {
 }
 
 header.header-scrolled {
-    height: 80px;
-    /* Increased slightly */
+    height: 90px;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -107,21 +106,21 @@ header.header-scrolled {
 .logo {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     flex-shrink: 0;
     /* Prevent logo from squishing */
 }
 
 .logo-img {
-    height: 85px;
-    /* Increased from 60px */
+    height: 120px;
+    /* Huge Logo */
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
     /* Stronger shadow */
     transition: var(--transition);
 }
 
 header.header-scrolled .logo-img {
-    height: 60px;
+    height: 70px;
 }
 
 .brand-text-container {
@@ -132,17 +131,22 @@ header.header-scrolled .logo-img {
 
 .brand-name {
     font-family: 'Pridi', serif;
-    font-size: 2.4rem;
-    /* Increased from 1.8rem */
+    font-size: 2.8rem;
+    /* Even larger text to match logo */
     font-weight: 800;
     /* Bolder */
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    line-height: 1.1;
+    line-height: 1.5;
+    /* Increased from 1.1 to fix Thai vowel clipping */
+    padding: 5px 0;
+    /* Extra safe space */
     white-space: nowrap;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    /* Added subtle shadow */
+    /* text-shadow removed as it conflicts with background-clip:text on some browsers causing artifacts, 
+       and we want clean edges for the vowels. */
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
+    /* Use filter instead for clipped text shadow */
 }
 
 .brand-address {
