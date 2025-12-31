@@ -17,3 +17,6 @@ bookings.json
 .vscode/
 .idea/
 .gemini/
+
+# Offline System (Local Only)
+Offline-System/
