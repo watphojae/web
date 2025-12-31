@@ -1,0 +1,19 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+venv/
+env/
+
+# Environment Variables (Sensitive)
+.env
+
+# Data
+bookings.json
+
+# IDE
+.vscode/
+.idea/
+.gemini/
