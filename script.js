@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.1
     });
 
-    document.querySelectorAll('section, .news-card, .directory-card').forEach(el => {
+    document.querySelectorAll('section, .news-card, .directory-card, .ordination-notice, .contact-container-grid').forEach(el => {
         el.classList.add('reveal-hidden');
         revealObserver.observe(el);
     });
