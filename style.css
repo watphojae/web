@@ -76,7 +76,8 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 90px;
+    height: 110px;
+    /* Increased from 90px to fit bigger logo */
     z-index: 1000;
     background: rgba(255, 255, 255, 0.95);
     /* Solid for readability */
@@ -88,7 +89,8 @@ header {
 }
 
 header.header-scrolled {
-    height: 70px;
+    height: 80px;
+    /* Increased slightly */
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -105,19 +107,21 @@ header.header-scrolled {
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
     flex-shrink: 0;
     /* Prevent logo from squishing */
 }
 
 .logo-img {
-    height: 60px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    height: 85px;
+    /* Increased from 60px */
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+    /* Stronger shadow */
     transition: var(--transition);
 }
 
 header.header-scrolled .logo-img {
-    height: 50px;
+    height: 60px;
 }
 
 .brand-text-container {
@@ -128,13 +132,17 @@ header.header-scrolled .logo-img {
 
 .brand-name {
     font-family: 'Pridi', serif;
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 2.4rem;
+    /* Increased from 1.8rem */
+    font-weight: 800;
+    /* Bolder */
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    line-height: 1.2;
+    line-height: 1.1;
     white-space: nowrap;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    /* Added subtle shadow */
 }
 
 .brand-address {
