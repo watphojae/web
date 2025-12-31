@@ -6,6 +6,57 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset overflow to ensure scrolling works, especially on mobile/refresh
     document.body.style.overflow = 'auto';
     // document.body.style.overflowX = 'hidden'; // REMOVED
+
+    // --- VISITOR COUNTER LOGIC ---
+    const updateVisitorCount = () => {
+        const counterElement = document.getElementById('visitorCount');
+        if (!counterElement) return;
+
+        // Mock "Global" Base Count (e.g., started at 12,500)
+        const baseCount = 12500;
+
+        // Local increment (simulate user visits)
+        let localVisits = localStorage.getItem('temple_visitor_count');
+
+        if (!localVisits) {
+            localVisits = 0;
+        }
+
+        // Increment on each load (or session)
+        localVisits = parseInt(localVisits) + 1;
+        localStorage.setItem('temple_visitor_count', localVisits);
+
+        // Display Total
+        const totalCount = baseCount + localVisits;
+
+        // Animate counting up effect
+        let start = totalCount - 50;
+        if (start < 0) start = 0;
+        const duration = 2000;
+        const startTime = performance.now();
+
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Ease out quart
+            const ease = 1 - Math.pow(1 - progress, 4);
+
+            const current = Math.floor(start + (totalCount - start) * ease);
+            counterElement.textContent = current.toLocaleString();
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                counterElement.textContent = totalCount.toLocaleString();
+            }
+        };
+
+        requestAnimationFrame(animate);
+    };
+
+    updateVisitorCount();
+
     // 1. Smooth Scrolling for Navigation
     const handleSmoothScroll = (e) => {
         const targetId = e.currentTarget.getAttribute('href');

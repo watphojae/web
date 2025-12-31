@@ -451,6 +451,70 @@ nav a:hover {
     margin-bottom: 10px;
 }
 
+
+/* --- Footer Improvements --- */
+footer {
+    background: var(--primary-dark);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 20px 0;
+    overflow: hidden;
+    border-top: 4px solid var(--gold);
+}
+
+.footer-marquee-container {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 0;
+    width: 100%;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+
+.footer-marquee-text {
+    display: inline-block;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    animation: marquee 25s linear infinite;
+    padding-left: 100%;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.visitor-counter {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--gold-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 15px;
+}
+
+.counter-label {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.counter-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(197, 160, 89, 0.5);
+}
+
 /* --- Directory (Monks) --- */
 .directory-grid {
     display: grid;
