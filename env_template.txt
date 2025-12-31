@@ -1,5 +1,0 @@
-# LINE Notify Token (Get from https://notify-bot.line.me/)
-LINE_NOTIFY_TOKEN=ใส่โทเค็นของคุณที่นี่
-
-# Server Port
-PORT=3000
