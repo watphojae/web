@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.getElementById("newsModal");
     const modalBody = document.getElementById("modalBody");
-    const closeBtn = document.querySelector(".close-modal");
+    // Fix: Select the close button strictly within the News Modal
+    const closeBtn = modal.querySelector(".close-modal");
 
     document.querySelectorAll('.news-card').forEach(card => {
         card.addEventListener('click', () => {
