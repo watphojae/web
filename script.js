@@ -151,25 +151,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // Image Lightbox Logic (Reusing News Modal)
-    document.querySelectorAll('.clickable-image').forEach(img => {
-        img.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent card click if nested
-            const fullImgSrc = img.getAttribute('data-full-img');
-            const altText = img.getAttribute('alt');
+    // Image Lightbox Logic
+    window.openImageModal = (src) => {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        if (modal && modalImg) {
+            modalImg.src = src;
+            modal.style.display = 'flex'; // Use flex to center
+            document.body.style.overflow = 'hidden';
+        }
+    };
 
-            modalBody.innerHTML = `
-                <img src="${fullImgSrc}" style="width: 100%; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-                <h2 style="text-align: center;">${altText}</h2>
-                <div style="margin-top: 20px; text-align: center;">
-                    <button class="btn-booking" onclick="document.getElementById('newsModal').style.display='none'; document.body.style.overflow='auto';">ปิด</button>
-                </div>
-            `;
-            modal.style.display = "block";
-            document.body.style.overflow = "hidden";
-        });
+    window.closeImageModal = () => {
+        const modal = document.getElementById('imageModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Clear src to stop any loading/memory
+            setTimeout(() => {
+                const modalImg = document.getElementById('modalImage');
+                if (modalImg) modalImg.src = '';
+            }, 200);
+        }
+    };
+
+    // Close modal on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            window.closeImageModal();
+            window.closeNewsModal();
+        }
     });
-
-
 
 });

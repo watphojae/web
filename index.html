@@ -460,7 +460,8 @@
                     <div class="temple-directory-card border-gold border-2 shadow-2xl animate__animated animate__zoomIn"
                         style="animation-delay: 0.6s">
                         <div class="portrait-frame border-gold">
-                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร">
+                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร" class="cursor-zoom-in"
+                                onclick="openImageModal(this.src)">
                         </div>
                         <div class="space-y-1">
                             <span class="badge badge-warning font-bold badge-sm">ปัจจุบัน</span>
@@ -486,7 +487,8 @@
                     <!-- เจ้าอาวาส -->
                     <div class="temple-directory-card animate__animated animate__fadeInUp">
                         <div class="portrait-frame border-primary">
-                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร" />
+                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร" class="cursor-zoom-in"
+                                onclick="openImageModal(this.src)" />
                         </div>
                         <div class="pt-2">
                             <span class="badge badge-primary badge-sm mb-2">เจ้าอาวาส</span>
@@ -498,7 +500,8 @@
                     <div class="temple-directory-card animate__animated animate__fadeInUp"
                         style="animation-delay: 0.1s">
                         <div class="portrait-frame">
-                            <img src="static/images/PhraMahaJirachotAruno.jpg" alt="พระมหาจิรโชติ อรุโณ" />
+                            <img src="static/images/PhraMahaJirachotAruno.jpg" alt="พระมหาจิรโชติ อรุโณ"
+                                class="cursor-zoom-in" onclick="openImageModal(this.src)" />
                         </div>
                         <div class="pt-2">
                             <span class="badge badge-outline badge-warning badge-sm mb-2">ผู้ช่วยเจ้าอาวาส</span>
@@ -510,7 +513,8 @@
                     <div class="temple-directory-card animate__animated animate__fadeInUp"
                         style="animation-delay: 0.2s">
                         <div class="portrait-frame">
-                            <img src="static/images/monk_samran_new.jpg" alt="พระมหาสำราญ พลวโร" />
+                            <img src="static/images/monk_samran_new.jpg" alt="พระมหาสำราญ พลวโร" class="cursor-zoom-in"
+                                onclick="openImageModal(this.src)" />
                         </div>
                         <div class="pt-2">
                             <span class="badge badge-outline badge-warning badge-sm mb-2">ผู้ช่วยเจ้าอาวาส</span>
@@ -656,6 +660,20 @@
             <div id="modalBody" class="p-2">
                 <!-- Content will be injected by JS -->
             </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="temple-modal-overlay flex items-center justify-center p-4" onclick="closeImageModal()">
+        <div class="relative max-w-5xl max-h-screen">
+            <button
+                class="btn btn-circle btn-sm md:btn-md btn-ghost absolute -top-12 right-0 md:-right-12 text-white bg-black/20 hover:bg-white/20 border-none text-2xl"
+                onclick="event.stopPropagation(); closeImageModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modalImage" src="" alt="Full view"
+                class="max-w-full max-h-[85vh] rounded-lg shadow-2xl object-contain animate__animated animate__zoomIn"
+                onclick="event.stopPropagation()">
         </div>
     </div>
 
