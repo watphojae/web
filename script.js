@@ -155,18 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.openImageModal = (imgOrSrc) => {
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
-        // Debug element
-        let debugEl = document.getElementById('modalDebug');
-
-        if (!debugEl && modal) {
-            debugEl = document.createElement('p');
-            debugEl.id = 'modalDebug';
-            debugEl.style.color = 'red';
-            debugEl.style.fontSize = '12px';
-            debugEl.style.background = 'white';
-            debugEl.style.padding = '4px';
-            modal.querySelector('div').appendChild(debugEl);
-        }
 
         if (modal && modalImg) {
             let src = '';
@@ -177,23 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 src = imgOrSrc.src; // Use absolute source
             }
 
-            console.log('Opening modal with:', src);
-            if (debugEl) debugEl.textContent = 'Loading: ' + src;
-
             modalImg.src = src;
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-
-            // Auto-hide debug if success
-            modalImg.onload = () => {
-                if (debugEl) debugEl.style.display = 'none';
-            }
-            modalImg.onerror = () => {
-                if (debugEl) {
-                    debugEl.style.display = 'block';
-                    debugEl.textContent = 'ERROR 404: ' + src;
-                }
-            }
         }
     };
 
