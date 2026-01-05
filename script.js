@@ -72,24 +72,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mock "Global" Base Count (e.g., started at 12,500)
         const baseCount = 12500;
 
-        // Local increment (simulate user visits)
-        let localVisits = localStorage.getItem('temple_visitor_count');
+        // Use sessionStorage to count unique sessions (not every page refresh)
+        let sessionVisited = sessionStorage.getItem('temple_session_visited');
+        let totalVisits = parseInt(localStorage.getItem('temple_visitor_count') || '0');
 
-        if (!localVisits) {
-            localVisits = 0;
+        // Only increment if this is a new session
+        if (!sessionVisited) {
+            totalVisits += 1;
+            localStorage.setItem('temple_visitor_count', totalVisits);
+            sessionStorage.setItem('temple_session_visited', 'true');
         }
 
-        // Increment on each load (or session)
-        localVisits = parseInt(localVisits) + 1;
-        localStorage.setItem('temple_visitor_count', localVisits);
-
         // Display Total
-        const totalCount = baseCount + localVisits;
+        const totalCount = baseCount + totalVisits;
 
-        // Animate counting up effect
-        let start = totalCount - 50;
+        // Animate counting up effect (smoother, shorter range)
+        let start = totalCount - 10;
         if (start < 0) start = 0;
-        const duration = 2000;
+        const duration = 1500;
         const startTime = performance.now();
 
         const animate = (currentTime) => {
