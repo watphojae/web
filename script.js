@@ -150,6 +150,20 @@ document.addEventListener('DOMContentLoaded', () => {
         offset: 100
     });
 
+    // 4. Back to Top Button
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                backToTopBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                backToTopBtn.classList.remove('opacity-100', 'translate-y-0');
+                backToTopBtn.classList.add('opacity-0', 'translate-y-4');
+            }
+        });
+    }
+
 
     // Image Lightbox Logic
     window.openImageModal = (imgOrSrc) => {

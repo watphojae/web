@@ -669,9 +669,7 @@ footer {
     align-items: center;
     justify-content: center;
     background: #f0f4f0;
-    font-size: 3rem;
-    color: var(--primary);
-    opacity: 0.2;
+    overflow: hidden;
 }
 
 .monk-name {

@@ -1,39 +1,77 @@
 const { useState, useEffect } = React;
 
 // News Component
-const NewsCard = ({ news }) => (
-    <article
-        className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-500 border border-base-200 group overflow-hidden animate__animated animate__fadeInUp cursor-pointer"
-        onClick={() => window.showModal(news.id)}
-    >
-        <figure className="relative h-60 overflow-hidden">
-            <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url('${news.image}')` }}
-                role="img"
-                aria-label={news.title}
-            ></div>
-            <div className="absolute bottom-4 left-4">
-                <span className="badge badge-primary font-bold shadow-2xl backdrop-blur-md bg-primary border-2 border-white/40 px-4 py-3 h-auto text-white" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>ข่าวประกาศ</span>
+const NewsCard = ({ news }) => {
+    const handleShare = (platform) => {
+        const url = window.location.href;
+        const text = `${news.title}\n${news.description}`;
+
+        switch (platform) {
+            case 'facebook':
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                break;
+            case 'line':
+                window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}`, '_blank');
+                break;
+            case 'copy':
+                navigator.clipboard.writeText(`${text}\n${url}`).then(() => alert('คัดลอกลิงก์เรียบร้อยแล้ว'));
+                break;
+            default:
+                if (navigator.share) {
+                    navigator.share({ title: news.title, text: text, url: url });
+                }
+        }
+    };
+
+    return (
+        <article
+            className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-500 border border-base-200 group overflow-hidden animate__animated animate__fadeInUp cursor-pointer h-full flex flex-col"
+            onClick={() => window.showModal(news.id)}
+        >
+            <figure className="relative h-60 overflow-hidden shrink-0">
+                <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    style={{ backgroundImage: `url('${news.image}')` }}
+                    role="img"
+                    aria-label={news.title}
+                ></div>
+                <div className="absolute bottom-4 left-4">
+                    <span className="badge badge-primary font-bold shadow-2xl backdrop-blur-md bg-primary border-2 border-white/40 px-4 py-3 h-auto text-white" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>ข่าวประกาศ</span>
+                </div>
+            </figure>
+            <div className="card-body flex-1 flex flex-col">
+                <h3 className="card-title text-primary group-hover:text-gold transition-colors text-xl font-['Pridi'] font-bold leading-tight">
+                    {news.title}
+                </h3>
+                <p className="text-base-content/70 line-clamp-3 text-sm leading-relaxed font-['Sarabun'] flex-1">
+                    {news.description}
+                </p>
+                <div className="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex gap-2">
+                        <button className="btn btn-circle btn-xs btn-ghost text-[#1877F2] hover:bg-[#1877F2] hover:text-white"
+                            onClick={() => handleShare('facebook')} title="แชร์ไป Facebook">
+                            <i className="fab fa-facebook-f"></i>
+                        </button>
+                        <button className="btn btn-circle btn-xs btn-ghost text-[#06C755] hover:bg-[#06C755] hover:text-white"
+                            onClick={() => handleShare('line')} title="แชร์ไป Line">
+                            <i className="fab fa-line"></i>
+                        </button>
+                        <button className="btn btn-circle btn-xs btn-ghost text-gray-500 hover:bg-gray-200"
+                            onClick={() => handleShare('copy')} title="คัดลอกลิงก์">
+                            <i className="fas fa-link"></i>
+                        </button>
+                    </div>
+                    <button
+                        className="btn btn-primary btn-sm btn-outline rounded-full px-6 hover:scale-105 transition-transform group-hover:bg-primary group-hover:text-white"
+                        onClick={() => window.showModal(news.id)}
+                    >
+                        รายละเอียด
+                    </button>
+                </div>
             </div>
-        </figure>
-        <div className="card-body">
-            <h3 className="card-title text-primary group-hover:text-gold transition-colors text-xl font-['Pridi'] font-bold leading-tight">
-                {news.title}
-            </h3>
-            <p className="text-base-content/70 line-clamp-3 text-sm leading-relaxed font-['Sarabun']">
-                {news.description}
-            </p>
-            <div className="card-actions justify-end mt-4 pt-4 border-t border-base-200">
-                <button
-                    className="btn btn-primary btn-sm btn-outline rounded-full px-6 hover:scale-105 transition-transform group-hover:bg-primary group-hover:text-white"
-                >
-                    รายละเอียด <i className="fas fa-arrow-right ml-2 text-[10px]"></i>
-                </button>
-            </div>
-        </div>
-    </article>
-);
+        </article>
+    );
+};
 
 const NewsSection = () => {
     const [newsData] = useState([

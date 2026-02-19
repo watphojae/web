@@ -132,27 +132,30 @@
                     class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-fixed brightness-[0.9] transform scale-110 animate-[zoom-slow_20s_infinite_alternate]">
                 </div>
             </div>
-            <!-- Subtle Overlay Gradient (Reduced for clearer image) -->
-            <div class="absolute inset-0 z-[-1] bg-gradient-to-b from-primary/20 via-transparent to-primary/40"></div>
+            <!-- Overlay -->
+            <div class="absolute inset-0 z-[-1] bg-gradient-to-b from-primary/20 via-transparent to-primary/50"></div>
 
-            <div class="container mx-auto px-4 z-10 mt-32">
+            <!-- Collage Image (Original position — centered in hero) -->
+            <div class="container mx-auto px-4 z-10 pt-32">
                 <div class="inline-block relative rounded-[2.5rem] p-2 bg-gradient-to-br from-gold via-white/50 to-gold shadow-[0_0_60px_-15px_rgba(197,160,89,0.6)] animate__animated animate__zoomIn hover:scale-105 transition-transform duration-500 cursor-pointer group"
                     onclick="openImageModal(document.getElementById('main-collage-img'))">
                     <div
                         class="rounded-[2rem] p-3 bg-base-100/30 backdrop-blur-md border border-white/40 group-hover:bg-white/20 transition-colors duration-500">
                         <img id="main-collage-img" src="static/images/main_collage.jpg" alt="Wat Pho Jae Main Collage"
-                            class="w-full max-w-5xl rounded-[1.5rem] shadow-inner border border-white/20 group-hover:brightness-110 transition-all duration-500">
+                            class="w-full max-w-4xl rounded-[1.5rem] shadow-inner border border-white/20 group-hover:brightness-110 transition-all duration-500">
                     </div>
                 </div>
             </div>
 
             <!-- Floating Scroll Indicator -->
             <div
-                class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 animate-bounce">
+                class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 animate-bounce z-10">
                 <span class="text-white text-xs uppercase tracking-widest font-semibold">Scroll</span>
                 <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
             </div>
         </section>
+
+
 
         <section id="about" class="py-20 bg-base-100 relative overflow-hidden">
             <!-- Decorative Pattern -->
@@ -372,6 +375,8 @@
                     <div class="flex justify-center p-10">
                         <span class="loading loading-spinner loading-lg text-primary"></span>
                     </div>
+                </div>
+            </div>
         </section>
 
         <!-- ทำเนียบเจ้าอาวาส -->
@@ -389,7 +394,18 @@
                     <!-- ลำดับที่ 1 -->
                     <div class="temple-directory-card animate__animated animate__fadeInUp">
                         <div class="portrait-frame">
-                            <div class="portrait-placeholder">👤</div>
+                            <div class="portrait-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none"
+                                    class="w-full h-full">
+                                    <rect width="100" height="133" fill="#f0f6f2" />
+                                    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4" />
+                                    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059"
+                                        opacity="0.25" />
+                                    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15" />
+                                    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4"
+                                        font-family="serif">ไม่ปรากฎรูป</text>
+                                </svg>
+                            </div>
                         </div>
                         <div class="space-y-1">
                             <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๑</span>
@@ -402,7 +418,18 @@
                     <div class="temple-directory-card animate__animated animate__fadeInUp"
                         style="animation-delay: 0.1s">
                         <div class="portrait-frame">
-                            <div class="portrait-placeholder">👤</div>
+                            <div class="portrait-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none"
+                                    class="w-full h-full">
+                                    <rect width="100" height="133" fill="#f0f6f2" />
+                                    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4" />
+                                    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059"
+                                        opacity="0.25" />
+                                    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15" />
+                                    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4"
+                                        font-family="serif">ไม่ปรากฎรูป</text>
+                                </svg>
+                            </div>
                         </div>
                         <div class="space-y-1">
                             <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๒</span>
@@ -415,7 +442,18 @@
                     <div class="temple-directory-card animate__animated animate__fadeInUp"
                         style="animation-delay: 0.2s">
                         <div class="portrait-frame">
-                            <div class="portrait-placeholder">👤</div>
+                            <div class="portrait-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none"
+                                    class="w-full h-full">
+                                    <rect width="100" height="133" fill="#f0f6f2" />
+                                    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4" />
+                                    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059"
+                                        opacity="0.25" />
+                                    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15" />
+                                    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4"
+                                        font-family="serif">ไม่ปรากฎรูป</text>
+                                </svg>
+                            </div>
                         </div>
                         <div class="space-y-1">
                             <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๓</span>
@@ -428,7 +466,18 @@
                     <div class="temple-directory-card animate__animated animate__fadeInUp"
                         style="animation-delay: 0.3s">
                         <div class="portrait-frame">
-                            <div class="portrait-placeholder">👤</div>
+                            <div class="portrait-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none"
+                                    class="w-full h-full">
+                                    <rect width="100" height="133" fill="#f0f6f2" />
+                                    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4" />
+                                    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059"
+                                        opacity="0.25" />
+                                    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15" />
+                                    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4"
+                                        font-family="serif">ไม่ปรากฎรูป</text>
+                                </svg>
+                            </div>
                         </div>
                         <div class="space-y-1">
                             <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๔</span>
@@ -569,6 +618,14 @@
                             </div>
                         </div>
 
+                        <!-- Google Maps Embed -->
+                        <div class="rounded-3xl overflow-hidden shadow-xl border border-base-200">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3878.0!2d100.3517209!3d13.6221866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2bc1dcf3946b3%3A0x62af2ea2acd1d039!2z4Lin4Lij4Li04LiB4Liy4Lij4LiE4Liy4Lij!5e0!3m2!1sth!2sth!4v1700000000000!5m2!1sth!2sth"
+                                width="100%" height="260" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade" title="แผนที่วัดโพธิ์แจ้"></iframe>
+                        </div>
+
                         <div class="card bg-base-100 shadow-xl border border-base-200 overflow-hidden group">
                             <div class="card-body p-0 flex flex-row">
                                 <div
@@ -634,7 +691,7 @@
         <div
             class="container mx-auto px-4 py-16 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/10 mt-10">
             <div class="text-center md:text-left">
-                <p className="text-white/60 text-sm mb-2 uppercase tracking-widest font-semibold">Copyright</p>
+                <p class="text-white/60 text-sm mb-2 uppercase tracking-widest font-semibold">Copyright</p>
                 <p class="text-lg font-['Pridi']">© 2569 วัดโพธิ์แจ้ จ.สมุทรสาคร</p>
             </div>
 
@@ -684,6 +741,38 @@
                 class="max-w-full max-h-[85vh] rounded-lg shadow-2xl object-contain animate__animated animate__zoomIn"
                 onclick="event.stopPropagation()">
         </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop"
+        class="fixed bottom-8 right-6 z-[999] w-12 h-12 rounded-full bg-primary shadow-lg border-2 border-gold/50 flex items-center justify-center text-white opacity-0 translate-y-4 transition-all duration-300 hover:bg-gold hover:scale-110"
+        onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="กลับขึ้นบน">
+        <i class="fas fa-chevron-up text-lg"></i>
+    </button>
+
+    <!-- Floating Social Sidebar (Desktop) -->
+    <div
+        class="fixed left-0 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-1 shadow-lg rounded-r-xl overflow-hidden animate__animated animate__fadeInLeft">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://watphojae.github.io/" target="_blank"
+            class="bg-[#1877F2] text-white w-10 h-10 flex items-center justify-center hover:w-32 transition-all duration-300 group relative">
+            <i class="fab fa-facebook-f text-lg"></i>
+            <span
+                class="absolute left-10 text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-2">Share</span>
+        </a>
+        <a href="https://social-plugins.line.me/lineit/share?url=https://watphojae.github.io/" target="_blank"
+            class="bg-[#06C755] text-white w-10 h-10 flex items-center justify-center hover:w-32 transition-all duration-300 group relative">
+            <i class="fab fa-line text-lg"></i>
+            <span
+                class="absolute left-10 text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-2">Share</span>
+        </a>
+        <button
+            onclick="navigator.clipboard.writeText(window.location.href).then(() => alert('คัดลอกลิงก์เรียบร้อยแล้ว'))"
+            class="bg-gray-600 text-white w-10 h-10 flex items-center justify-center hover:w-32 transition-all duration-300 group relative">
+            <i class="fas fa-link text-sm"></i>
+            <span
+                class="absolute left-10 text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-2">Copy
+                Link</span>
+        </button>
     </div>
 
     <!-- AOS Script -->
