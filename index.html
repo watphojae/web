@@ -69,8 +69,129 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script src="script.js?v=4" defer></script>
-    <script type="text/babel" src="static/js/components.jsx" defer></script>
+    <!-- ★ ข้อมูลเว็บทั้งหมด แก้ไขที่ไฟล์นี้ที่เดียว ★ -->
+    <script src="static/js/site-data.js"></script>
+
+    <script src="script.js?v=5" defer></script>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // News Component
+        const NewsCard = ({ news }) => {
+            const handleShare = (platform) => {
+                const url = window.location.href;
+                const text = `${news.title}\n${news.description}`;
+                switch (platform) {
+                    case 'facebook':
+                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                        break;
+                    case 'line':
+                        window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}`, '_blank');
+                        break;
+                    case 'copy':
+                        navigator.clipboard.writeText(`${text}\n${url}`).then(() => alert('คัดลอกลิงก์เรียบร้อยแล้ว'));
+                        break;
+                    default:
+                        if (navigator.share) {
+                            navigator.share({ title: news.title, text: text, url: url });
+                        }
+                }
+            };
+
+            return (
+                <article
+                    className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-500 border border-base-200 group overflow-hidden animate__animated animate__fadeInUp cursor-pointer h-full flex flex-col"
+                    onClick={() => window.showModal(news.id)}
+                >
+                    <figure className="relative h-60 overflow-hidden shrink-0">
+                        <div
+                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                            style={{ backgroundImage: `url('${news.image}')` }}
+                            role="img"
+                            aria-label={news.title}
+                        ></div>
+                        <div className="absolute bottom-4 left-4">
+                            <span className="badge badge-primary font-bold shadow-2xl backdrop-blur-md bg-primary border-2 border-white/40 px-4 py-3 h-auto text-white" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>ข่าวประกาศ</span>
+                        </div>
+                    </figure>
+                    <div className="card-body flex-1 flex flex-col">
+                        <h3 className="card-title text-primary group-hover:text-gold transition-colors text-xl font-['Pridi'] font-bold leading-tight">
+                            {news.title}
+                        </h3>
+                        <p className="text-base-content/70 line-clamp-3 text-sm leading-relaxed font-['Sarabun'] flex-1">
+                            {news.description}
+                        </p>
+                        <div className="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200" onClick={(e) => e.stopPropagation()}>
+                            <div className="flex gap-2">
+                                <button className="btn btn-circle btn-xs btn-ghost text-[#1877F2] hover:bg-[#1877F2] hover:text-white"
+                                    onClick={() => handleShare('facebook')} title="แชร์ไป Facebook">
+                                    <i className="fab fa-facebook-f"></i>
+                                </button>
+                                <button className="btn btn-circle btn-xs btn-ghost text-[#06C755] hover:bg-[#06C755] hover:text-white"
+                                    onClick={() => handleShare('line')} title="แชร์ไป Line">
+                                    <i className="fab fa-line"></i>
+                                </button>
+                                <button className="btn btn-circle btn-xs btn-ghost text-gray-500 hover:bg-gray-200"
+                                    onClick={() => handleShare('copy')} title="คัดลอกลิงก์">
+                                    <i className="fas fa-link"></i>
+                                </button>
+                            </div>
+                            <button
+                                className="btn btn-primary btn-sm btn-outline rounded-full px-6 hover:scale-105 transition-transform group-hover:bg-primary group-hover:text-white"
+                                onClick={() => window.showModal(news.id)}
+                            >
+                                รายละเอียด
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            );
+        };
+
+        const NewsSection = () => {
+            // ★ ข้อมูลข่าวมาจาก static/js/site-data.js → SITE_DATA.news
+            const [newsData] = useState(SITE_DATA.news);
+
+            return (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    {newsData.map(news => <NewsCard key={news.id} news={news} />)}
+                </div>
+            );
+        };
+
+        // Visitor Counter Component
+        const VisitorCounter = () => {
+            const [count, setCount] = useState("...");
+
+            useEffect(() => {
+                let currentCount = localStorage.getItem('visitorCount') || 10250;
+                currentCount = parseInt(currentCount) + 1;
+                localStorage.setItem('visitorCount', currentCount);
+                let displayCount = currentCount.toString().padStart(6, '0');
+                setCount(displayCount);
+            }, []);
+
+            return (
+                <div className="flex items-center gap-3 bg-black/40 px-6 py-2 rounded-full border border-gold/30 shadow-inner">
+                    <span className="text-xs text-white/60 uppercase tracking-widest font-semibold">Visitors</span>
+                    <div className="flex gap-1">
+                        {count.split('').map((num, i) => (
+                            <span key={i} className="w-8 h-10 bg-gold/20 flex items-center justify-center rounded text-gold font-mono text-xl font-bold border border-gold/30">
+                                {num}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // Render Components
+        const rootNews = ReactDOM.createRoot(document.getElementById('news-react-root'));
+        rootNews.render(<NewsSection />);
+
+        const rootCounter = ReactDOM.createRoot(document.getElementById('visitor-react-root'));
+        rootCounter.render(<VisitorCounter />);
+    </script>
 </head>
 
 <body>
@@ -92,11 +213,14 @@
             <div class="flex-none hidden lg:block">
                 <ul class="menu menu-horizontal px-1 font-semibold text-base">
                     <li><a href="#hero" class="hover:text-gold transition-colors">หน้าแรก</a></li>
-                    <li><a href="#about" class="hover:text-gold transition-colors">ประวัติความเป็นมา</a></li>
+                    <li><a href="#about" class="hover:text-gold transition-colors">ประวัติ</a></li>
                     <li><a href="#news" class="hover:text-gold transition-colors">ข่าวสาร</a></li>
+                    <li><a href="#events" class="hover:text-gold transition-colors">ปฏิทินกิจกรรม</a></li>
+                    <li><a href="#gallery" class="hover:text-gold transition-colors">แกลเลอรี</a></li>
+                    <li><a href="#donation" class="hover:text-gold transition-colors">บริจาค</a></li>
                     <li><a href="#abbots" class="hover:text-gold transition-colors">ทำเนียบเจ้าอาวาส</a></li>
                     <li><a href="#officials" class="hover:text-gold transition-colors">พระสังฆาธิการ</a></li>
-                    <li><a href="#contact" class="hover:text-gold transition-colors">ติดต่อสอบถาม</a></li>
+                    <li><a href="#contact" class="hover:text-gold transition-colors">ติดต่อ</a></li>
                 </ul>
             </div>
 
@@ -112,11 +236,14 @@
                     <ul tabindex="0"
                         class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         <li><a href="#hero">หน้าแรก</a></li>
-                        <li><a href="#about">ประวัติความเป็นมา</a></li>
+                        <li><a href="#about">ประวัติ</a></li>
                         <li><a href="#news">ข่าวสาร</a></li>
+                        <li><a href="#events">ปฏิทินกิจกรรม</a></li>
+                        <li><a href="#gallery">แกลเลอรี</a></li>
+                        <li><a href="#donation">บริจาค</a></li>
                         <li><a href="#abbots">ทำเนียบเจ้าอาวาส</a></li>
                         <li><a href="#officials">พระสังฆาธิการ</a></li>
-                        <li><a href="#contact">ติดต่อสอบถาม</a></li>
+                        <li><a href="#contact">ติดต่อ</a></li>
                     </ul>
                 </div>
             </div>
@@ -379,7 +506,111 @@
             </div>
         </section>
 
-        <!-- ทำเนียบเจ้าอาวาส -->
+        <!-- ปฏิทินกิจกรรม -->
+        <section id="events" class="py-24 bg-base-100">
+            <div class="container mx-auto px-4">
+                <h2
+                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
+                    ปฏิทินกิจกรรม
+                </h2>
+                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
+                </div>
+                <!-- ★ แก้ข้อมูลที่ static/js/site-data.js → SITE_DATA.events ★ -->
+                <div id="events-render-root"></div>
+            </div>
+        </section>
+
+        <!-- แกลเลอรีภาพ -->
+        <section id="gallery" class="py-24 bg-base-200/50">
+            <div class="container mx-auto px-4">
+                <h2
+                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
+                    แกลเลอรีภาพ
+                </h2>
+                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
+                </div>
+
+                <!-- ★ แก้รูปที่ static/js/site-data.js → SITE_DATA.gallery ★ -->
+                <div id="gallery-render-root" class="gallery-grid max-w-6xl mx-auto"></div>
+            </div>
+        </section>
+
+        <!-- บริจาค / ทำบุญออนไลน์ -->
+        <section id="donation" class="py-24 bg-base-100">
+            <div class="container mx-auto px-4">
+                <h2
+                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
+                    ทำบุญออนไลน์
+                </h2>
+                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
+                </div>
+
+                <div class="max-w-3xl mx-auto" data-aos="fade-up">
+                    <div class="donation-card">
+                        <div class="flex flex-col md:flex-row items-center gap-10">
+                            <!-- QR Code -->
+                            <div class="flex flex-col items-center gap-4 flex-shrink-0">
+                                <div class="donation-qr-frame cursor-zoom-in">
+                                    <img src="static/images/qr_donation.jpg" alt="QR Code ทำบุญวัดโพธิ์แจ้"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                        onclick="openImageModal(this)"
+                                        class="w-full h-full object-contain">
+                                    <div class="qr-placeholder" style="display:none;">
+                                        <i class="fa-solid fa-qrcode text-5xl text-primary/30 mb-2"></i>
+                                        <span
+                                            class="text-sm text-base-content/50 text-center">กรุณาอัปโหลด<br>qr_donation.jpg</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-base-content/50 text-center">สแกน QR Code เพื่อโอนเงิน</p>
+                            </div>
+
+                            <!-- Info -->
+                            <div class="flex-1 text-center md:text-left">
+                                <div class="flex items-center justify-center md:justify-start gap-3 mb-6">
+                                    <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center">
+                                        <i class="fa-solid fa-hand-holding-heart text-gold"></i>
+                                    </div>
+                                    <h3 class="text-2xl font-['Pridi'] font-bold text-primary">บริจาคและทำบุญ</h3>
+                                </div>
+
+                                <p class="text-base-content/70 mb-6 leading-relaxed font-['Sarabun']">
+                                    ร่วมทำบุญบำรุงวัดโพธิ์แจ้ เพื่อสืบสานพระพุทธศาสนาและพัฒนาวัดให้เจริญรุ่งเรือง
+                                    สาธุชนสามารถโอนผ่าน QR Code PromptPay ได้เลย
+                                </p>
+
+                                <!-- ★ แก้ข้อมูลที่ static/js/site-data.js → SITE_DATA.donation ★ -->
+                                <div class="space-y-3 text-sm">
+                                    <div class="donation-info-row">
+                                        <i class="fa-solid fa-building-columns text-primary w-5"></i>
+                                        <span class="text-base-content/60">ธนาคาร:</span>
+                                        <span id="donation-bank" class="font-semibold text-base-content"></span>
+                                    </div>
+                                    <div class="donation-info-row">
+                                        <i class="fa-solid fa-user text-primary w-5"></i>
+                                        <span class="text-base-content/60">ชื่อบัญชี:</span>
+                                        <span id="donation-account-name" class="font-semibold text-base-content"></span>
+                                    </div>
+                                    <div class="donation-info-row">
+                                        <i class="fa-solid fa-hashtag text-primary w-5"></i>
+                                        <span class="text-base-content/60">เลขบัญชี:</span>
+                                        <span id="donation-account-number"
+                                            class="font-semibold text-base-content"></span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-8 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                                    <p class="text-sm text-primary/80 font-['Sarabun']">
+                                        <i class="fa-solid fa-circle-info mr-2"></i>
+                                        ผู้บริจาคสามารถใช้สิทธิลดหย่อนภาษีได้ทันที โดยธนาคารจะเป็นผู้ส่งข้อมูลการบริจาคให้กรมสรรพากรตามที่ผู้บริจาคแจ้งความประสงค์
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ทำเนียบเจ้าอาวาส -->
         <section id="abbots" class="py-24 bg-base-100">
             <div class="container mx-auto px-4">
@@ -390,143 +621,8 @@
                 <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
-                    <!-- ลำดับที่ 1 -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp">
-                        <div class="portrait-frame">
-                            <div class="portrait-placeholder">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none"
-                                    class="w-full h-full">
-                                    <rect width="100" height="133" fill="#f0f6f2" />
-                                    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4" />
-                                    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059"
-                                        opacity="0.25" />
-                                    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15" />
-                                    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4"
-                                        font-family="serif">ไม่ปรากฎรูป</text>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๑</span>
-                            <h3 class="monk-name">พระจัน</h3>
-                            <p class="monk-title italic">ไม่ปรากฎปีที่ดำรงตำแหน่ง</p>
-                        </div>
-                    </div>
-
-                    <!-- ลำดับที่ 2 -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp"
-                        style="animation-delay: 0.1s">
-                        <div class="portrait-frame">
-                            <div class="portrait-placeholder">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none"
-                                    class="w-full h-full">
-                                    <rect width="100" height="133" fill="#f0f6f2" />
-                                    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4" />
-                                    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059"
-                                        opacity="0.25" />
-                                    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15" />
-                                    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4"
-                                        font-family="serif">ไม่ปรากฎรูป</text>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๒</span>
-                            <h3 class="monk-name">พระทิม</h3>
-                            <p class="monk-title italic">ไม่ปรากฎปีที่ดำรงตำแหน่ง</p>
-                        </div>
-                    </div>
-
-                    <!-- ลำดับที่ 3 -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp"
-                        style="animation-delay: 0.2s">
-                        <div class="portrait-frame">
-                            <div class="portrait-placeholder">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none"
-                                    class="w-full h-full">
-                                    <rect width="100" height="133" fill="#f0f6f2" />
-                                    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4" />
-                                    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059"
-                                        opacity="0.25" />
-                                    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15" />
-                                    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4"
-                                        font-family="serif">ไม่ปรากฎรูป</text>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๓</span>
-                            <h3 class="monk-name">พระโก๋ อุตฺตโม</h3>
-                            <p class="monk-title italic">พ.ศ. ๒๔๘๗</p>
-                        </div>
-                    </div>
-
-                    <!-- ลำดับที่ 4 -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp"
-                        style="animation-delay: 0.3s">
-                        <div class="portrait-frame">
-                            <div class="portrait-placeholder">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none"
-                                    class="w-full h-full">
-                                    <rect width="100" height="133" fill="#f0f6f2" />
-                                    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4" />
-                                    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059"
-                                        opacity="0.25" />
-                                    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15" />
-                                    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4"
-                                        font-family="serif">ไม่ปรากฎรูป</text>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๔</span>
-                            <h3 class="monk-name">พระสด กมโล</h3>
-                            <p class="monk-title italic">พ.ศ. ๒๔๘๘ - ๒๔๙๑</p>
-                        </div>
-                    </div>
-
-                    <!-- ลำดับที่ 5 -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp"
-                        style="animation-delay: 0.4s">
-                        <div class="portrait-frame">
-                            <img src="static/images/phrakru_withan_sutasophon.jpg" alt="พระครูวิธานสุตโสภณ"
-                                class="cursor-zoom-in" onclick="openImageModal(this)">
-                        </div>
-                        <div class="space-y-1">
-                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๕</span>
-                            <h3 class="monk-name">พระครูวิธานสุตโสภณ</h3>
-                            <p class="monk-title italic">พ.ศ. ๒๔๙๒ - ๒๕๐๕</p>
-                        </div>
-                    </div>
-
-                    <!-- ลำดับที่ 6 -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp"
-                        style="animation-delay: 0.5s">
-                        <div class="portrait-frame">
-                            <img src="static/images/phrakru_sakorn_piyadham.jpg" alt="พระครูสาครปิยธรรม"
-                                class="cursor-zoom-in" onclick="openImageModal(this)">
-                        </div>
-                        <div class="space-y-1">
-                            <span class="badge badge-outline badge-warning badge-xs">ลำดับที่ ๖</span>
-                            <h3 class="monk-name">พระครูสาครปิยธรรม</h3>
-                            <p class="monk-title italic">พ.ศ. ๒๕๐๖ - ๒๕๕๙</p>
-                        </div>
-                    </div>
-
-                    <!-- ลำดับที่ 7 (ปัจจุบัน) -->
-                    <div class="temple-directory-card border-gold border-2 shadow-2xl animate__animated animate__zoomIn"
-                        style="animation-delay: 0.6s">
-                        <div class="portrait-frame border-gold">
-                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร" class="cursor-zoom-in"
-                                onclick="openImageModal(this)">
-                        </div>
-                        <div class="space-y-1">
-                            <span class="badge badge-warning font-bold badge-sm">ปัจจุบัน</span>
-                            <h3 class="monk-name">พระครูวัชรธรรมสาคร ดร.</h3>
-                            <p class="monk-title text-primary font-bold">พ.ศ. ๒๕๖๐ - ปัจจุบัน</p>
-                        </div>
-                    </div>
+                <!-- ★ แก้ข้อมูลที่ static/js/site-data.js → SITE_DATA.abbots ★ -->
+                <div id="abbots-render-root" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
                 </div>
             </div>
         </section>
@@ -541,45 +637,9 @@
                 <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-5xl mx-auto">
-                    <!-- เจ้าอาวาส -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp">
-                        <div class="portrait-frame border-primary">
-                            <img src="static/images/abbot_new.jpg" alt="พระครูวัชรธรรมสาคร" class="cursor-zoom-in"
-                                onclick="openImageModal(this)" />
-                        </div>
-                        <div class="pt-2">
-                            <span class="badge badge-primary badge-sm mb-2">เจ้าอาวาส</span>
-                            <h3 class="monk-name leading-tight">พระครูวัชรธรรมสาคร ดร.<br>(ธมฺมสาโร)</h3>
-                        </div>
-                    </div>
-
-                    <!-- ผู้ช่วยเจ้าอาวาส 1 -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp"
-                        style="animation-delay: 0.1s">
-                        <div class="portrait-frame">
-                            <img src="static/images/PhraMahaJirachotAruno.jpg" alt="พระมหาจิรโชติ อรุโณ"
-                                class="cursor-zoom-in" onclick="openImageModal(this)" />
-                        </div>
-                        <div class="pt-2">
-                            <span class="badge badge-outline badge-warning badge-sm mb-2">ผู้ช่วยเจ้าอาวาส</span>
-                            <h3 class="monk-name leading-tight">พระมหาจิรโชติ อรุโณ</h3>
-                        </div>
-                    </div>
-
-                    <!-- ผู้ช่วยเจ้าอาวาส 2 -->
-                    <div class="temple-directory-card animate__animated animate__fadeInUp"
-                        style="animation-delay: 0.2s">
-                        <div class="portrait-frame">
-                            <img src="static/images/monk_samran_new.jpg" alt="พระมหาสำราญ พลวโร" class="cursor-zoom-in"
-                                onclick="openImageModal(this)" />
-                        </div>
-                        <div class="pt-2">
-                            <span class="badge badge-outline badge-warning badge-sm mb-2">ผู้ช่วยเจ้าอาวาส</span>
-                            <h3 class="monk-name leading-tight">พระมหาสำราญ พลวโร</h3>
-                        </div>
-                    </div>
-                </div>
+                <!-- ★ แก้ข้อมูลที่ static/js/site-data.js → SITE_DATA.officials ★ -->
+                <div id="officials-render-root"
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-5xl mx-auto"></div>
             </div>
         </section>
 
@@ -641,40 +701,40 @@
                         </div>
                     </div>
 
-                    <!-- Right: Contact Grid -->
+                    <!-- Right: Contact Grid ★ แก้ที่ static/js/site-data.js → SITE_DATA.contact ★ -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate__animated animate__fadeInRight">
                         <div
                             class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:border-primary transition-all text-center group">
                             <i
                                 class="fas fa-phone-alt text-3xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
                             <h3 class="text-xs text-secondary-content uppercase font-bold mb-2">โทรศัพท์</h3>
-                            <p class="text-xl font-bold text-primary">087-774-0111</p>
+                            <p id="contact-phone" class="text-xl font-bold text-primary"></p>
                         </div>
 
-                        <a href="https://line.me/ti/p/~watphojae" target="_blank"
+                        <a id="contact-line-url" href="#" target="_blank"
                             class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:bg-[#06C755] hover:text-white transition-all text-center group">
                             <i
                                 class="fab fa-line text-3xl text-[#06C755] mb-4 group-hover:text-white group-hover:scale-110 transition-transform"></i>
                             <h3 class="text-xs uppercase font-bold mb-2 opacity-70 group-hover:opacity-100">Line ID</h3>
-                            <p class="text-lg font-bold">watphojae</p>
+                            <p id="contact-line-id" class="text-lg font-bold"></p>
                         </a>
 
-                        <a href="https://www.facebook.com/watphojae" target="_blank"
+                        <a id="contact-facebook-url" href="#" target="_blank"
                             class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:bg-[#1877F2] hover:text-white transition-all text-center group">
                             <i
                                 class="fab fa-facebook-f text-3xl text-[#1877F2] mb-4 group-hover:text-white group-hover:scale-110 transition-transform"></i>
                             <h3 class="text-xs uppercase font-bold mb-2 opacity-70 group-hover:opacity-100">Facebook
                             </h3>
-                            <p class="text-lg font-bold">วัดโพธิ์แจ้</p>
+                            <p id="contact-facebook-name" class="text-lg font-bold"></p>
                         </a>
 
-                        <div
+                        <a id="contact-email-url" href="#"
                             class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:border-primary transition-all text-center group">
                             <i
                                 class="fas fa-envelope text-3xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
                             <h3 class="text-xs text-secondary-content uppercase font-bold mb-2">อีเมล</h3>
-                            <p class="text-sm font-bold truncate">watphojae@gmail.com</p>
-                        </div>
+                            <p id="contact-email" class="text-sm font-bold truncate"></p>
+                        </a>
                     </div>
                 </div>
             </div>

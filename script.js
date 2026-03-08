@@ -1,38 +1,205 @@
 /**
  * script.js - Interactive features for วัดโพธิ์แจ้ website
+ * ข้อมูลทั้งหมดอยู่ใน static/js/site-data.js
  */
 
-const newsData = {
-    "1": {
-        title: "พิธีบำเพ็ญกุศลอุทิศถวาย",
-        content: "ขอเชิญร่วมพิธีบำเพ็ญกุศลอุทิศถวาย พระครูวิธานสุตโสภณ (ปอ ปชฺโชโต) และพระครูสาครปิยธรรม (เปี้ยว ปิยธมฺโม) วันศุกร์ที่ ๒๓ มกราคม ๒๕๖๘ เวลา ๑๙.๐๐ น. ณ ศาลาการเปรียญฯ วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมืองสมุทรสาคร จ.สมุทรสาคร",
-        image: "static/images/merit_ceremony_2025.jpg"
-    },
-    "2": {
-        title: "งานประจำปี ปิดทองหลวงพ่อโตวัดโพธิ์แจ้",
-        content: "ขอเชิญเที่ยวงานประจำปี ปิดทองนมัสการหลวงพ่อโต และรอยพระพุทธบาทจำลอง ระหว่างวันที่ 24-26 มกราคม 2569<br><br>ชมมหรสพฟรีตลอดงาน!<br>- 24 ม.ค.: จ๊ะ นงผณี<br>- 25 ม.ค.: ไหมไทย หัวใจศิลป์<br>- 26 ม.ค.: เวียง นฤมล<br><br>กลางคืนชมลิเกคณะสมชายบุตรสำราญ",
-        image: "static/images/annual_event_poster.jpg"
-    },
-    "3": {
-        title: "พิธีเจริญพระพุทธมนต์ฯ วันอาทิตย์",
-        content: "ขอเชิญร่วมพิธีเจริญพระพุทธมนต์ ทำวัตรเย็นและเจริญกัมมัฏฐานเพื่อถวายเป็นพระราชกุศลแด่ สมเด็จพระนางเจ้าสิริกิติ์ พระบรมราชินีนาถ พระบรมราชชนนีพันปีหลวง<br><br>ทุกๆ วันอาทิตย์ ตลอดปี 2569 เวลา 17.30 น.<br>ณ ศาลาปฏิบัติธรรม (ศาลาหลวงพ่อหยก) วัดโพธิ์แจ้ จ.สมุทรสาคร",
-        image: "static/images/dhamma_sunday_poster.png"
-    }
-};
+// ── SVG รูปภาพจำลองสำหรับเจ้าอาวาสที่ไม่มีรูป ──
+const PORTRAIT_PLACEHOLDER = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none" class="w-full h-full">
+    <rect width="100" height="133" fill="#f0f6f2"/>
+    <ellipse cx="50" cy="38" rx="18" ry="20" fill="#c5a059" opacity="0.4"/>
+    <path d="M20 110 Q50 80 80 110" stroke="#c5a059" stroke-width="2" fill="#c5a059" opacity="0.25"/>
+    <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15"/>
+    <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4" font-family="serif">ไม่ปรากฎรูป</text>
+</svg>`;
 
+// ══════════════════════════════════════════════
+// Render: แกลเลอรีภาพ
+// ══════════════════════════════════════════════
+function renderGallery() {
+    const container = document.getElementById('gallery-render-root');
+    if (!container) return;
+    container.innerHTML = SITE_DATA.gallery.map((img, i) => `
+        <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${i * 50}">
+            <img src="${img.src}" alt="${img.alt}" onclick="openImageModal(this)" class="gallery-img" loading="lazy">
+            <div class="gallery-overlay"><span>${img.alt}</span></div>
+        </div>
+    `).join('');
+}
+
+// ══════════════════════════════════════════════
+// Render: ปฏิทินกิจกรรม
+// ══════════════════════════════════════════════
+function renderEvents() {
+    const container = document.getElementById('events-render-root');
+    if (!container) return;
+    const { regular, holidays, holidaysYear, upcoming } = SITE_DATA.events;
+
+    const regularHTML = regular.map(e => `
+        <div class="event-list-item">
+            <div class="event-date-badge ${e.color}">
+                <span class="text-xs font-bold">${e.day1}</span>
+                <span class="text-lg font-extrabold font-['Pridi']">${e.day2}</span>
+            </div>
+            <div class="event-info">
+                <p class="font-semibold text-base-content">${e.title}</p>
+                <p class="text-sm text-base-content/60 mt-1">
+                    <i class="fa-regular fa-clock mr-1"></i>เวลา ${e.time} &nbsp;|&nbsp; ${e.location}
+                </p>
+            </div>
+        </div>
+    `).join('');
+
+    const holidaysHTML = holidays.map(h => `
+        <div class="event-list-item">
+            <div class="event-date-badge ${h.color}">
+                <span class="text-xs font-bold">${h.date}</span>
+                <span class="text-sm font-extrabold font-['Pridi']">${h.name}</span>
+            </div>
+            <div class="event-info">
+                <p class="font-semibold text-base-content">${h.title}</p>
+                <p class="text-sm text-base-content/60 mt-1">${h.detail}</p>
+            </div>
+        </div>
+    `).join('');
+
+    const upcomingHTML = upcoming.map(e => `
+        <div class="event-list-item border-l-4 ${e.borderColor}">
+            <div class="event-date-badge ${e.dateClass}">
+                <span class="text-xs font-bold">${e.month}</span>
+                <span class="text-2xl font-extrabold font-['Pridi']">${e.date}</span>
+            </div>
+            <div class="event-info">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="badge ${e.badgeClass} badge-xs text-white">${e.badge}</span>
+                </div>
+                <p class="font-semibold text-base-content">${e.title}</p>
+                <p class="text-sm text-base-content/60 mt-1">${e.detail}</p>
+            </div>
+        </div>
+    `).join('');
+
+    container.innerHTML = `
+        <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div data-aos="fade-right">
+                <h3 class="text-xl font-['Pridi'] font-bold text-primary mb-6 flex items-center gap-3">
+                    <span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-rotate text-primary text-sm"></i>
+                    </span>
+                    กิจกรรมประจำ
+                </h3>
+                <div class="space-y-4">${regularHTML}</div>
+
+                <h3 class="text-xl font-['Pridi'] font-bold text-primary mt-10 mb-6 flex items-center gap-3">
+                    <span class="w-9 h-9 rounded-xl bg-gold/10 flex items-center justify-center">
+                        <i class="fa-solid fa-star text-gold text-sm"></i>
+                    </span>
+                    วันสำคัญทางพระพุทธศาสนา ${holidaysYear}
+                </h3>
+                <div class="space-y-4">${holidaysHTML}</div>
+            </div>
+
+            <div data-aos="fade-left">
+                <h3 class="text-xl font-['Pridi'] font-bold text-primary mb-6 flex items-center gap-3">
+                    <span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-calendar-days text-primary text-sm"></i>
+                    </span>
+                    กิจกรรมที่กำลังจะมาถึง
+                </h3>
+                <div class="space-y-4">${upcomingHTML}</div>
+            </div>
+        </div>
+    `;
+}
+
+// ══════════════════════════════════════════════
+// Render: ทำเนียบเจ้าอาวาส
+// ══════════════════════════════════════════════
+function renderAbbots() {
+    const container = document.getElementById('abbots-render-root');
+    if (!container) return;
+    container.innerHTML = SITE_DATA.abbots.map((a, i) => `
+        <div class="temple-directory-card ${a.isCurrent ? 'border-gold border-2 shadow-2xl animate__animated animate__zoomIn' : 'animate__animated animate__fadeInUp'}"
+             style="animation-delay: ${i * 0.1}s">
+            <div class="portrait-frame${a.isCurrent ? ' border-gold' : ''}">
+                ${a.image
+                    ? `<img src="${a.image}" alt="${a.name}" class="cursor-zoom-in" onclick="openImageModal(this)">`
+                    : PORTRAIT_PLACEHOLDER}
+            </div>
+            <div class="space-y-1">
+                <span class="badge ${a.isCurrent ? 'badge-warning font-bold badge-sm' : 'badge-outline badge-warning badge-xs'}">
+                    ${a.isCurrent ? 'ปัจจุบัน' : a.sequence}
+                </span>
+                <h3 class="monk-name">${a.name}</h3>
+                <p class="monk-title ${a.isCurrent ? 'text-primary font-bold' : 'italic'}">${a.years}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ══════════════════════════════════════════════
+// Render: พระสังฆาธิการ
+// ══════════════════════════════════════════════
+function renderOfficials() {
+    const container = document.getElementById('officials-render-root');
+    if (!container) return;
+    container.innerHTML = SITE_DATA.officials.map((o, i) => `
+        <div class="temple-directory-card animate__animated animate__fadeInUp" style="animation-delay: ${i * 0.1}s">
+            <div class="portrait-frame${o.frameBorder ? ' ' + o.frameBorder : ''}">
+                <img src="${o.image}" alt="${o.name.replace(/<br>/g, ' ')}" class="cursor-zoom-in" onclick="openImageModal(this)"/>
+            </div>
+            <div class="pt-2">
+                <span class="badge ${o.badgeClass} badge-sm mb-2">${o.position}</span>
+                <h3 class="monk-name leading-tight">${o.name}</h3>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ══════════════════════════════════════════════
+// Update: ข้อมูลทำบุญออนไลน์
+// ══════════════════════════════════════════════
+function updateDonation() {
+    const d = SITE_DATA.donation;
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    const setHref = (id, val) => { const el = document.getElementById(id); if (el) el.href = val; };
+    set('donation-bank', d.bank);
+    set('donation-account-name', d.accountName);
+    set('donation-account-number', d.accountNumber);
+    setHref('donation-line-url', d.lineUrl);
+    const lineText = document.getElementById('donation-line-text');
+    if (lineText) lineText.textContent = 'LINE ' + d.lineId;
+}
+
+// ══════════════════════════════════════════════
+// Update: ข้อมูลติดต่อสอบถาม
+// ══════════════════════════════════════════════
+function updateContact() {
+    const c = SITE_DATA.contact;
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    const setHref = (id, val) => { const el = document.getElementById(id); if (el) el.href = val; };
+    set('contact-phone', c.phone);
+    set('contact-line-id', c.lineId);
+    set('contact-facebook-name', c.facebookName);
+    set('contact-email', c.email);
+    setHref('contact-line-url', c.lineUrl);
+    setHref('contact-facebook-url', c.facebook);
+    setHref('contact-email-url', 'mailto:' + c.email);
+}
+
+// ══════════════════════════════════════════════
+// News Modal (ใช้ SITE_DATA.news)
+// ══════════════════════════════════════════════
 window.showModal = (newsId) => {
     const modal = document.getElementById("newsModal");
     const modalBody = document.getElementById("modalBody");
-    const data = newsData[newsId];
+    const data = SITE_DATA.news.find(n => n.id == newsId);
 
     if (data && modal && modalBody) {
-        let visualContent = '';
-        if (data.image) {
-            visualContent = `
-                <div style="background: #000; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);">
-                    <img src="${data.image}" style="width: 100%; max-height: 80vh; object-fit: contain; display: block;">
-                </div>`;
-        }
+        const visualContent = data.image ? `
+            <div style="background:#000;border-radius:1rem;overflow:hidden;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px -5px rgba(0,0,0,0.1);">
+                <img src="${data.image}" style="width:100%;max-height:80vh;object-fit:contain;display:block;">
+            </div>` : '';
 
         modalBody.innerHTML = `
             <div class="animate__animated animate__fadeIn">
@@ -59,98 +226,71 @@ window.closeNewsModal = () => {
     }
 };
 
+// ══════════════════════════════════════════════
+// DOMContentLoaded
+// ══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-    // Reset overflow to ensure scrolling works, especially on mobile/refresh
     document.body.style.overflow = 'auto';
-    // document.body.style.overflowX = 'hidden'; // REMOVED
 
-    // --- VISITOR COUNTER LOGIC ---
+    // Render ทุก section จาก SITE_DATA
+    renderGallery();
+    renderEvents();
+    renderAbbots();
+    renderOfficials();
+    updateDonation();
+    updateContact();
+
+    // Visitor Counter
     const updateVisitorCount = () => {
         const counterElement = document.getElementById('visitorCount');
         if (!counterElement) return;
-
-        // Mock "Global" Base Count (e.g., started at 12,500)
         const baseCount = 12500;
-
-        // Use sessionStorage to count unique sessions (not every page refresh)
         let sessionVisited = sessionStorage.getItem('temple_session_visited');
         let totalVisits = parseInt(localStorage.getItem('temple_visitor_count') || '0');
-
-        // Only increment if this is a new session
         if (!sessionVisited) {
             totalVisits += 1;
             localStorage.setItem('temple_visitor_count', totalVisits);
             sessionStorage.setItem('temple_session_visited', 'true');
         }
-
-        // Display Total
         const totalCount = baseCount + totalVisits;
-
-        // Animate counting up effect (smoother, shorter range)
-        let start = totalCount - 10;
-        if (start < 0) start = 0;
+        let start = Math.max(0, totalCount - 10);
         const duration = 1500;
         const startTime = performance.now();
-
         const animate = (currentTime) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-
-            // Ease out quart
             const ease = 1 - Math.pow(1 - progress, 4);
-
             const current = Math.floor(start + (totalCount - start) * ease);
             counterElement.textContent = current.toLocaleString();
-
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            } else {
-                counterElement.textContent = totalCount.toLocaleString();
-            }
+            if (progress < 1) requestAnimationFrame(animate);
+            else counterElement.textContent = totalCount.toLocaleString();
         };
-
         requestAnimationFrame(animate);
     };
-
     updateVisitorCount();
 
-    // 1. Smooth Scrolling for Navigation
-    const handleSmoothScroll = (e) => {
-        const targetId = e.currentTarget.getAttribute('href');
-        if (targetId.startsWith('#')) {
-            e.preventDefault();
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    };
-
+    // Smooth Scrolling
     document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', handleSmoothScroll);
+        anchor.addEventListener('click', (e) => {
+            const targetId = e.currentTarget.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     });
 
-    // 2. Header Scroll Effect
+    // Header Scroll Effect
     const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('header-scrolled');
-        } else {
-            header.classList.remove('header-scrolled');
-        }
+        header.classList.toggle('header-scrolled', window.scrollY > 50);
     });
 
-    // 3. Initialize AOS (Animate On Scroll)
-    AOS.init({
-        once: true,
-        duration: 800,
-        offset: 100
-    });
+    // AOS
+    AOS.init({ once: true, duration: 800, offset: 100 });
 
-    // 4. Back to Top Button
+    // Back to Top
     const backToTopBtn = document.getElementById('backToTop');
     if (backToTopBtn) {
         window.addEventListener('scroll', () => {
@@ -164,22 +304,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-    // Image Lightbox Logic
+    // Image Lightbox
     window.openImageModal = (imgOrSrc) => {
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
-
         if (modal && modalImg) {
-            let src = '';
-            // Handle both direct src string or img element
-            if (typeof imgOrSrc === 'string') {
-                src = imgOrSrc;
-            } else if (imgOrSrc.tagName === 'IMG') {
-                src = imgOrSrc.src; // Use absolute source
-            }
-
-            modalImg.src = src;
+            modalImg.src = typeof imgOrSrc === 'string' ? imgOrSrc : imgOrSrc.src;
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -190,20 +320,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal) {
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
-            // Clear src to stop any loading/memory
-            setTimeout(() => {
-                const modalImg = document.getElementById('modalImage');
-                if (modalImg) modalImg.src = '';
-            }, 200);
+            setTimeout(() => { const m = document.getElementById('modalImage'); if (m) m.src = ''; }, 200);
         }
     };
 
-    // Close modal on escape key
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            window.closeImageModal();
-            window.closeNewsModal();
-        }
+        if (e.key === 'Escape') { window.closeImageModal(); window.closeNewsModal(); }
     });
-
 });

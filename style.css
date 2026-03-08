@@ -935,3 +935,152 @@ footer a:hover {
         /* Show image/stat first on mobile */
     }
 }
+/* ===========================
+   EVENT LIST ITEMS
+   =========================== */
+.event-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: var(--transition);
+}
+.event-list-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+.event-date-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    line-height: 1.1;
+    padding: 4px 8px;
+}
+.event-info {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ===========================
+   GALLERY GRID
+   =========================== */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: 12px;
+}
+.gallery-wide {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+}
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+.gallery-item:hover .gallery-img {
+    transform: scale(1.08);
+}
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: block;
+}
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(27,77,62,0.75) 0%, transparent 60%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 14px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.gallery-overlay span {
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Sarabun', sans-serif;
+    text-align: center;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 160px;
+    }
+    .gallery-wide {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+}
+
+/* ===========================
+   DONATION CARD
+   =========================== */
+.donation-card {
+    background: #fff;
+    border-radius: 28px;
+    padding: 40px;
+    box-shadow: 0 20px 60px -15px rgba(27,77,62,0.15);
+    border: 1px solid rgba(197,160,89,0.2);
+}
+.donation-qr-frame {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    border: 3px solid var(--gold);
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0 8px 30px -8px rgba(197,160,89,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.qr-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f0f6f2;
+}
+.donation-info-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #f9fbf9;
+    border-radius: 12px;
+    flex-wrap: wrap;
+}
+@media (max-width: 640px) {
+    .donation-card {
+        padding: 24px;
+    }
+    .donation-qr-frame {
+        width: 160px;
+        height: 160px;
+    }
+}
