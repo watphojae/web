@@ -17,6 +17,10 @@ bookings.json
 .vscode/
 .idea/
 .gemini/
+.claude/
+
+# Temp
+git_status.txt
 
 # Offline System (Local Only)
 Offline-System/
