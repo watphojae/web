@@ -3,6 +3,18 @@
  * ข้อมูลทั้งหมดอยู่ใน static/js/site-data.js
  */
 
+// ══════════════════════════════════════════════
+// Dark Mode Toggle
+// ══════════════════════════════════════════════
+window.toggleTheme = function () {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'emerald' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('wat_theme', next);
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.className = next === 'dark' ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg';
+};
+
 // ── SVG รูปภาพจำลองสำหรับเจ้าอาวาสที่ไม่มีรูป ──
 const PORTRAIT_PLACEHOLDER = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 133" fill="none" class="w-full h-full">
@@ -12,6 +24,31 @@ const PORTRAIT_PLACEHOLDER = `
     <path d="M15 133 Q25 95 50 88 Q75 95 85 133" fill="#1b4d3e" opacity="0.15"/>
     <text x="50" y="125" text-anchor="middle" font-size="9" fill="#1b4d3e" opacity="0.4" font-family="serif">ไม่ปรากฎรูป</text>
 </svg>`;
+
+// ══════════════════════════════════════════════
+// Render: Google Calendar
+// ══════════════════════════════════════════════
+function renderCalendar() {
+    const container = document.getElementById('calendar-embed-root');
+    if (!container) return;
+    const url = SITE_DATA.calendarEmbedUrl;
+    if (!url) { container.style.display = 'none'; return; }
+    container.innerHTML = `
+        <div class="mt-16 max-w-4xl mx-auto" data-aos="fade-up">
+            <h3 class="text-xl font-['Pridi'] font-bold text-primary mb-6 flex items-center gap-3">
+                <span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <i class="fa-brands fa-google text-primary text-sm"></i>
+                </span>
+                ปฏิทิน Google
+            </h3>
+            <div class="rounded-3xl overflow-hidden shadow-xl border border-base-200">
+                <iframe src="${url}&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&mode=MONTH&hl=th"
+                    style="border:0" width="100%" height="500" frameborder="0" scrolling="no"
+                    title="ปฏิทินกิจกรรมวัดโพธิ์แจ้"></iframe>
+            </div>
+        </div>
+    `;
+}
 
 // ══════════════════════════════════════════════
 // Render: แกลเลอรีภาพ
@@ -186,6 +223,8 @@ function updateContact() {
     setHref('contact-line-url', c.lineUrl);
     setHref('contact-facebook-url', c.facebook);
     setHref('contact-email-url', 'mailto:' + c.email);
+    setHref('line-float-btn', c.lineUrl);
+    setHref('notif-line-btn', c.lineUrl);
 }
 
 // ══════════════════════════════════════════════
@@ -236,10 +275,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render ทุก section จาก SITE_DATA
     renderGallery();
     renderEvents();
+    renderCalendar();
     renderAbbots();
     renderOfficials();
     updateDonation();
     updateContact();
+
+    // Apply saved theme icon
+    const savedTheme = localStorage.getItem('wat_theme') || 'emerald';
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.className = savedTheme === 'dark' ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg';
+
+    // News notification toast — แสดงครั้งแรกที่เข้าเว็บ (per session)
+    if (!sessionStorage.getItem('notif_shown')) {
+        setTimeout(() => {
+            const toast = document.getElementById('notifToast');
+            if (toast) {
+                toast.classList.remove('hidden');
+                sessionStorage.setItem('notif_shown', '1');
+            }
+        }, 4000);
+    }
 
     // Visitor Counter
     const updateVisitorCount = () => {

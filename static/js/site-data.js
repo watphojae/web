@@ -175,5 +175,14 @@ const SITE_DATA = {
         facebook: "https://www.facebook.com/watphojae",
         facebookName: "วัดโพธิ์แจ้",
         email: "watphojae@gmail.com"
-    }
+    },
+
+    // ══════════════════════════════════════════════
+    // Google Calendar Embed URL
+    // วิธีได้ URL: Google Calendar > Settings > ชื่อปฏิทิน > Integrate calendar
+    //              > คัดลอก "Public URL to this calendar" หรือ "Embed code" src=...
+    // ตัวอย่าง: "https://calendar.google.com/calendar/embed?src=xxx%40group.calendar.google.com&ctz=Asia%2FBangkok"
+    // ถ้าไม่มี ปล่อยว่างไว้ — ส่วนนี้จะซ่อนอัตโนมัติ
+    // ══════════════════════════════════════════════
+    calendarEmbedUrl: "",
 };

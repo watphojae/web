@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Apply saved theme early to prevent flash -->
+    <script>(function(){var t=localStorage.getItem('wat_theme')||'emerald';document.documentElement.setAttribute('data-theme',t);})()</script>
     <title>วัดโพธิ์แจ้ - ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร</title>
     <meta name="description"
         content="วัดโพธิ์แจ้ ร่วมสืบสานพระพุทธศาสนา ทำบุญ ตักบาตร และปฏิบัติธรรม เพื่อความสงบสุขของจิตใจ ตั้งอยู่ที่ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร">
@@ -18,6 +20,7 @@
     <meta property="og:image" content="static/images/temple_logo.png">
 
     <link rel="icon" type="image/png" href="static/images/temple_logo.png">
+    <link rel="sitemap" type="application/xml" href="sitemap.xml">
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2">
     <!-- Font Awesome -->
@@ -68,6 +71,37 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BuddhistTemple",
+        "name": "วัดโพธิ์แจ้",
+        "alternateName": "Wat Pho Jae",
+        "description": "วัดโพธิ์แจ้ ร่วมสืบสานพระพุทธศาสนา ทำบุญ ตักบาตร และปฏิบัติธรรม เพื่อความสงบสุขของจิตใจ",
+        "url": "https://watphojae.github.io/web/",
+        "logo": "https://watphojae.github.io/web/static/images/temple_logo.png",
+        "image": "https://watphojae.github.io/web/static/images/main_collage.jpg",
+        "telephone": "087-774-0111",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "เลขที่ 1 หมู่ 3 ถนนเอกชัย ตำบลบางน้ำจืด",
+            "addressLocality": "อำเภอเมืองสมุทรสาคร",
+            "addressRegion": "จังหวัดสมุทรสาคร",
+            "postalCode": "74000",
+            "addressCountry": "TH"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 13.6221866,
+            "longitude": 100.3517209
+        },
+        "sameAs": [
+            "https://www.facebook.com/watphojae"
+        ]
+    }
+    </script>
 
     <!-- ★ ข้อมูลเว็บทั้งหมด แก้ไขที่ไฟล์นี้ที่เดียว ★ -->
     <script src="static/js/site-data.js"></script>
@@ -228,6 +262,13 @@
                     <li><a href="#officials" class="hover:text-gold transition-colors">พระสังฆาธิการ</a></li>
                     <li><a href="#contact" class="hover:text-gold transition-colors">ติดต่อ</a></li>
                 </ul>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <div class="flex-none ml-1">
+                <button onclick="toggleTheme()" class="btn btn-ghost btn-circle" title="เปลี่ยนธีม" aria-label="เปลี่ยนธีม">
+                    <i id="themeIcon" class="fas fa-moon text-lg"></i>
+                </button>
             </div>
 
             <div class="flex-none lg:hidden">
@@ -523,6 +564,8 @@
                 </div>
                 <!-- ★ แก้ข้อมูลที่ static/js/site-data.js → SITE_DATA.events ★ -->
                 <div id="events-render-root"></div>
+                <!-- Google Calendar — ใส่ URL ที่ static/js/site-data.js → SITE_DATA.calendarEmbedUrl -->
+                <div id="calendar-embed-root"></div>
             </div>
         </section>
 
@@ -809,6 +852,13 @@
         </div>
     </div>
 
+    <!-- LINE Official Floating Button -->
+    <a id="line-float-btn" href="#" target="_blank"
+        class="fixed bottom-24 right-6 z-[998] w-12 h-12 rounded-full bg-[#06C755] shadow-lg flex items-center justify-center text-white hover:scale-110 hover:shadow-xl transition-all duration-300"
+        title="ติดต่อ LINE Official" aria-label="LINE Official">
+        <i class="fab fa-line text-2xl"></i>
+    </a>
+
     <!-- Back to Top Button -->
     <button id="backToTop"
         class="fixed bottom-8 right-6 z-[999] w-12 h-12 rounded-full bg-primary shadow-lg border-2 border-gold/50 flex items-center justify-center text-white opacity-0 translate-y-4 transition-all duration-300 hover:bg-gold hover:scale-110"
@@ -839,6 +889,33 @@
                 class="absolute left-10 text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-2">Copy
                 Link</span>
         </button>
+    </div>
+
+    <!-- News Notification Toast -->
+    <div id="notifToast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] hidden w-full max-w-sm px-4">
+        <div class="bg-base-100 rounded-2xl shadow-2xl border border-base-200 p-4 flex items-start gap-3 animate__animated animate__slideInUp">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i class="fas fa-bell text-primary"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="font-bold text-primary font-['Pridi'] text-sm">ติดตามข่าวสารวัดโพธิ์แจ้</p>
+                <p class="text-xs text-base-content/60 mt-1 mb-3">รับข่าวสารกิจกรรมและประกาศต่าง ๆ ได้ก่อนใคร</p>
+                <div class="flex gap-2">
+                    <a id="notif-line-btn" href="#" target="_blank"
+                        class="btn btn-xs bg-[#06C755] text-white border-none hover:bg-[#05a847] gap-1">
+                        <i class="fab fa-line"></i> LINE OA
+                    </a>
+                    <a href="https://www.facebook.com/watphojae" target="_blank"
+                        class="btn btn-xs bg-[#1877F2] text-white border-none hover:bg-[#1565c0] gap-1">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+                </div>
+            </div>
+            <button onclick="document.getElementById('notifToast').classList.add('hidden')"
+                class="btn btn-ghost btn-xs btn-circle flex-shrink-0">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
     </div>
 
     <!-- AOS Script -->
