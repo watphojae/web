@@ -205,8 +205,14 @@
         };
 
         const NewsSection = () => {
-            // ★ ข้อมูลข่าวมาจาก static/js/site-data.js → SITE_DATA.news
-            const [newsData] = useState(SITE_DATA.news);
+            const [newsData, setNewsData] = useState(SITE_DATA.news);
+
+            useEffect(() => {
+                fetch('static/data/news.json')
+                    .then(r => r.ok ? r.json() : null)
+                    .then(d => { if (d && d.items) { setNewsData(d.items); SITE_DATA.news = d.items; } })
+                    .catch(() => {});
+            }, []);
 
             return (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
