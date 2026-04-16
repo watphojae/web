@@ -1,0 +1,66 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: static/images
+public_folder: static/images
+
+locale: th
+
+collections:
+  - name: "news"
+    label: "📰 ข่าวสาร"
+    files:
+      - name: "news-list"
+        label: "รายการข่าวทั้งหมด"
+        file: "static/data/news.json"
+        fields:
+          - label: "รายการข่าว"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - label: "รหัสข่าว (ห้ามซ้ำ)"
+                name: "id"
+                widget: "number"
+                value_type: "int"
+              - label: "หัวข้อข่าว"
+                name: "title"
+                widget: "string"
+              - label: "รายละเอียดสั้น (แสดงบนการ์ด)"
+                name: "description"
+                widget: "text"
+              - label: "เนื้อหาเต็ม (แสดงใน popup)"
+                name: "content"
+                widget: "markdown"
+              - label: "รูปภาพประกอบ"
+                name: "image"
+                widget: "image"
+                required: false
+                allow_multiple: false
+
+  - name: "settings"
+    label: "⚙️ ตั้งค่าเว็บ"
+    files:
+      - name: "contact"
+        label: "ข้อมูลติดต่อ"
+        file: "static/data/contact.json"
+        fields:
+          - label: "เบอร์โทรศัพท์"
+            name: "phone"
+            widget: "string"
+          - label: "LINE ID"
+            name: "lineId"
+            widget: "string"
+          - label: "LINE URL"
+            name: "lineUrl"
+            widget: "string"
+          - label: "Facebook URL"
+            name: "facebook"
+            widget: "string"
+          - label: "ชื่อ Facebook Page"
+            name: "facebookName"
+            widget: "string"
+          - label: "อีเมล"
+            name: "email"
+            widget: "string"

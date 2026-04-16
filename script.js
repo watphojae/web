@@ -243,7 +243,7 @@ window.showModal = (newsId) => {
                 ${visualContent}
                 <h2 class="text-2xl md:text-3xl font-['Pridi'] font-bold text-primary mb-4">${data.title}</h2>
                 <div class="prose prose-emerald max-w-none text-base-content/80 leading-relaxed font-['Sarabun']">
-                    ${data.content}
+                    ${typeof marked !== 'undefined' ? marked.parse(data.content) : data.content}
                 </div>
                 <div class="mt-8 flex flex-wrap justify-center gap-3 no-print">
                     <button class="btn btn-outline btn-sm rounded-full gap-2" onclick="window.printAnnouncement('${data.title.replace(/'/g,"\\'")}')">
@@ -282,8 +282,24 @@ window.printAnnouncement = (title) => {
 // ══════════════════════════════════════════════
 // DOMContentLoaded
 // ══════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     document.body.style.overflow = 'auto';
+
+    // โหลดข้อมูลจาก CMS JSON files (ถ้ามี) แล้ว override SITE_DATA
+    try {
+        const [newsRes, contactRes] = await Promise.all([
+            fetch('static/data/news.json'),
+            fetch('static/data/contact.json')
+        ]);
+        if (newsRes.ok) {
+            const newsData = await newsRes.json();
+            if (newsData.items) SITE_DATA.news = newsData.items;
+        }
+        if (contactRes.ok) {
+            const contactData = await contactRes.json();
+            Object.assign(SITE_DATA.contact, contactData);
+        }
+    } catch (e) { /* ใช้ข้อมูล fallback จาก site-data.js */ }
 
     // Render ทุก section จาก SITE_DATA
     renderGallery();

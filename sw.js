@@ -1,4 +1,4 @@
-const CACHE = 'watphojae-v1';
+const CACHE = 'watphojae-v2';
 const ASSETS = [
     '/web/',
     '/web/index.html',
@@ -8,6 +8,8 @@ const ASSETS = [
     '/web/static/images/temple_logo.png',
     '/web/static/images/qr_donation.jpg',
     '/web/static/images/line_qr.jpg',
+    '/web/static/data/news.json',
+    '/web/static/data/contact.json',
     '/web/manifest.json'
 ];
 
