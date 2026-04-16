@@ -164,7 +164,7 @@
             const [count, setCount] = useState("------");
 
             useEffect(() => {
-                fetch('https://api.countapi.xyz/hit/watphojae.github.io/visits')
+                fetch('https://counterapi.dev/api/watphojae-web/visits/up')
                     .then(res => res.json())
                     .then(data => {
                         const num = data.value || 0;
