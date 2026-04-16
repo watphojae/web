@@ -306,6 +306,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             const eventsData = await eventsRes.json();
             Object.assign(SITE_DATA.events, eventsData);
         }
+        const galleryRes = await fetch('static/data/gallery.json');
+        if (galleryRes.ok) {
+            const galleryData = await galleryRes.json();
+            if (galleryData.items) SITE_DATA.gallery = galleryData.items;
+        }
     } catch (e) { /* ใช้ข้อมูล fallback จาก site-data.js */ }
 
     // Render ทุก section จาก SITE_DATA

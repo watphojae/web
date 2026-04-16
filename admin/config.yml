@@ -91,6 +91,31 @@ collections:
                 time_format: false
                 required: false
 
+  - name: "gallery"
+    label: "🖼️ แกลเลอรีภาพ"
+    files:
+      - name: "gallery-list"
+        label: "รูปภาพทั้งหมด"
+        file: "static/data/gallery.json"
+        fields:
+          - label: "รูปภาพ"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.alt}}"
+            fields:
+              - label: "รูปภาพ"
+                name: "src"
+                widget: "image"
+                allow_multiple: false
+              - label: "คำอธิบายรูป"
+                name: "alt"
+                widget: "string"
+              - label: "รูปกว้างพิเศษ (ใช้ได้แค่รูปแรก)"
+                name: "wide"
+                widget: "boolean"
+                default: false
+                required: false
+
   - name: "settings"
     label: "⚙️ ตั้งค่าเว็บ"
     files:

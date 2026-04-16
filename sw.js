@@ -11,7 +11,7 @@ const ASSETS = [
     '/web/manifest.json'
 ];
 // ไฟล์ข้อมูล CMS — ไม่ cache เพื่อให้อัปเดตทันที
-const DATA_URLS = ['/web/static/data/news.json', '/web/static/data/contact.json', '/web/static/data/events.json'];
+const DATA_URLS = ['/web/static/data/news.json', '/web/static/data/contact.json', '/web/static/data/events.json', '/web/static/data/gallery.json'];
 
 self.addEventListener('install', e => {
     e.waitUntil(
