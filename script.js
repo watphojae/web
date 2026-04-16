@@ -100,7 +100,9 @@ function renderEvents() {
         </div>
     `).join('');
 
-    const upcomingHTML = upcoming.map(e => `
+    const today = new Date(); today.setHours(0,0,0,0);
+    const activeUpcoming = upcoming.filter(e => !e.endDate || new Date(e.endDate) >= today);
+    const upcomingHTML = activeUpcoming.map(e => `
         <div class="event-list-item border-l-4 ${e.borderColor}">
             <div class="event-date-badge ${e.dateClass}">
                 <span class="text-xs font-bold">${e.month}</span>
