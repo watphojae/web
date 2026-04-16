@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "name": "พระครูวัชรธรรมสาคร ดร.<br>(ธมฺมสาโร)",
+      "position": "เจ้าอาวาส",
+      "badgeClass": "badge-primary",
+      "frameBorder": "border-primary",
+      "image": "static/images/abbot_new.jpg"
+    },
+    {
+      "name": "พระมหาจิรโชติ อรุโณ",
+      "position": "ผู้ช่วยเจ้าอาวาส",
+      "badgeClass": "badge-outline badge-warning",
+      "frameBorder": "",
+      "image": "static/images/PhraMahaJirachotAruno.jpg"
+    },
+    {
+      "name": "พระมหาสำราญ พลวโร",
+      "position": "ผู้ช่วยเจ้าอาวาส",
+      "badgeClass": "badge-outline badge-warning",
+      "frameBorder": "",
+      "image": "static/images/monk_samran_new.jpg"
+    }
+  ]
+}

@@ -116,6 +116,55 @@ collections:
                 default: false
                 required: false
 
+  - name: "monks"
+    label: "🧘 พระสงฆ์"
+    files:
+      - name: "abbots"
+        label: "ทำเนียบเจ้าอาวาส"
+        file: "static/data/abbots.json"
+        fields:
+          - label: "รายชื่อเจ้าอาวาส"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.sequence}} — {{fields.name}}"
+            fields:
+              - {label: "ลำดับที่ (เช่น ลำดับที่ 7)", name: "sequence", widget: "string"}
+              - {label: "ชื่อ", name: "name", widget: "string"}
+              - {label: "ปีที่ดำรงตำแหน่ง", name: "years", widget: "string"}
+              - label: "รูปภาพ"
+                name: "image"
+                widget: "image"
+                required: false
+                allow_multiple: false
+              - label: "เจ้าอาวาสปัจจุบัน (กรอบทอง)"
+                name: "isCurrent"
+                widget: "boolean"
+                default: false
+                required: false
+
+      - name: "officials"
+        label: "พระสังฆาธิการ"
+        file: "static/data/officials.json"
+        fields:
+          - label: "รายชื่อพระสังฆาธิการ"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.position}} — {{fields.name}}"
+            fields:
+              - {label: "ชื่อ (ใช้ <br> สำหรับขึ้นบรรทัดใหม่)", name: "name", widget: "string"}
+              - {label: "ตำแหน่ง", name: "position", widget: "string"}
+              - label: "รูปภาพ"
+                name: "image"
+                widget: "image"
+                allow_multiple: false
+              - label: "สีป้าย"
+                name: "badgeClass"
+                widget: "select"
+                options:
+                  - {label: "เขียว (เจ้าอาวาส)", value: "badge-primary"}
+                  - {label: "ทอง (ผู้ช่วย)", value: "badge-outline badge-warning"}
+              - {label: "กรอบสี (เช่น border-primary)", name: "frameBorder", widget: "string", required: false, default: ""}
+
   - name: "settings"
     label: "⚙️ ตั้งค่าเว็บ"
     files:
@@ -141,3 +190,27 @@ collections:
           - label: "อีเมล"
             name: "email"
             widget: "string"
+
+      - name: "donation"
+        label: "ทำบุญออนไลน์"
+        file: "static/data/donation.json"
+        fields:
+          - {label: "ชื่อธนาคาร", name: "bank", widget: "string"}
+          - {label: "ชื่อบัญชี", name: "accountName", widget: "string"}
+          - {label: "เลขที่บัญชี", name: "accountNumber", widget: "string"}
+          - label: "QR Code บริจาค"
+            name: "qrImage"
+            widget: "image"
+            allow_multiple: false
+          - {label: "LINE URL", name: "lineUrl", widget: "string"}
+          - {label: "LINE ID", name: "lineId", widget: "string"}
+
+      - name: "site-settings"
+        label: "ตั้งค่าทั่วไป"
+        file: "static/data/site-settings.json"
+        fields:
+          - label: "Google Calendar URL"
+            name: "calendarEmbedUrl"
+            widget: "string"
+            hint: "วิธีได้ URL: Google Calendar → Settings → ชื่อปฏิทิน → Integrate calendar → คัดลอก Public URL"
+            required: false

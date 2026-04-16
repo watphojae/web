@@ -1,0 +1,11 @@
+{
+  "items": [
+    { "sequence": "ลำดับที่ 1", "name": "พระจัน", "years": "ไม่ปรากฎปีที่ดำรงตำแหน่ง", "image": "", "isCurrent": false },
+    { "sequence": "ลำดับที่ 2", "name": "พระทิม", "years": "ไม่ปรากฎปีที่ดำรงตำแหน่ง", "image": "", "isCurrent": false },
+    { "sequence": "ลำดับที่ 3", "name": "พระโก๋ อุตฺตโม", "years": "พ.ศ. 2487", "image": "", "isCurrent": false },
+    { "sequence": "ลำดับที่ 4", "name": "พระสด กมโล", "years": "พ.ศ. 2488 - 2491", "image": "", "isCurrent": false },
+    { "sequence": "ลำดับที่ 5", "name": "พระครูวิธานสุตโสภณ", "years": "พ.ศ. 2492 - 2505", "image": "static/images/phrakru_withan_sutasophon.jpg", "isCurrent": false },
+    { "sequence": "ลำดับที่ 6", "name": "พระครูสาครปิยธรรม", "years": "พ.ศ. 2506 - 2559", "image": "static/images/phrakru_sakorn_piyadham.jpg", "isCurrent": false },
+    { "sequence": "ลำดับที่ 7", "name": "พระครูวัชรธรรมสาคร ดร.", "years": "พ.ศ. 2560 - ปัจจุบัน", "image": "static/images/abbot_new.jpg", "isCurrent": true }
+  ]
+}

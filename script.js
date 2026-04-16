@@ -311,6 +311,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             const galleryData = await galleryRes.json();
             if (galleryData.items) SITE_DATA.gallery = galleryData.items;
         }
+        const [abbotsRes, officialsRes, donationRes, settingsRes] = await Promise.all([
+            fetch('static/data/abbots.json'),
+            fetch('static/data/officials.json'),
+            fetch('static/data/donation.json'),
+            fetch('static/data/site-settings.json')
+        ]);
+        if (abbotsRes.ok) { const d = await abbotsRes.json(); if (d.items) SITE_DATA.abbots = d.items; }
+        if (officialsRes.ok) { const d = await officialsRes.json(); if (d.items) SITE_DATA.officials = d.items; }
+        if (donationRes.ok) { const d = await donationRes.json(); Object.assign(SITE_DATA.donation, d); }
+        if (settingsRes.ok) { const d = await settingsRes.json(); if (d.calendarEmbedUrl) SITE_DATA.calendarEmbedUrl = d.calendarEmbedUrl; }
     } catch (e) { /* ใช้ข้อมูล fallback จาก site-data.js */ }
 
     // Render ทุก section จาก SITE_DATA
