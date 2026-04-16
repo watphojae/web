@@ -245,7 +245,10 @@ window.showModal = (newsId) => {
                 <div class="prose prose-emerald max-w-none text-base-content/80 leading-relaxed font-['Sarabun']">
                     ${data.content}
                 </div>
-                <div class="mt-8 flex justify-center">
+                <div class="mt-8 flex flex-wrap justify-center gap-3 no-print">
+                    <button class="btn btn-outline btn-sm rounded-full gap-2" onclick="window.printAnnouncement('${data.title.replace(/'/g,"\\'")}')">
+                        <i class="fas fa-print"></i> พิมพ์ประกาศ
+                    </button>
                     <button class="btn btn-primary btn-wide rounded-full shadow-lg" onclick="window.closeNewsModal()">ปิดหน้าต่าง</button>
                 </div>
             </div>
@@ -261,6 +264,19 @@ window.closeNewsModal = () => {
         modal.style.display = "none";
         document.body.style.overflow = "auto";
     }
+};
+
+// ══════════════════════════════════════════════
+// Print Announcement
+// ══════════════════════════════════════════════
+window.printAnnouncement = (title) => {
+    document.title = title + ' — วัดโพธิ์แจ้';
+    document.body.classList.add('printing-news');
+    window.print();
+    window.addEventListener('afterprint', () => {
+        document.body.classList.remove('printing-news');
+        document.title = 'วัดโพธิ์แจ้ - ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร';
+    }, { once: true });
 };
 
 // ══════════════════════════════════════════════
@@ -381,4 +397,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') { window.closeImageModal(); window.closeNewsModal(); }
     });
+
+    // Service Worker (PWA)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/web/sw.js').catch(() => {});
+    }
 });
