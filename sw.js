@@ -1,4 +1,4 @@
-const CACHE = 'watphojae-v2';
+const CACHE = 'watphojae-v3';
 const ASSETS = [
     '/web/',
     '/web/index.html',
@@ -8,10 +8,10 @@ const ASSETS = [
     '/web/static/images/temple_logo.png',
     '/web/static/images/qr_donation.jpg',
     '/web/static/images/line_qr.jpg',
-    '/web/static/data/news.json',
-    '/web/static/data/contact.json',
     '/web/manifest.json'
 ];
+// ไฟล์ข้อมูล CMS — ไม่ cache เพื่อให้อัปเดตทันที
+const DATA_URLS = ['/web/static/data/news.json', '/web/static/data/contact.json'];
 
 self.addEventListener('install', e => {
     e.waitUntil(
@@ -33,6 +33,11 @@ self.addEventListener('fetch', e => {
     const url = new URL(e.request.url);
     if (!url.protocol.startsWith('http')) return;
 
+    // Network only สำหรับ JSON data (ข่าว/ติดต่อ) — อัปเดตทันที
+    if (DATA_URLS.some(u => url.pathname.includes(u.replace('/web', '')))) {
+        e.respondWith(fetch(e.request));
+        return;
+    }
     // Network first สำหรับ HTML, Cache first สำหรับ assets
     if (e.request.headers.get('accept')?.includes('text/html')) {
         e.respondWith(
