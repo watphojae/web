@@ -161,14 +161,20 @@
 
         // Visitor Counter Component
         const VisitorCounter = () => {
-            const [count, setCount] = useState("...");
+            const [count, setCount] = useState("------");
 
             useEffect(() => {
-                let currentCount = localStorage.getItem('visitorCount') || 10250;
-                currentCount = parseInt(currentCount) + 1;
-                localStorage.setItem('visitorCount', currentCount);
-                let displayCount = currentCount.toString().padStart(6, '0');
-                setCount(displayCount);
+                fetch('https://api.countapi.xyz/hit/watphojae.github.io/visits')
+                    .then(res => res.json())
+                    .then(data => {
+                        const num = data.value || 0;
+                        setCount(num.toString().padStart(6, '0'));
+                    })
+                    .catch(() => {
+                        let c = parseInt(localStorage.getItem('visitorCount') || '10250') + 1;
+                        localStorage.setItem('visitorCount', c);
+                        setCount(c.toString().padStart(6, '0'));
+                    });
             }, []);
 
             return (
@@ -744,7 +750,7 @@
     <footer>
         <div class="footer-marquee-container">
             <div class="footer-marquee-text">
-                วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร 74000 &nbsp;&nbsp;|&nbsp;&nbsp; โทร. 087-774-0111
+                วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร 74000 &nbsp;&nbsp;|&nbsp;&nbsp; โทร. <span id="footer-phone"></span>
             </div>
         </div>
 

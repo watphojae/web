@@ -179,6 +179,7 @@ function updateContact() {
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
     const setHref = (id, val) => { const el = document.getElementById(id); if (el) el.href = val; };
     set('contact-phone', c.phone);
+    set('footer-phone', c.phone);
     set('contact-line-id', c.lineId);
     set('contact-facebook-name', c.facebookName);
     set('contact-email', c.email);
