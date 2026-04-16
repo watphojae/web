@@ -1084,3 +1084,86 @@ footer a:hover {
         height: 160px;
     }
 }
+
+/* ===========================
+   DARK MODE OVERRIDES
+   =========================== */
+[data-theme="dark"] body {
+    background-color: #1d232a;
+    color: #a6adbb;
+}
+
+[data-theme="dark"] header {
+    background: rgba(29, 35, 42, 0.97) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+}
+
+[data-theme="dark"] .event-list-item {
+    background: #191e24;
+    border-color: rgba(255,255,255,0.06);
+    color: #a6adbb;
+}
+
+[data-theme="dark"] .event-list-item p {
+    color: #7c8ca0;
+}
+
+[data-theme="dark"] .temple-directory-card {
+    background: #191e24;
+    border-color: rgba(255,255,255,0.06);
+}
+
+[data-theme="dark"] .temple-directory-card:hover {
+    border-color: var(--gold-dark);
+}
+
+[data-theme="dark"] .portrait-frame {
+    background: #191e24;
+}
+
+[data-theme="dark"] .monk-name {
+    color: #d0d8e4;
+}
+
+[data-theme="dark"] .monk-title {
+    color: var(--gold-light);
+}
+
+[data-theme="dark"] .donation-card {
+    background: #191e24;
+    border-color: rgba(197,160,89,0.25);
+}
+
+[data-theme="dark"] .donation-info-row {
+    background: #15191e;
+    color: #a6adbb;
+}
+
+[data-theme="dark"] .donation-qr-frame {
+    background: #fff;
+}
+
+[data-theme="dark"] .qr-placeholder {
+    background: #2a3038;
+}
+
+[data-theme="dark"] .temple-modal-container {
+    background: #191e24;
+    color: #a6adbb;
+}
+
+[data-theme="dark"] .close-modal {
+    color: #7c8ca0;
+}
+
+[data-theme="dark"] .close-modal:hover {
+    color: var(--gold-light);
+}
+
+[data-theme="dark"] footer {
+    background: #0d1117;
+}
+
+[data-theme="dark"] .gallery-item {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
