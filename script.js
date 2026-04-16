@@ -251,6 +251,22 @@ window.showModal = (newsId) => {
                     <button class="btn btn-outline btn-sm rounded-full gap-2" onclick="window.printAnnouncement('${data.title.replace(/'/g,"\\'")}')">
                         <i class="fas fa-print"></i> พิมพ์ประกาศ
                     </button>
+                    <button class="btn btn-sm rounded-full gap-2 bg-[#1877F2] text-white border-none hover:bg-[#1565c0]"
+                        onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.origin+window.location.pathname+'#news-${data.id}')+'&quote='+encodeURIComponent('${data.title.replace(/'/g,"\\'")}'),'_blank','width=600,height=500')">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                    <button class="btn btn-sm rounded-full gap-2 bg-[#06C755] text-white border-none hover:bg-[#05a847]"
+                        onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(window.location.origin+window.location.pathname+'#news-${data.id}')+'&text='+encodeURIComponent('${data.title.replace(/'/g,"\\'")}'),'_blank')">
+                        <i class="fab fa-line"></i> LINE
+                    </button>
+                    ${navigator.share ? `<button class="btn btn-sm rounded-full gap-2 bg-primary text-white border-none hover:bg-primary/80"
+                        onclick="navigator.share({title:'${data.title.replace(/'/g,"\\'")}',text:'${data.description.replace(/'/g,"\\'")}',url:window.location.origin+window.location.pathname+'#news-${data.id}'})">
+                        <i class="fas fa-share-nodes"></i> แชร์
+                    </button>` : ''}
+                    <button class="btn btn-sm btn-outline rounded-full gap-2"
+                        onclick="navigator.clipboard.writeText(window.location.origin+window.location.pathname+'#news-${data.id}').then(()=>{this.innerHTML='<i class=\'fas fa-check\'></i> คัดลอกแล้ว';setTimeout(()=>{this.innerHTML='<i class=\'fas fa-link\'></i> คัดลอกลิงก์';},2000)})">
+                        <i class="fas fa-link"></i> คัดลอกลิงก์
+                    </button>
                     <button class="btn btn-primary btn-wide rounded-full shadow-lg" onclick="window.closeNewsModal()">ปิดหน้าต่าง</button>
                 </div>
             </div>
@@ -411,6 +427,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+
+    // Hash-based news link: #news-5 → open modal
+    const openNewsFromHash = () => {
+        const match = window.location.hash.match(/^#news-(\d+)$/);
+        if (match) {
+            const id = parseInt(match[1]);
+            setTimeout(() => { if (SITE_DATA.news.find(n => n.id == id)) window.showModal(id); }, 500);
+        }
+    };
+    openNewsFromHash();
+    window.addEventListener('hashchange', openNewsFromHash);
 
     // Image Lightbox
     window.openImageModal = (imgOrSrc) => {
