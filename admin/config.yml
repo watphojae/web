@@ -39,6 +39,51 @@ collections:
                 required: false
                 allow_multiple: false
 
+  - name: "events"
+    label: "📅 ปฏิทินกิจกรรม"
+    files:
+      - name: "events-data"
+        label: "กิจกรรมทั้งหมด"
+        file: "static/data/events.json"
+        fields:
+          - label: "ปี พ.ศ. (วันสำคัญ)"
+            name: "holidaysYear"
+            widget: "string"
+          - label: "กิจกรรมประจำ"
+            name: "regular"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "บรรทัดที่ 1 (เช่น ทุก)", name: "day1", widget: "string"}
+              - {label: "บรรทัดที่ 2 (เช่น อาทิตย์)", name: "day2", widget: "string"}
+              - {label: "ชื่อกิจกรรม", name: "title", widget: "string"}
+              - {label: "เวลา", name: "time", widget: "string"}
+              - {label: "สถานที่", name: "location", widget: "string"}
+              - {label: "สีแถบ (CSS class)", name: "color", widget: "string", default: "bg-emerald-100 text-primary"}
+          - label: "วันสำคัญทางพระพุทธศาสนา"
+            name: "holidays"
+            widget: "list"
+            summary: "{{fields.date}} — {{fields.title}}"
+            fields:
+              - {label: "วันที่ (เช่น 3 มี.ค.)", name: "date", widget: "string"}
+              - {label: "ชื่อย่อ (เช่น มาฆบูชา)", name: "name", widget: "string"}
+              - {label: "ชื่อเต็ม", name: "title", widget: "string"}
+              - {label: "รายละเอียด", name: "detail", widget: "string"}
+              - {label: "สีแถบ (CSS class)", name: "color", widget: "string", default: "bg-gold/10 text-yellow-800"}
+          - label: "กิจกรรมที่กำลังจะมาถึง"
+            name: "upcoming"
+            widget: "list"
+            summary: "{{fields.month}} {{fields.date}} — {{fields.title}}"
+            fields:
+              - {label: "เดือน (เช่น ม.ค.)", name: "month", widget: "string"}
+              - {label: "วันที่ (เช่น 24-26)", name: "date", widget: "string"}
+              - {label: "ป้ายกำกับ (badge)", name: "badge", widget: "string"}
+              - {label: "ชื่อกิจกรรม", name: "title", widget: "string"}
+              - {label: "รายละเอียด", name: "detail", widget: "string"}
+              - {label: "badgeClass", name: "badgeClass", widget: "string", default: "badge-primary"}
+              - {label: "borderColor", name: "borderColor", widget: "string", default: "border-primary"}
+              - {label: "dateClass", name: "dateClass", widget: "string", default: "bg-primary text-white"}
+
   - name: "settings"
     label: "⚙️ ตั้งค่าเว็บ"
     files:

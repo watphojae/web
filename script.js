@@ -287,9 +287,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // โหลดข้อมูลจาก CMS JSON files (ถ้ามี) แล้ว override SITE_DATA
     try {
-        const [newsRes, contactRes] = await Promise.all([
+        const [newsRes, contactRes, eventsRes] = await Promise.all([
             fetch('static/data/news.json'),
-            fetch('static/data/contact.json')
+            fetch('static/data/contact.json'),
+            fetch('static/data/events.json')
         ]);
         if (newsRes.ok) {
             const newsData = await newsRes.json();
@@ -298,6 +299,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (contactRes.ok) {
             const contactData = await contactRes.json();
             Object.assign(SITE_DATA.contact, contactData);
+        }
+        if (eventsRes.ok) {
+            const eventsData = await eventsRes.json();
+            Object.assign(SITE_DATA.events, eventsData);
         }
     } catch (e) { /* ใช้ข้อมูล fallback จาก site-data.js */ }
 

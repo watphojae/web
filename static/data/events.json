@@ -1,0 +1,75 @@
+{
+  "holidaysYear": "2569",
+  "regular": [
+    {
+      "day1": "ทุก",
+      "day2": "อาทิตย์",
+      "title": "เจริญพระพุทธมนต์ ทำวัตรเย็น และเจริญกัมมัฏฐาน",
+      "time": "17:30 น.",
+      "location": "ศาลาปฏิบัติธรรม (ศาลาหลวงพ่อหยก)",
+      "color": "bg-emerald-100 text-primary"
+    }
+  ],
+  "holidays": [
+    {
+      "date": "3 มี.ค.",
+      "name": "มาฆบูชา",
+      "title": "วันมาฆบูชา",
+      "detail": "เวียนเทียนรอบอุโบสถ เวลา 19:30 น.",
+      "color": "bg-gold/10 text-yellow-800"
+    },
+    {
+      "date": "31 พ.ค.",
+      "name": "วิสาขบูชา",
+      "title": "วันวิสาขบูชา",
+      "detail": "เวียนเทียนรอบอุโบสถ เวลา 19:30 น.",
+      "color": "bg-gold/10 text-yellow-800"
+    },
+    {
+      "date": "29 ก.ค.",
+      "name": "อาสาฬหบูชา",
+      "title": "วันอาสาฬหบูชา",
+      "detail": "เวียนเทียนรอบอุโบสถ เวลา 19:30 น.",
+      "color": "bg-gold/10 text-yellow-800"
+    },
+    {
+      "date": "30 ก.ค.",
+      "name": "เข้าพรรษา",
+      "title": "วันเข้าพรรษา",
+      "detail": "ถวายเทียนพรรษาและผ้าอาบน้ำฝน",
+      "color": "bg-emerald-100 text-primary"
+    }
+  ],
+  "upcoming": [
+    {
+      "month": "ม.ค.",
+      "date": "24–26",
+      "badge": "ประจำปี",
+      "badgeClass": "badge-primary",
+      "borderColor": "border-primary",
+      "dateClass": "bg-primary text-white",
+      "title": "งานประจำปี ปิดทองหลวงพ่อโต",
+      "detail": "ปิดทองนมัสการหลวงพ่อโตและรอยพระพุทธบาทจำลอง<br>มหรสพฟรีตลอดงาน"
+    },
+    {
+      "month": "เม.ย.",
+      "date": "13-15",
+      "badge": "สงกรานต์",
+      "badgeClass": "badge-warning",
+      "borderColor": "border-yellow-400",
+      "dateClass": "bg-yellow-50 text-amber-900",
+      "title": "วันสงกรานต์ ๒๕๖๙",
+      "detail": "๑๓ เม.ย.: ถวายภัตตาหารเพล | มาติกา-บังสุกุลอัฐิ<br>๑๔ เม.ย.: ทำบุญตักบาตร<br>๑๕ เม.ย.: ทำบุญตักบาตร | สรงน้ำพระ เวลา ๑๒.๑๕ น."
+    },
+    {
+      "month": "ตลอดปี",
+      "date": "2569",
+      "badge": "ประจำสัปดาห์",
+      "badgeClass": "badge-success",
+      "borderColor": "border-emerald-400",
+      "dateClass": "bg-emerald-50 text-primary",
+      "title": "เจริญพระพุทธมนต์วันอาทิตย์",
+      "detail": "ถวายเป็นพระราชกุศลแด่สมเด็จพระนางเจ้าสิริกิติ์ฯ<br>ทุกวันอาทิตย์ เวลา 17:30 น."
+    }
+  ]
+}
