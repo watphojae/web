@@ -220,11 +220,8 @@ function updateContact() {
     set('contact-line-id', c.lineId);
     set('contact-facebook-name', c.facebookName);
     set('contact-email', c.email);
-    setHref('contact-line-url', c.lineUrl);
     setHref('contact-facebook-url', c.facebook);
     setHref('contact-email-url', 'mailto:' + c.email);
-    setHref('line-float-btn', c.lineUrl);
-    setHref('notif-line-btn', c.lineUrl);
 }
 
 // ══════════════════════════════════════════════

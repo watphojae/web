@@ -751,39 +751,48 @@
                     </div>
 
                     <!-- Right: Contact Grid ★ แก้ที่ static/js/site-data.js → SITE_DATA.contact ★ -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate__animated animate__fadeInRight">
-                        <div
-                            class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:border-primary transition-all text-center group">
-                            <i
-                                class="fas fa-phone-alt text-3xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
-                            <h3 class="text-xs text-secondary-content uppercase font-bold mb-2">โทรศัพท์</h3>
-                            <p id="contact-phone" class="text-xl font-bold text-primary"></p>
+                    <div class="flex flex-col gap-6 animate__animated animate__fadeInRight">
+
+                        <!-- LINE QR Card (full width) -->
+                        <div class="card bg-base-100 shadow-lg border border-[#06C755]/30 p-6 text-center">
+                            <div class="flex items-center justify-center gap-2 mb-4">
+                                <i class="fab fa-line text-2xl text-[#06C755]"></i>
+                                <h3 class="font-bold text-lg font-['Pridi'] text-primary">เพิ่มเพื่อน LINE วัดโพธิ์แจ้</h3>
+                            </div>
+                            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                                <img src="static/images/line_qr.jpg" alt="QR Code LINE วัดโพธิ์แจ้"
+                                    class="w-36 h-36 object-contain rounded-2xl border border-base-200 shadow-sm">
+                                <div class="text-left space-y-2">
+                                    <p class="text-base-content/70 text-sm leading-relaxed">สแกน QR Code ด้วยแอป LINE<br>เพื่อเพิ่มเพื่อนกับวัดโพธิ์แจ้</p>
+                                    <p class="text-xs text-base-content/50 flex items-center gap-1">
+                                        <i class="fas fa-info-circle"></i> LINE ID: <span id="contact-line-id" class="font-bold"></span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
-                        <a id="contact-line-url" href="#" target="_blank"
-                            class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:bg-[#06C755] hover:text-white transition-all text-center group">
-                            <i
-                                class="fab fa-line text-3xl text-[#06C755] mb-4 group-hover:text-white group-hover:scale-110 transition-transform"></i>
-                            <h3 class="text-xs uppercase font-bold mb-2 opacity-70 group-hover:opacity-100">Line ID</h3>
-                            <p id="contact-line-id" class="text-lg font-bold"></p>
-                        </a>
+                        <!-- 2-col grid: Phone, Facebook, Email -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="card bg-base-100 shadow-lg p-6 border border-base-200 hover:border-primary transition-all text-center group">
+                                <i class="fas fa-phone-alt text-3xl text-primary mb-3 group-hover:scale-110 transition-transform"></i>
+                                <h3 class="text-xs text-secondary-content uppercase font-bold mb-1">โทรศัพท์</h3>
+                                <p id="contact-phone" class="text-lg font-bold text-primary"></p>
+                            </div>
 
-                        <a id="contact-facebook-url" href="#" target="_blank"
-                            class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:bg-[#1877F2] hover:text-white transition-all text-center group">
-                            <i
-                                class="fab fa-facebook-f text-3xl text-[#1877F2] mb-4 group-hover:text-white group-hover:scale-110 transition-transform"></i>
-                            <h3 class="text-xs uppercase font-bold mb-2 opacity-70 group-hover:opacity-100">Facebook
-                            </h3>
-                            <p id="contact-facebook-name" class="text-lg font-bold"></p>
-                        </a>
+                            <a id="contact-facebook-url" href="#" target="_blank"
+                                class="card bg-base-100 shadow-lg p-6 border border-base-200 hover:bg-[#1877F2] hover:text-white transition-all text-center group">
+                                <i class="fab fa-facebook-f text-3xl text-[#1877F2] mb-3 group-hover:text-white group-hover:scale-110 transition-transform"></i>
+                                <h3 class="text-xs uppercase font-bold mb-1 opacity-70 group-hover:opacity-100">Facebook</h3>
+                                <p id="contact-facebook-name" class="text-sm font-bold"></p>
+                            </a>
 
-                        <a id="contact-email-url" href="#"
-                            class="card bg-base-100 shadow-lg p-8 border border-base-200 hover:border-primary transition-all text-center group">
-                            <i
-                                class="fas fa-envelope text-3xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
-                            <h3 class="text-xs text-secondary-content uppercase font-bold mb-2">อีเมล</h3>
-                            <p id="contact-email" class="text-sm font-bold truncate"></p>
-                        </a>
+                            <a id="contact-email-url" href="#"
+                                class="card bg-base-100 shadow-lg p-6 border border-base-200 hover:border-primary transition-all text-center group">
+                                <i class="fas fa-envelope text-3xl text-primary mb-3 group-hover:scale-110 transition-transform"></i>
+                                <h3 class="text-xs text-secondary-content uppercase font-bold mb-1">อีเมล</h3>
+                                <p id="contact-email" class="text-sm font-bold truncate"></p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -815,7 +824,7 @@
                     class="btn btn-ghost btn-circle text-white hover:bg-gold hover:text-primary transition-all">
                     <i class="fab fa-facebook-f text-xl"></i>
                 </a>
-                <a href="https://line.me/ti/p/~watphojae" target="_blank"
+                <a href="#contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;"
                     class="btn btn-ghost btn-circle text-white hover:bg-gold hover:text-primary transition-all">
                     <i class="fab fa-line text-xl"></i>
                 </a>
@@ -853,7 +862,7 @@
     </div>
 
     <!-- LINE Official Floating Button -->
-    <a id="line-float-btn" href="#" target="_blank"
+    <a id="line-float-btn" href="#contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;"
         class="fixed bottom-24 right-6 z-[998] w-12 h-12 rounded-full bg-[#06C755] shadow-lg flex items-center justify-center text-white hover:scale-110 hover:shadow-xl transition-all duration-300"
         title="ติดต่อ LINE Official" aria-label="LINE Official">
         <i class="fab fa-line text-2xl"></i>
@@ -901,9 +910,9 @@
                 <p class="font-bold text-primary font-['Pridi'] text-sm">ติดตามข่าวสารวัดโพธิ์แจ้</p>
                 <p class="text-xs text-base-content/60 mt-1 mb-3">รับข่าวสารกิจกรรมและประกาศต่าง ๆ ได้ก่อนใคร</p>
                 <div class="flex gap-2">
-                    <a id="notif-line-btn" href="#" target="_blank"
+                    <a id="notif-line-btn" href="#contact" onclick="document.getElementById('notifToast').classList.add('hidden');document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;"
                         class="btn btn-xs bg-[#06C755] text-white border-none hover:bg-[#05a847] gap-1">
-                        <i class="fab fa-line"></i> LINE OA
+                        <i class="fab fa-line"></i> LINE QR
                     </a>
                     <a href="https://www.facebook.com/watphojae" target="_blank"
                         class="btn btn-xs bg-[#1877F2] text-white border-none hover:bg-[#1565c0] gap-1">
