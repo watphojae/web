@@ -833,56 +833,43 @@
                     </div>
                 </div>
 
-                <!-- Facebook Page Feed -->
-                <div class="max-w-6xl mx-auto mt-12" data-aos="fade-up">
+                <!-- ช่องทางการติดตาม -->
+                <div class="max-w-4xl mx-auto mt-12" data-aos="fade-up">
                     <h3 class="text-xl font-['Pridi'] font-bold text-primary mb-6 flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-xl bg-[#1877F2]/10 flex items-center justify-center">
-                            <i class="fab fa-facebook-f text-[#1877F2] text-sm"></i>
+                        <span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                            <i class="fas fa-share-nodes text-primary text-sm"></i>
                         </span>
-                        ติดตามข่าวสารทาง Facebook
+                        ช่องทางการติดตาม
                     </h3>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                        <!-- Facebook Feed -->
-                        <div class="rounded-3xl overflow-hidden shadow-xl border border-base-200 bg-base-100 flex justify-center p-2">
-                            <iframe
-                                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatphojae&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
-                                width="500" height="600"
-                                style="border:none;overflow:hidden;max-width:100%;display:block"
-                                scrolling="no" frameborder="0" allowfullscreen="true"
-                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                                title="Facebook Page วัดโพธิ์แจ้">
-                            </iframe>
-                        </div>
-                        <!-- ช่องทางติดตาม -->
-                        <div class="space-y-6">
-                            <div class="card bg-base-100 shadow-lg border border-base-200 p-8">
-                                <h4 class="font-['Pridi'] font-bold text-primary text-lg mb-6">ช่องทางการติดตาม</h4>
-                                <div class="space-y-4">
-                                    <a href="https://www.facebook.com/watphojae" target="_blank"
-                                        class="flex items-center gap-4 p-4 rounded-2xl bg-[#1877F2]/5 hover:bg-[#1877F2]/10 transition-colors group">
-                                        <div class="w-12 h-12 rounded-xl bg-[#1877F2] flex items-center justify-center text-white text-xl shrink-0">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold text-base-content">Facebook Page</p>
-                                            <p class="text-sm text-base-content/60">วัดโพธิ์แจ้ — กดไลค์และติดตาม</p>
-                                        </div>
-                                        <i class="fas fa-chevron-right ml-auto text-base-content/30 group-hover:text-[#1877F2] transition-colors"></i>
-                                    </a>
-                                    <a href="https://line.me/ti/p/~watphojae" target="_blank"
-                                        class="flex items-center gap-4 p-4 rounded-2xl bg-[#06C755]/5 hover:bg-[#06C755]/10 transition-colors group">
-                                        <div class="w-12 h-12 rounded-xl bg-[#06C755] flex items-center justify-center text-white text-xl shrink-0">
-                                            <i class="fab fa-line"></i>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold text-base-content">LINE Official</p>
-                                            <p class="text-sm text-base-content/60">กดเพื่อเพิ่มเพื่อน LINE วัดโพธิ์แจ้</p>
-                                        </div>
-                                        <i class="fas fa-chevron-right ml-auto text-base-content/30 group-hover:text-[#06C755] transition-colors"></i>
-                                    </a>
-                                </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Facebook Card -->
+                        <a href="https://www.facebook.com/watphojae" target="_blank" rel="noopener"
+                            class="group flex flex-col items-center gap-5 p-8 rounded-3xl bg-base-100 shadow-lg border border-base-200 hover:border-[#1877F2]/40 hover:shadow-xl transition-all duration-300">
+                            <div class="w-20 h-20 rounded-2xl bg-[#1877F2] flex items-center justify-center text-white text-4xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                <i class="fab fa-facebook-f"></i>
                             </div>
-                        </div>
+                            <div class="text-center">
+                                <p class="font-['Pridi'] font-bold text-xl text-base-content mb-1">Facebook Page</p>
+                                <p class="text-base-content/60 text-sm mb-4">วัดโพธิ์แจ้ — ข่าวสาร กิจกรรม ภาพถ่าย</p>
+                                <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#1877F2] text-white text-sm font-bold group-hover:bg-[#1565c0] transition-colors">
+                                    <i class="fab fa-facebook-f text-xs"></i> กดไลค์และติดตาม
+                                </span>
+                            </div>
+                        </a>
+                        <!-- LINE Card -->
+                        <a href="https://line.me/ti/p/~watphojae" target="_blank" rel="noopener"
+                            class="group flex flex-col items-center gap-5 p-8 rounded-3xl bg-base-100 shadow-lg border border-base-200 hover:border-[#06C755]/40 hover:shadow-xl transition-all duration-300">
+                            <div class="w-20 h-20 rounded-2xl bg-[#06C755] flex items-center justify-center text-white text-4xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                <i class="fab fa-line"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-['Pridi'] font-bold text-xl text-base-content mb-1">LINE Official</p>
+                                <p class="text-base-content/60 text-sm mb-4">รับแจ้งเตือนข่าวสารและกิจกรรม</p>
+                                <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#06C755] text-white text-sm font-bold group-hover:bg-[#05a847] transition-colors">
+                                    <i class="fab fa-line text-xs"></i> เพิ่มเพื่อน LINE
+                                </span>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
