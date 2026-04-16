@@ -1088,9 +1088,88 @@ footer a:hover {
 /* ===========================
    DARK MODE OVERRIDES
    =========================== */
+
+/* ---- Global text & background ---- */
 [data-theme="dark"] body {
     background-color: #1d232a;
     color: #a6adbb;
+}
+
+/* ---- Fix hardcoded text-primary (dark green → gold in dark mode) ---- */
+[data-theme="dark"] .text-primary {
+    color: var(--gold-light) !important;
+}
+
+/* ---- Fix hardcoded bg-white cards & sections ---- */
+[data-theme="dark"] .bg-white {
+    background-color: #191e24 !important;
+}
+[data-theme="dark"] .bg-white p,
+[data-theme="dark"] .bg-white h3,
+[data-theme="dark"] .bg-white h4,
+[data-theme="dark"] .bg-white span {
+    color: #a6adbb;
+}
+
+/* ---- Fix contact section white background ---- */
+[data-theme="dark"] #contact {
+    background-color: #1d232a !important;
+}
+
+/* ---- Fix about/events section base-100 inner card ---- */
+[data-theme="dark"] .bg-base-100 {
+    background-color: #191e24 !important;
+}
+
+/* ---- Fix bg-primary solid sidebar panels ---- */
+[data-theme="dark"] .bg-primary {
+    background-color: var(--primary-dark) !important;
+}
+[data-theme="dark"] .bg-primary\/5,
+[data-theme="dark"] .bg-primary\/10 {
+    background-color: rgba(197, 160, 89, 0.12) !important;
+}
+
+/* ---- Fix border colors ---- */
+[data-theme="dark"] .border-base-200 {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+[data-theme="dark"] .border-primary\/10 {
+    border-color: rgba(197, 160, 89, 0.2) !important;
+}
+
+/* ---- Fix bg-base-200/50 section backgrounds ---- */
+[data-theme="dark"] .bg-base-200\/50 {
+    background-color: #15191e !important;
+}
+
+/* ---- Fix timeline dots ---- */
+[data-theme="dark"] .bg-white.border-4.border-gold {
+    background-color: #1d232a !important;
+}
+
+/* ---- Fix text-primary opacity variants ---- */
+[data-theme="dark"] .text-primary\/70 {
+    color: rgba(197, 160, 89, 0.75) !important;
+}
+[data-theme="dark"] .text-primary\/80 {
+    color: rgba(197, 160, 89, 0.85) !important;
+}
+[data-theme="dark"] .text-primary\/30 {
+    color: rgba(197, 160, 89, 0.35) !important;
+}
+
+/* ---- Fix icon sidebar in contact/about cards ---- */
+[data-theme="dark"] .group:hover .group-hover\:bg-gold {
+    background-color: var(--gold-dark) !important;
+}
+
+/* ---- nav menu links ---- */
+[data-theme="dark"] .menu a {
+    color: #a6adbb;
+}
+[data-theme="dark"] .menu a:hover {
+    color: var(--gold-light);
 }
 
 [data-theme="dark"] header {
