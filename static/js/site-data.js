@@ -184,5 +184,5 @@ const SITE_DATA = {
     // ตัวอย่าง: "https://calendar.google.com/calendar/embed?src=xxx%40group.calendar.google.com&ctz=Asia%2FBangkok"
     // ถ้าไม่มี ปล่อยว่างไว้ — ส่วนนี้จะซ่อนอัตโนมัติ
     // ══════════════════════════════════════════════
-    calendarEmbedUrl: "",
+    calendarEmbedUrl: "https://calendar.google.com/calendar/embed?src=th.th%23holiday%40group.v.calendar.google.com&ctz=Asia%2FBangkok",
 };
