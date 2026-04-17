@@ -157,6 +157,11 @@
                     case 'twitter':
                         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
                         break;
+                    case 'instagram':
+                        navigator.clipboard.writeText(url).then(() => {
+                            alert('คัดลอกลิงก์แล้ว!\nนำไปวางใน Story หรือ Bio บน Instagram ได้เลย');
+                        });
+                        break;
                     case 'copy':
                         navigator.clipboard.writeText(url).then(() => {
                             const btn = document.querySelector('[data-share-copy]');
@@ -203,6 +208,10 @@
                                 <button className="btn btn-circle btn-xs btn-ghost text-[#06C755] hover:bg-[#06C755] hover:text-white"
                                     onClick={() => handleShare('line')} title="แชร์ไป LINE">
                                     <i className="fab fa-line"></i>
+                                </button>
+                                <button className="btn btn-circle btn-xs btn-ghost text-[#E1306C] hover:bg-[#E1306C] hover:text-white"
+                                    onClick={() => handleShare('instagram')} title="แชร์ไป Instagram">
+                                    <i className="fab fa-instagram"></i>
                                 </button>
                                 {typeof navigator !== 'undefined' && navigator.share && (
                                     <button className="btn btn-circle btn-xs btn-ghost text-primary hover:bg-primary hover:text-white"
@@ -1005,14 +1014,17 @@
             <p id="sharePopupText" class="font-['Pridi'] font-bold text-sm text-primary truncate max-w-[180px]">แชร์</p>
             <button onclick="closeSharePopup()" class="btn btn-ghost btn-xs btn-circle"><i class="fas fa-times"></i></button>
         </div>
-        <div class="flex gap-2 justify-center">
-            <button id="shareFbBtn" class="btn btn-sm bg-[#1877F2] text-white border-none hover:bg-[#1565c0] rounded-full gap-1 flex-1">
+        <div class="grid grid-cols-2 gap-2">
+            <button id="shareFbBtn" class="btn btn-sm bg-[#1877F2] text-white border-none hover:bg-[#1565c0] rounded-full gap-1">
                 <i class="fab fa-facebook-f text-xs"></i> Facebook
             </button>
-            <button id="shareLineBtn" class="btn btn-sm bg-[#06C755] text-white border-none hover:bg-[#05a847] rounded-full gap-1 flex-1">
+            <button id="shareLineBtn" class="btn btn-sm bg-[#06C755] text-white border-none hover:bg-[#05a847] rounded-full gap-1">
                 <i class="fab fa-line text-xs"></i> LINE
             </button>
-            <button id="shareCopyBtn" class="btn btn-sm btn-outline rounded-full gap-1 flex-1">
+            <button id="shareIgBtn" class="btn btn-sm text-white border-none rounded-full gap-1" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
+                <i class="fab fa-instagram text-xs"></i> Instagram
+            </button>
+            <button id="shareCopyBtn" class="btn btn-sm btn-outline rounded-full gap-1">
                 <i class="fas fa-link text-xs"></i> คัดลอก
             </button>
         </div>
@@ -1047,6 +1059,12 @@
             class="bg-[#000000] text-white w-10 h-10 flex items-center justify-center hover:w-32 transition-all duration-300 group relative" title="แชร์ไป X (Twitter)">
             <i class="fab fa-x-twitter text-sm"></i>
             <span class="absolute left-10 text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-2">X (Twitter)</span>
+        </button>
+        <button
+            onclick="shareContent(null,'Instagram — วัดโพธิ์แจ้','instagram')"
+            class="bg-gradient-to-b from-[#f09433] via-[#e6683c] to-[#dc2743] text-white w-10 h-10 flex items-center justify-center hover:w-32 transition-all duration-300 group relative" title="แชร์ไป Instagram">
+            <i class="fab fa-instagram text-lg"></i>
+            <span class="absolute left-10 text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-2">Instagram</span>
         </button>
         <button
             onclick="navigator.clipboard.writeText(window.location.href).then(function(){var b=this;b.innerHTML='<i class=\'fas fa-check text-sm\'></i>';setTimeout(function(){b.innerHTML='<i class=\'fas fa-link text-sm\'></i>';},2000);}.bind(this))"

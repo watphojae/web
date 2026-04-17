@@ -24,6 +24,14 @@ window.shareContent = function(hash, title, text) {
         window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title || ''), '_blank');
         popup.classList.add('hidden');
     };
+    const igBtn = document.getElementById('shareIgBtn');
+    if (igBtn) igBtn.onclick = () => {
+        navigator.clipboard.writeText(url).then(() => {
+            igBtn.innerHTML = '<i class="fab fa-instagram text-xs"></i> คัดลอกแล้ว!';
+            igBtn.title = 'นำลิงก์ไปวางใน Instagram';
+            setTimeout(() => { igBtn.innerHTML = '<i class="fab fa-instagram text-xs"></i> Instagram'; popup.classList.add('hidden'); }, 2000);
+        });
+    };
     document.getElementById('shareCopyBtn').onclick = () => {
         navigator.clipboard.writeText(url).then(() => {
             const btn = document.getElementById('shareCopyBtn');
