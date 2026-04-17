@@ -4,6 +4,39 @@
  */
 
 // ══════════════════════════════════════════════
+// Share System (ระบบแชร์กลาง)
+// ══════════════════════════════════════════════
+window.shareContent = function(hash, title, text) {
+    const base = window.location.origin + window.location.pathname;
+    const url = hash ? base + hash : base;
+    if (navigator.share) {
+        navigator.share({ title: title || document.title, text: text || title, url }).catch(() => {});
+        return;
+    }
+    const popup = document.getElementById('sharePopup');
+    if (!popup) return;
+    document.getElementById('sharePopupText').textContent = title || 'แชร์';
+    document.getElementById('shareFbBtn').onclick = () => {
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(title || ''), '_blank', 'width=600,height=500');
+        popup.classList.add('hidden');
+    };
+    document.getElementById('shareLineBtn').onclick = () => {
+        window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title || ''), '_blank');
+        popup.classList.add('hidden');
+    };
+    document.getElementById('shareCopyBtn').onclick = () => {
+        navigator.clipboard.writeText(url).then(() => {
+            const btn = document.getElementById('shareCopyBtn');
+            btn.innerHTML = '<i class="fas fa-check"></i> คัดลอกแล้ว';
+            setTimeout(() => { btn.innerHTML = '<i class="fas fa-link"></i> คัดลอก'; popup.classList.add('hidden'); }, 1500);
+        });
+    };
+    popup.classList.remove('hidden');
+    setTimeout(() => popup.classList.add('hidden'), 8000);
+};
+window.closeSharePopup = () => document.getElementById('sharePopup')?.classList.add('hidden');
+
+// ══════════════════════════════════════════════
 // Dark Mode Toggle
 // ══════════════════════════════════════════════
 window.toggleTheme = function () {
@@ -58,8 +91,14 @@ function renderGallery() {
     if (!container) return;
     container.innerHTML = SITE_DATA.gallery.map((img, i) => `
         <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${i * 50}">
-            <img src="${img.src}" alt="${img.alt}" onclick="openImageModal(this)" class="gallery-img" loading="lazy">
-            <div class="gallery-overlay"><span>${img.alt}</span></div>
+            <img src="${img.src}" alt="${img.alt}" onclick="openImageModal(this,'${encodeURIComponent(img.src)}','${img.alt.replace(/'/g,"\\'")}')" class="gallery-img" loading="lazy">
+            <div class="gallery-overlay">
+                <span>${img.alt}</span>
+                <button class="btn btn-xs btn-ghost text-white border border-white/40 rounded-full gap-1 mt-2"
+                    onclick="event.stopPropagation();shareContent('#gallery','${img.alt.replace(/'/g,"\\'")} — วัดโพธิ์แจ้','ภาพ: ${img.alt.replace(/'/g,"\\'")} จากวัดโพธิ์แจ้')" title="แชร์รูปภาพ">
+                    <i class="fas fa-share-nodes text-xs"></i> แชร์
+                </button>
+            </div>
         </div>
     `).join('');
 }
@@ -108,9 +147,13 @@ function renderEvents() {
                 <span class="text-xs font-bold">${e.month}</span>
                 <span class="text-2xl font-extrabold font-['Pridi']">${e.date}</span>
             </div>
-            <div class="event-info">
-                <div class="flex items-center gap-2 mb-1">
+            <div class="event-info flex-1">
+                <div class="flex items-center justify-between gap-2 mb-1">
                     <span class="badge ${e.badgeClass} badge-xs text-white">${e.badge}</span>
+                    <button class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary rounded-full gap-1"
+                        onclick="shareContent('#events','${e.title.replace(/'/g,"\\'")} — ${e.month} ${e.date}','${e.title.replace(/'/g,"\\'")} ${e.detail.replace(/'/g,"\\'")} วันที่ ${e.month} ${e.date}')" title="แชร์กิจกรรม">
+                        <i class="fas fa-share-nodes text-xs"></i>
+                    </button>
                 </div>
                 <p class="font-semibold text-base-content">${e.title}</p>
                 <p class="text-sm text-base-content/60 mt-1">${e.detail}</p>
@@ -171,6 +214,10 @@ function renderAbbots() {
                 </span>
                 <h3 class="monk-name">${a.name}</h3>
                 <p class="monk-title ${a.isCurrent ? 'text-primary font-bold' : 'italic'}">${a.years}</p>
+                <button class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary rounded-full gap-1 mt-1"
+                    onclick="shareContent('#abbots','${a.name.replace(/'/g,"\\'")} — เจ้าอาวาสวัดโพธิ์แจ้','${a.name.replace(/'/g,"\\'")} เจ้าอาวาสวัดโพธิ์แจ้ ${a.years.replace(/'/g,"\\'")} | วัดโพธิ์แจ้')">
+                    <i class="fas fa-share-nodes text-xs"></i> แชร์
+                </button>
             </div>
         </div>
     `).join('');
@@ -190,6 +237,10 @@ function renderOfficials() {
             <div class="pt-2">
                 <span class="badge ${o.badgeClass} badge-sm mb-2">${o.position}</span>
                 <h3 class="monk-name leading-tight">${o.name}</h3>
+                <button class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary rounded-full gap-1 mt-1"
+                    onclick="shareContent('#officials','${o.position.replace(/'/g,"\\'")} ${o.name.replace(/<br>/g,' ').replace(/'/g,"\\'")} — วัดโพธิ์แจ้','${o.position.replace(/'/g,"\\'")} ${o.name.replace(/<br>/g,' ').replace(/'/g,"\\'")} | วัดโพธิ์แจ้')">
+                    <i class="fas fa-share-nodes text-xs"></i> แชร์
+                </button>
             </div>
         </div>
     `).join('');
@@ -440,11 +491,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('hashchange', openNewsFromHash);
 
     // Image Lightbox
-    window.openImageModal = (imgOrSrc) => {
+    window.openImageModal = (imgOrSrc, encodedSrc, alt) => {
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
         if (modal && modalImg) {
-            modalImg.src = typeof imgOrSrc === 'string' ? imgOrSrc : imgOrSrc.src;
+            const src = encodedSrc ? decodeURIComponent(encodedSrc) : (typeof imgOrSrc === 'string' ? imgOrSrc : imgOrSrc.src);
+            const caption = alt || (typeof imgOrSrc === 'object' ? imgOrSrc.alt : '') || '';
+            modalImg.src = src;
+            modalImg.alt = caption;
+            const shareBtn = document.getElementById('imageModalShareBtn');
+            if (shareBtn) shareBtn.onclick = () => shareContent('#gallery', caption + ' — วัดโพธิ์แจ้', 'ภาพ: ' + caption + ' จากวัดโพธิ์แจ้');
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
