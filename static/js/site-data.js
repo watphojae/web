@@ -103,12 +103,6 @@ const SITE_DATA = {
     // เพิ่มรูป: คัดลอก { src, alt } ต่อท้าย
     // ══════════════════════════════════════════════
     gallery: [
-        { src: "static/images/main_collage.jpg", alt: "วัดโพธิ์แจ้", wide: true },
-        { src: "static/images/NewYearPrayer2026.jpg", alt: "พิธีสวดมนต์ข้ามปี 2569" },
-        { src: "static/images/merit_ceremony_2025.jpg", alt: "งานทำบุญประจำปี 2568" },
-        { src: "static/images/songkran_2569.jpg", alt: "งานสงกรานต์ 2569" },
-        { src: "static/images/annual_event_poster.jpg", alt: "งานประจำปีวัดโพธิ์แจ้" },
-        { src: "static/images/dhamma_sunday_poster.png", alt: "เจริญสมาธิภาวนาวันอาทิตย์" },
         { src: "static/gallery/EOS-R6-10_0.JPG", alt: "บรรยากาศวัดโพธิ์แจ้" },
         { src: "static/gallery/EOS-R6-124_0.JPG", alt: "บรรยากาศวัดโพธิ์แจ้" },
         { src: "static/gallery/EOS-R6-127_0.JPG", alt: "บรรยากาศวัดโพธิ์แจ้" },
