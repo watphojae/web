@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const galleryRes = await fetch('static/data/gallery.json');
         if (galleryRes.ok) {
             const galleryData = await galleryRes.json();
-            if (galleryData.items) SITE_DATA.gallery = galleryData.items;
+            if (galleryData.items && galleryData.items.length > 0) SITE_DATA.gallery = galleryData.items;
         }
         const [abbotsRes, officialsRes, donationRes, settingsRes] = await Promise.all([
             fetch('static/data/abbots.json'),
