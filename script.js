@@ -511,19 +511,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('hashchange', openNewsFromHash);
 
     // Image Lightbox
-    window.openImageModal = (imgOrSrc, encodedSrc, alt) => {
+    let _modalIndex = -1;
+    let _modalItems = [];
+    let _touchStartX = 0;
+
+    function _showModalAt(idx) {
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
-        if (modal && modalImg) {
-            const src = encodedSrc ? decodeURIComponent(encodedSrc) : (typeof imgOrSrc === 'string' ? imgOrSrc : imgOrSrc.src);
-            const caption = alt || (typeof imgOrSrc === 'object' ? imgOrSrc.alt : '') || '';
-            modalImg.src = src;
-            modalImg.alt = caption;
-            const shareBtn = document.getElementById('imageModalShareBtn');
-            if (shareBtn) shareBtn.onclick = () => shareContent('#gallery', caption + ' — วัดโพธิ์แจ้', 'ภาพ: ' + caption + ' จากวัดโพธิ์แจ้');
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
+        if (!modal || !modalImg || !_modalItems[idx]) return;
+        _modalIndex = idx;
+        const item = _modalItems[idx];
+        modalImg.src = item.src;
+        modalImg.alt = item.alt;
+        const counter = document.getElementById('imageModalCounter');
+        if (counter) counter.textContent = `${idx + 1} / ${_modalItems.length}`;
+        const shareBtn = document.getElementById('imageModalShareBtn');
+        if (shareBtn) shareBtn.onclick = () => shareContent('#gallery', item.alt + ' — วัดโพธิ์แจ้', 'ภาพ: ' + item.alt + ' จากวัดโพธิ์แจ้');
+        modal.scrollTop = 0;
+    }
+
+    window.openImageModal = (imgOrSrc, encodedSrc, alt) => {
+        const modal = document.getElementById('imageModal');
+        if (!modal) return;
+        const src = encodedSrc ? decodeURIComponent(encodedSrc) : (typeof imgOrSrc === 'string' ? imgOrSrc : imgOrSrc.src);
+        _modalItems = SITE_DATA.gallery.length ? SITE_DATA.gallery : [{ src, alt: alt || '' }];
+        const idx = _modalItems.findIndex(i => i.src === src);
+        _showModalAt(idx >= 0 ? idx : 0);
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.navigateImageModal = (dir) => {
+        const next = (_modalIndex + dir + _modalItems.length) % _modalItems.length;
+        _showModalAt(next);
     };
 
     window.closeImageModal = () => {
@@ -535,8 +555,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    // Swipe support
+    document.getElementById('imageModal')?.addEventListener('touchstart', e => { _touchStartX = e.touches[0].clientX; }, { passive: true });
+    document.getElementById('imageModal')?.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - _touchStartX;
+        if (Math.abs(dx) > 50) navigateImageModal(dx < 0 ? 1 : -1);
+    });
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') { window.closeImageModal(); window.closeNewsModal(); }
+        if (e.key === 'ArrowRight') navigateImageModal(1);
+        if (e.key === 'ArrowLeft') navigateImageModal(-1);
     });
 
     // Service Worker (PWA)
