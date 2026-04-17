@@ -452,15 +452,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
     updateVisitorCount();
 
-    // Smooth Scrolling
-    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', (e) => {
-            const targetId = e.currentTarget.getAttribute('href');
-            if (targetId.startsWith('#')) {
-                e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Smooth Scrolling + Mobile Menu Close
+    // (CSS scroll-behavior:smooth handles desktop, JS handles mobile dropdown)
+    document.querySelectorAll('.dropdown-content a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            if (targetId && targetId.length > 1) {
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    e.preventDefault();
+                    const headerH = document.querySelector('header')?.offsetHeight || 70;
+                    const top = targetEl.getBoundingClientRect().top + window.scrollY - headerH;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
             }
+            // ปิด mobile dropdown หลังกดลิงก์
+            document.activeElement?.blur();
         });
     });
 
@@ -473,19 +480,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     // AOS
     AOS.init({ once: true, duration: 800, offset: 100 });
 
-    // Back to Top
+    // Back to Top + Mobile Share FAB
     const backToTopBtn = document.getElementById('backToTop');
-    if (backToTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 400) {
-                backToTopBtn.classList.remove('opacity-0', 'translate-y-4');
-                backToTopBtn.classList.add('opacity-100', 'translate-y-0');
-            } else {
-                backToTopBtn.classList.remove('opacity-100', 'translate-y-0');
-                backToTopBtn.classList.add('opacity-0', 'translate-y-4');
-            }
-        });
-    }
+    const mobileFab = document.getElementById('mobileShareFab');
+    window.addEventListener('scroll', () => {
+        const visible = window.scrollY > 400;
+        if (backToTopBtn) {
+            backToTopBtn.classList.toggle('opacity-0', !visible);
+            backToTopBtn.classList.toggle('translate-y-4', !visible);
+            backToTopBtn.classList.toggle('opacity-100', visible);
+            backToTopBtn.classList.toggle('translate-y-0', visible);
+        }
+        if (mobileFab) {
+            mobileFab.classList.toggle('opacity-0', !visible);
+            mobileFab.classList.toggle('translate-y-4', !visible);
+            mobileFab.classList.toggle('opacity-100', visible);
+            mobileFab.classList.toggle('translate-y-0', visible);
+        }
+    });
 
     // Hash-based news link: #news-5 → open modal
     const openNewsFromHash = () => {

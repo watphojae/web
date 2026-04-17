@@ -342,15 +342,15 @@
                     </button>
                     <ul tabindex="0"
                         class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a href="#hero">หน้าแรก</a></li>
-                        <li><a href="#about">ประวัติ</a></li>
-                        <li><a href="#news">ข่าวสาร</a></li>
-                        <li><a href="#events">ปฏิทินกิจกรรม</a></li>
-                        <li><a href="#gallery">แกลเลอรี</a></li>
-                        <li><a href="#donation">ทำบุญ</a></li>
-                        <li><a href="#abbots">ทำเนียบเจ้าอาวาส</a></li>
-                        <li><a href="#officials">พระสังฆาธิการ</a></li>
-                        <li><a href="#contact">ติดต่อ</a></li>
+                        <li><a href="#hero" onclick="document.activeElement?.blur()">หน้าแรก</a></li>
+                        <li><a href="#about" onclick="document.activeElement?.blur()">ประวัติ</a></li>
+                        <li><a href="#news" onclick="document.activeElement?.blur()">ข่าวสาร</a></li>
+                        <li><a href="#events" onclick="document.activeElement?.blur()">ปฏิทินกิจกรรม</a></li>
+                        <li><a href="#gallery" onclick="document.activeElement?.blur()">แกลเลอรี</a></li>
+                        <li><a href="#donation" onclick="document.activeElement?.blur()">ทำบุญ</a></li>
+                        <li><a href="#abbots" onclick="document.activeElement?.blur()">ทำเนียบเจ้าอาวาส</a></li>
+                        <li><a href="#officials" onclick="document.activeElement?.blur()">พระสังฆาธิการ</a></li>
+                        <li><a href="#contact" onclick="document.activeElement?.blur()">ติดต่อ</a></li>
                     </ul>
                 </div>
             </div>
@@ -359,18 +359,18 @@
 
     <main>
         <section id="hero"
-            class="relative h-[85vh] min-h-[600px] flex items-center justify-center text-center overflow-hidden -mt-[100px]">
+            class="relative h-[85vh] min-h-[480px] sm:min-h-[600px] flex items-center justify-center text-center overflow-hidden -mt-[100px]">
             <!-- Hero Background with Zoom Animation -->
             <div class="absolute inset-0 z-[-2] animate__animated animate__fadeIn">
                 <div
-                    class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center bg-fixed brightness-[0.9] transform scale-110 animate-[zoom-slow_20s_infinite_alternate]">
+                    class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center brightness-[0.9] transform scale-110 animate-[zoom-slow_20s_infinite_alternate]">
                 </div>
             </div>
             <!-- Overlay -->
             <div class="absolute inset-0 z-[-1] bg-gradient-to-b from-primary/20 via-transparent to-primary/50"></div>
 
             <!-- Collage Image (Original position — centered in hero) -->
-            <div class="container mx-auto px-4 z-10 pt-32">
+            <div class="container mx-auto px-4 z-10 pt-6 sm:pt-16 md:pt-28">
                 <div class="inline-block relative rounded-[2.5rem] p-2 bg-gradient-to-br from-gold via-white/50 to-gold shadow-[0_0_60px_-15px_rgba(197,160,89,0.6)] animate__animated animate__zoomIn hover:scale-105 transition-transform duration-500 cursor-pointer group"
                     onclick="openImageModal(document.getElementById('main-collage-img'))">
                     <div
@@ -795,18 +795,18 @@
                     <!-- Left: Info & Map -->
                     <div class="space-y-8 animate__animated animate__fadeInLeft">
                         <div class="card bg-base-100 shadow-xl border border-base-200 overflow-hidden group">
-                            <div class="card-body p-0 flex flex-row">
+                            <div class="card-body p-0 flex flex-col sm:flex-row">
                                 <div
-                                    class="bg-primary p-8 flex items-center justify-center text-white text-3xl group-hover:bg-gold transition-colors duration-500">
+                                    class="bg-primary p-5 sm:p-8 flex items-center justify-center text-white text-3xl group-hover:bg-gold transition-colors duration-500 sm:flex-shrink-0">
                                     <i class="fas fa-map-marked-alt"></i>
                                 </div>
-                                <div class="p-8">
+                                <div class="p-5 sm:p-8">
                                     <h3 class="text-xl font-bold text-primary mb-2 font-['Pridi']">ที่ตั้งวัด</h3>
                                     <p class="text-base-content/70 mb-4">เลขที่ 1 หมู่ 3 ต.บางน้ำจืด อ.เมืองสมุทรสาคร
                                         จ.สมุทรสาคร 74000</p>
                                     <a href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B9%82%E0%B8%9E%E0%B8%98%E0%B8%B4%E0%B9%8C%E0%B9%81%E0%B8%88%E0%B9%89/@13.6178556,100.3618304,15z/data=!4m6!3m5!1s0x30e2bc1dcf3946b3:0x62af2ea2acd1d039!8m2!3d13.6221866!4d100.3517209!16s%2Fg%2F1hc37td5y?entry=ttu"
                                         target="_blank"
-                                        class="btn btn-primary rounded-full px-8 shadow-lg hover:shadow-primary/30">
+                                        class="btn btn-primary rounded-full px-4 sm:px-8 text-sm sm:text-base shadow-lg hover:shadow-primary/30">
                                         <i class="fas fa-location-arrow mr-2"></i> นำทางผ่าน Google Maps
                                     </a>
                                 </div>
@@ -822,12 +822,12 @@
                         </div>
 
                         <div class="card bg-base-100 shadow-xl border border-base-200 overflow-hidden group">
-                            <div class="card-body p-0 flex flex-row">
+                            <div class="card-body p-0 flex flex-col sm:flex-row">
                                 <div
-                                    class="bg-primary/5 p-8 flex items-center justify-center text-primary text-3xl group-hover:bg-primary group-hover:text-white transition-colors duration-500">
+                                    class="bg-primary/5 p-5 sm:p-8 flex items-center justify-center text-primary text-3xl group-hover:bg-primary group-hover:text-white transition-colors duration-500 sm:flex-shrink-0">
                                     <i class="fas fa-user-plus"></i>
                                 </div>
-                                <div class="p-8">
+                                <div class="p-5 sm:p-8">
                                     <h3 class="text-xl font-bold text-primary mb-2 font-['Pridi']">การสมัครบวช</h3>
                                     <p class="text-base-content/70">กรุณาเดินทางมาแจ้งความจำนงที่วัดด้วยตนเอง
                                         เพื่อสอบทานคุณสมบัติเบื้องต้น</p>
@@ -1102,6 +1102,14 @@
             </button>
         </div>
     </div>
+
+    <!-- Mobile Share FAB (มือถือ) -->
+    <button id="mobileShareFab"
+        class="fixed bottom-24 right-5 z-[998] btn btn-circle btn-primary shadow-xl md:hidden opacity-0 translate-y-4 transition-all duration-300"
+        onclick="shareContent(null, document.title, 'วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร')"
+        aria-label="แชร์เว็บไซต์">
+        <i class="fas fa-share-nodes text-lg"></i>
+    </button>
 
     <!-- AOS Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
