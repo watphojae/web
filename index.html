@@ -1111,6 +1111,23 @@
         <i class="fas fa-share-nodes text-lg"></i>
     </button>
 
+    <!-- Image Lightbox Modal -->
+    <div id="imageModal"
+        style="display:none"
+        class="fixed inset-0 z-[2000] bg-black/90 flex items-center justify-center p-4"
+        onclick="if(event.target===this) closeImageModal()">
+        <button onclick="closeImageModal()"
+            class="absolute top-4 right-4 text-white text-3xl w-10 h-10 flex items-center justify-center hover:text-gold transition-colors"
+            aria-label="ปิด">&times;</button>
+        <img id="modalImage" src="" alt="" class="max-h-[90vh] max-w-full object-contain rounded-lg shadow-2xl">
+        <div class="absolute bottom-4 flex gap-3">
+            <button id="imageModalShareBtn"
+                class="btn btn-sm btn-ghost text-white border border-white/40 rounded-full gap-1">
+                <i class="fas fa-share-nodes text-xs"></i> แชร์
+            </button>
+        </div>
+    </div>
+
     <!-- AOS Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
