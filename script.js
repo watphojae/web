@@ -98,8 +98,8 @@ function renderGallery() {
     const container = document.getElementById('gallery-render-root');
     if (!container) return;
     container.innerHTML = SITE_DATA.gallery.map((img, i) => `
-        <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${i * 50}">
-            <img src="${img.src}" alt="${img.alt}" onclick="openImageModal(this,'${encodeURIComponent(img.src)}','${img.alt.replace(/'/g,"\\'")}')" class="gallery-img" loading="lazy">
+        <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${i * 50}" onclick="openImageModal(this,'${encodeURIComponent(img.src)}','${img.alt.replace(/'/g,"\\'")}')">
+            <img src="${img.src}" alt="${img.alt}" class="gallery-img" loading="lazy">
             <div class="gallery-overlay">
                 <span>${img.alt}</span>
                 <button class="btn btn-xs btn-ghost text-white border border-white/40 rounded-full gap-1 mt-2"
