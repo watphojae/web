@@ -21,7 +21,7 @@ window.shareContent = function(hash, title, text) {
         popup.classList.add('hidden');
     };
     document.getElementById('shareLineBtn').onclick = () => {
-        window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title || ''), '_blank');
+        window.open('https://line.me/R/share?text=' + encodeURIComponent((title || document.title) + '\n' + url), '_blank');
         popup.classList.add('hidden');
     };
     const igBtn = document.getElementById('shareIgBtn');
@@ -315,7 +315,7 @@ window.showModal = (newsId) => {
                         <i class="fab fa-facebook-f"></i> Facebook
                     </button>
                     <button class="btn btn-sm rounded-full gap-2 bg-[#06C755] text-white border-none hover:bg-[#05a847]"
-                        onclick="window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(window.location.origin+window.location.pathname+'#news-${data.id}')+'&text='+encodeURIComponent('${data.title.replace(/'/g,"\\'")}'),'_blank')">
+                        onclick="window.open('https://line.me/R/share?text='+encodeURIComponent('${data.title.replace(/'/g,"\\'")}\\n'+(window.location.origin+window.location.pathname+'#news-${data.id}')),'_blank')">
                         <i class="fab fa-line"></i> LINE
                     </button>
                     ${navigator.share ? `<button class="btn btn-sm rounded-full gap-2 bg-primary text-white border-none hover:bg-primary/80"
