@@ -98,7 +98,7 @@ function renderGallery() {
     const container = document.getElementById('gallery-render-root');
     if (!container) return;
     container.innerHTML = SITE_DATA.gallery.map((img, i) => `
-        <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${i * 50}" onclick="openImageModal(this,'${encodeURIComponent(img.src)}','${img.alt.replace(/'/g,"\\'")}')">
+        <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${Math.min(i * 50, 300)}" onclick="openImageModal(this,'${encodeURIComponent(img.src)}','${img.alt.replace(/'/g,"\\'")}')">
             <img src="${img.src}" alt="${img.alt}" class="gallery-img" loading="lazy">
             <div class="gallery-overlay">
                 <span>${img.alt}</span>
@@ -477,8 +477,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         header.classList.toggle('header-scrolled', window.scrollY > 50);
     });
 
-    // AOS
+    // AOS — refresh หลัง renderGallery เพิ่ม elements เข้า DOM แล้ว
     AOS.init({ once: true, duration: 800, offset: 100 });
+    AOS.refresh();
 
     // Back to Top + Mobile Share FAB
     const backToTopBtn = document.getElementById('backToTop');
