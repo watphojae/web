@@ -531,11 +531,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (scroll) scroll.scrollTop = 0;
     }
 
-    window.openImageModal = (idx) => {
+    window.openImageModal = (idxOrEl) => {
         const modal = document.getElementById('imageModal');
         if (!modal) return;
-        _modalItems = SITE_DATA.gallery;
-        _showModalAt(idx >= 0 ? idx : 0);
+        if (typeof idxOrEl === 'number') {
+            _modalItems = SITE_DATA.gallery;
+            _showModalAt(idxOrEl);
+        } else {
+            const el = typeof idxOrEl === 'string' ? null : idxOrEl;
+            const src = el ? el.src : idxOrEl;
+            const alt = el ? (el.alt || '') : '';
+            _modalItems = [{ src, alt }];
+            _showModalAt(0);
+        }
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     };
