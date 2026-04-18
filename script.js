@@ -98,7 +98,7 @@ function renderGallery() {
     const container = document.getElementById('gallery-render-root');
     if (!container) return;
     container.innerHTML = SITE_DATA.gallery.map((img, i) => `
-        <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${Math.min(i * 50, 300)}" onclick="openImageModal(this,'${encodeURIComponent(img.src)}','${img.alt.replace(/'/g,"\\'")}')">
+        <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${Math.min(i * 50, 300)}" onclick="openImageModal(${i})">
             <img src="${img.src}" alt="${img.alt}" class="gallery-img" loading="lazy">
             <div class="gallery-overlay">
                 <span>${img.alt}</span>
@@ -531,12 +531,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (scroll) scroll.scrollTop = 0;
     }
 
-    window.openImageModal = (imgOrSrc, encodedSrc, alt) => {
+    window.openImageModal = (idx) => {
         const modal = document.getElementById('imageModal');
         if (!modal) return;
-        const src = encodedSrc ? decodeURIComponent(encodedSrc) : (typeof imgOrSrc === 'string' ? imgOrSrc : imgOrSrc.src);
-        _modalItems = SITE_DATA.gallery.length ? SITE_DATA.gallery : [{ src, alt: alt || '' }];
-        const idx = _modalItems.findIndex(i => i.src === src);
+        _modalItems = SITE_DATA.gallery;
         _showModalAt(idx >= 0 ? idx : 0);
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
