@@ -134,10 +134,10 @@
     </script>
 
     <!-- ★ ข้อมูลเว็บทั้งหมด แก้ไขที่ไฟล์นี้ที่เดียว ★ -->
-    <script src="static/js/site-data.js?v=4"></script>
+    <script src="static/js/site-data.js?v=5"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <script src="script.js?v=9" defer></script>
+    <script src="script.js?v=10" defer></script>
     <script type="text/babel">
         const { useState, useEffect } = React;
 
@@ -389,7 +389,10 @@
             </div>
         </section>
 
-
+        <!-- ป้ายจำนวนพระภิกษุ-สามเณรจำพรรษา ★ แก้ตัวเลขที่ static/data/site-settings.json → monks ★ -->
+        <section id="monks-stat" class="relative z-20 -mt-12 pb-4 bg-transparent">
+            <div id="monks-render-root" class="w-full mx-auto px-4 max-w-3xl"></div>
+        </section>
 
         <section id="about" class="py-20 bg-base-100 relative overflow-hidden">
             <!-- Decorative Pattern -->

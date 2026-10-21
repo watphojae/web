@@ -112,6 +112,35 @@ function renderGallery() {
 }
 
 // ══════════════════════════════════════════════
+// Render: ป้ายจำนวนพระภิกษุ-สามเณรจำพรรษา
+// ══════════════════════════════════════════════
+function renderMonks() {
+    const root = document.getElementById('monks-render-root');
+    const m = SITE_DATA.monks;
+    if (!root || !m || m.show === false) { root?.closest('section')?.classList.add('hidden'); return; }
+    const th = n => String(n).replace(/\d/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]);
+    const b = Number(m.bhikkhu) || 0, s = Number(m.samanera) || 0;
+    const item = (icon, label, n, cls) => `
+        <div class="flex flex-col items-center justify-center px-2 sm:px-4 py-4 sm:py-5 min-w-0 ${cls}">
+            <i class="${icon} text-gold text-xl sm:text-2xl mb-2"></i>
+            <span class="text-sm text-base-content/60">${label}</span>
+            <span class="font-['Pridi'] text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary leading-tight">${th(n)}</span>
+            <span class="text-sm text-base-content/60">รูป</span>
+        </div>`;
+    root.innerHTML = `
+        <div class="bg-base-100 rounded-3xl shadow-xl border border-gold/30 overflow-hidden" data-aos="fade-up">
+            <div class="bg-primary text-white text-center py-3 px-3 font-['Pridi'] font-bold text-base sm:text-lg md:text-xl leading-snug">
+                <i class="fa-solid fa-dharmachakra text-gold mr-2"></i>พระภิกษุ-สามเณร อยู่จำพรรษา พ.ศ. ${th(m.year)}
+            </div>
+            <div class="grid grid-cols-3 divide-x divide-gold/20">
+                ${item('fa-solid fa-user', 'พระภิกษุ', b, '')}
+                ${item('fa-regular fa-user', 'สามเณร', s, '')}
+                ${item('fa-solid fa-users', 'รวมทั้งสิ้น', b + s, 'bg-gold/5')}
+            </div>
+        </div>`;
+}
+
+// ══════════════════════════════════════════════
 // Render: ปฏิทินกิจกรรม
 // ══════════════════════════════════════════════
 function renderEvents() {
@@ -395,10 +424,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (abbotsRes.ok) { const d = await abbotsRes.json(); if (d.items) SITE_DATA.abbots = d.items; }
         if (officialsRes.ok) { const d = await officialsRes.json(); if (d.items) SITE_DATA.officials = d.items; }
         if (donationRes.ok) { const d = await donationRes.json(); Object.assign(SITE_DATA.donation, d); }
-        if (settingsRes.ok) { const d = await settingsRes.json(); if (d.calendarEmbedUrl) SITE_DATA.calendarEmbedUrl = d.calendarEmbedUrl; }
+        if (settingsRes.ok) { const d = await settingsRes.json(); if (d.calendarEmbedUrl) SITE_DATA.calendarEmbedUrl = d.calendarEmbedUrl; if (d.monks) SITE_DATA.monks = Object.assign({}, SITE_DATA.monks, d.monks); }
     } catch (e) { /* ใช้ข้อมูล fallback จาก site-data.js */ }
 
     // Render ทุก section จาก SITE_DATA
+    renderMonks();
     renderGallery();
     renderEvents();
     renderCalendar();

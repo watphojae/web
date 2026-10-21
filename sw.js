@@ -1,4 +1,4 @@
-const CACHE = 'watphojae-v5';
+const CACHE = 'watphojae-v6';
 const ASSETS = [
     '/web/',
     '/web/index.html',

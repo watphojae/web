@@ -1,3 +1,9 @@
 {
-  "calendarEmbedUrl": "https://calendar.google.com/calendar/embed?src=th.th%23holiday%40group.v.calendar.google.com&ctz=Asia%2FBangkok"
+  "calendarEmbedUrl": "https://calendar.google.com/calendar/embed?src=th.th%23holiday%40group.v.calendar.google.com&ctz=Asia%2FBangkok",
+  "monks": {
+    "show": true,
+    "year": "2569",
+    "bhikkhu": 28,
+    "samanera": 0
+  }
 }
