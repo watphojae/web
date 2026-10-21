@@ -62,7 +62,9 @@ const SITE_DATA = {
             { date: "3 มี.ค.", name: "มาฆบูชา", title: "วันมาฆบูชา", detail: "เวียนเทียนรอบอุโบสถ เวลา 19:30 น.", color: "bg-gold/10 text-yellow-800" },
             { date: "31 พ.ค.", name: "วิสาขบูชา", title: "วันวิสาขบูชา", detail: "เวียนเทียนรอบอุโบสถ เวลา 19:30 น.", color: "bg-gold/10 text-yellow-800" },
             { date: "29 ก.ค.", name: "อาสาฬหบูชา", title: "วันอาสาฬหบูชา", detail: "เวียนเทียนรอบอุโบสถ เวลา 19:30 น.", color: "bg-gold/10 text-yellow-800" },
-            { date: "30 ก.ค.", name: "เข้าพรรษา", title: "วันเข้าพรรษา", detail: "ถวายเทียนพรรษาและผ้าอาบน้ำฝน", color: "bg-emerald-100 text-primary" }
+            { date: "30 ก.ค.", name: "เข้าพรรษา", title: "วันเข้าพรรษา", detail: "ถวายเทียนพรรษาและผ้าอาบน้ำฝน", color: "bg-emerald-100 text-primary" },
+            { date: "26 ต.ค.", name: "ออกพรรษา", title: "วันออกพรรษา", detail: "ทำบุญตักบาตร เวลา 06:00 น. | ถวายภัตตาหาร เวลา 08:30 น.", color: "bg-gold/10 text-yellow-800" },
+            { date: "27 ต.ค.", name: "ตักบาตรเทโว", title: "วันตักบาตรเทโวโรหณะ", detail: "ทำบุญตักบาตรเทโว รอบวิหาร เวลา 07:30 น.", color: "bg-emerald-100 text-primary" }
         ],
 
         // กิจกรรมที่กำลังจะมาถึง
