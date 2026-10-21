@@ -137,7 +137,37 @@ function renderMonks() {
                 ${item('fa-regular fa-user', 'สามเณร', s, '')}
                 ${item('fa-solid fa-users', 'รวมทั้งสิ้น', b + s, 'bg-gold/5')}
             </div>
+            <div class="flex flex-wrap items-center justify-center gap-1 sm:gap-2 border-t border-gold/20 py-2 px-3">
+                <span class="text-xs text-base-content/50 mr-1">แชร์:</span>
+                <button class="btn btn-circle btn-sm btn-ghost text-[#1877F2] hover:bg-[#1877F2] hover:text-white" onclick="shareMonks('facebook')" title="แชร์ไป Facebook"><i class="fab fa-facebook-f"></i></button>
+                <button class="btn btn-circle btn-sm btn-ghost text-[#06C755] hover:bg-[#06C755] hover:text-white" onclick="shareMonks('line')" title="แชร์ไป LINE"><i class="fab fa-line"></i></button>
+                <button class="btn btn-circle btn-sm btn-ghost text-base-content hover:bg-black hover:text-white" onclick="shareMonks('twitter')" title="แชร์ไป X"><i class="fab fa-x-twitter"></i></button>
+                <button class="btn btn-circle btn-sm btn-ghost text-[#E1306C] hover:bg-[#E1306C] hover:text-white" onclick="shareMonks('instagram')" title="แชร์ไป Instagram"><i class="fab fa-instagram"></i></button>
+                ${navigator.share ? `<button class="btn btn-circle btn-sm btn-ghost text-primary hover:bg-primary hover:text-white" onclick="shareMonks('native')" title="แชร์"><i class="fas fa-share-nodes"></i></button>` : ''}
+                <button id="monks-share-copy" class="btn btn-circle btn-sm btn-ghost text-gray-500 hover:bg-gray-200" onclick="shareMonks('copy')" title="คัดลอกลิงก์"><i class="fas fa-link"></i></button>
+            </div>
         </div>`;
+}
+
+function shareMonks(platform) {
+    const m = SITE_DATA.monks;
+    const b = Number(m.bhikkhu) || 0, s = Number(m.samanera) || 0;
+    const url = window.location.origin + window.location.pathname + '#monks-stat';
+    const title = `พระภิกษุ-สามเณร อยู่จำพรรษา พ.ศ. ${m.year} วัดโพธิ์แจ้`;
+    const text = `${title}\nพระภิกษุ ${b} รูป | สามเณร ${s} รูป | รวม ${b + s} รูป`;
+    const copied = msg => navigator.clipboard.writeText(platform === 'copy' ? url : text + '\n' + url).then(() => {
+        const btn = document.getElementById('monks-share-copy');
+        if (platform === 'copy' && btn) { btn.innerHTML = '<i class="fas fa-check"></i>'; setTimeout(() => { btn.innerHTML = '<i class="fas fa-link"></i>'; }, 2000); }
+        else alert(msg);
+    });
+    switch (platform) {
+        case 'facebook': window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank', 'width=600,height=500'); break;
+        case 'line': window.open(`https://line.me/R/share?text=${encodeURIComponent(text + '\n' + url)}`, '_blank'); break;
+        case 'twitter': window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400'); break;
+        case 'instagram': copied('คัดลอกข้อความและลิงก์แล้ว!\nนำไปวางใน Story หรือ Bio บน Instagram ได้เลย'); break;
+        case 'native': navigator.share({ title, text, url }).catch(() => {}); break;
+        default: copied('คัดลอกลิงก์เรียบร้อยแล้ว');
+    }
 }
 
 // ══════════════════════════════════════════════
