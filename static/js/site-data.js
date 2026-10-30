@@ -89,6 +89,15 @@ const SITE_DATA = {
                 detail: "๑๓ เม.ย.: ถวายภัตตาหารเพล | มาติกา-บังสุกุลอัฐิ<br>๑๔ เม.ย.: ทำบุญตักบาตร<br>๑๕ เม.ย.: ทำบุญตักบาตร | สรงน้ำพระ เวลา ๑๒.๑๕ น."
             },
             {
+                month: "พ.ย.", date: "1",
+                badge: "กฐิน", badgeClass: "badge-warning",
+                borderColor: "border-gold",
+                dateClass: "bg-gold/10 text-yellow-800",
+                title: "ทอดกฐินสามัคคี ๒๕๖๙",
+                detail: "๓๑ ต.ค. เวลา ๑๖.๐๐ น.: เจริญพระพุทธมนต์ฉลององค์กฐิน ณ ศาลา ๒<br>๑ พ.ย. เวลา ๐๙.๐๐ น.: แห่องค์กฐิน | ๑๐.๐๐ น.: ถวายผ้ากฐิน ณ อุโบสถ | ๑๑.๐๐ น.: ถวายภัตตาหารเพล ณ ศาลา ๒",
+                endDate: "2026-11-01"
+            },
+            {
                 month: "ตลอดปี", date: "2569",
                 badge: "ประจำสัปดาห์", badgeClass: "badge-success",
                 borderColor: "border-emerald-400",
