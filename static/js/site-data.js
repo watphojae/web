@@ -201,9 +201,9 @@ const SITE_DATA = {
         { sequence: "ลำดับที่ 2", name: "พระทิม", years: "ไม่ปรากฎปีที่ดำรงตำแหน่ง", image: null },
         { sequence: "ลำดับที่ 3", name: "พระโก๋ อุตฺตโม", years: "พ.ศ. 2487", image: null },
         { sequence: "ลำดับที่ 4", name: "พระสด กมโล", years: "พ.ศ. 2488 - 2491", image: null },
-        { sequence: "ลำดับที่ 5", name: "พระครูวิธานสุตโสภณ", years: "พ.ศ. 2492 - 2505", image: "static/images/phrakru_withan_sutasophon.jpg" },
-        { sequence: "ลำดับที่ 6", name: "พระครูสาครปิยธรรม", years: "พ.ศ. 2506 - 2559", image: "static/images/phrakru_sakorn_piyadham.jpg" },
-        { sequence: "ลำดับที่ 7", name: "พระครูวัชรธรรมสาคร ดร.", years: "พ.ศ. 2560 - ปัจจุบัน", image: "static/images/abbot_new.jpg", isCurrent: true }
+        { sequence: "ลำดับที่ 5", name: "พระครูวิธานสุตโสภณ<br>(ป๋อ ปชฺโชโต)", years: "พ.ศ. 2492 - 2505", image: "static/images/phrakru_withan_sutasophon.jpg" },
+        { sequence: "ลำดับที่ 6", name: "พระครูสาครปิยธรรม<br>(เปี้ยว ปิยธมฺโม)", years: "พ.ศ. 2506 - 2559", image: "static/images/phrakru_sakorn_piyadham.jpg" },
+        { sequence: "ลำดับที่ 7", name: "พระครูวัชรธรรมสาคร ดร.<br>(อรุณ ธมฺมสาโร)", years: "พ.ศ. 2560 - ปัจจุบัน", image: "static/images/abbot_new.jpg", isCurrent: true }
     ],
 
     // ══════════════════════════════════════════════
@@ -215,7 +215,7 @@ const SITE_DATA = {
     // ══════════════════════════════════════════════
     officials: [
         {
-            name: "พระครูวัชรธรรมสาคร ดร.<br>(ธมฺมสาโร)",
+            name: "พระครูวัชรธรรมสาคร ดร.<br>(อรุณ ธมฺมสาโร)",
             position: "เจ้าอาวาส",
             badgeClass: "badge-primary",
             frameBorder: "border-primary",

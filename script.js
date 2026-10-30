@@ -272,17 +272,17 @@ function renderAbbots() {
              style="animation-delay: ${i * 0.1}s">
             <div class="portrait-frame${a.isCurrent ? ' border-gold' : ''}">
                 ${a.image
-                    ? `<img src="${a.image}" alt="${a.name}" class="cursor-zoom-in" onclick="openImageModal(this)">`
+                    ? `<img src="${a.image}" alt="${a.name.replace(/<br>/g, ' ')}" class="cursor-zoom-in" onclick="openImageModal(this)">`
                     : PORTRAIT_PLACEHOLDER}
             </div>
             <div class="space-y-1">
                 <span class="badge ${a.isCurrent ? 'badge-warning font-bold badge-sm' : 'badge-outline badge-warning badge-xs'}">
                     ${a.isCurrent ? 'ปัจจุบัน' : a.sequence}
                 </span>
-                <h3 class="monk-name">${a.name}</h3>
+                <h3 class="monk-name leading-tight">${a.name}</h3>
                 <p class="monk-title ${a.isCurrent ? 'text-primary font-bold' : 'italic'}">${a.years}</p>
                 <button class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary rounded-full gap-1 mt-1"
-                    onclick="shareContent('#abbots','${a.name.replace(/'/g,"\\'")} — เจ้าอาวาสวัดโพธิ์แจ้','${a.name.replace(/'/g,"\\'")} เจ้าอาวาสวัดโพธิ์แจ้ ${a.years.replace(/'/g,"\\'")} | วัดโพธิ์แจ้')">
+                    onclick="shareContent('#abbots','${a.name.replace(/<br>/g,' ').replace(/'/g,"\\'")} — เจ้าอาวาสวัดโพธิ์แจ้','${a.name.replace(/<br>/g,' ').replace(/'/g,"\\'")} เจ้าอาวาสวัดโพธิ์แจ้ ${a.years.replace(/'/g,"\\'")} | วัดโพธิ์แจ้')">
                     <i class="fas fa-share-nodes text-xs"></i> แชร์
                 </button>
             </div>
