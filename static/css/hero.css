@@ -653,3 +653,10 @@ footer.hv-foot { background: #0c1f18 !important; color: rgba(255,255,255,.72); p
 .hv-off-name { font-family: var(--hv-serif) !important; font-weight: 600; font-size: 1.3rem; line-height: 1.45; color: var(--hv-green); margin: 6px 0 0 !important; }
 [data-theme="dark"] .hv-off-name { color: #e9dcc0; }
 @media (max-width: 760px) { .hv-off { grid-template-columns: 1fr 1fr; gap: 28px 16px; } .hv-off-item.is-head { grid-column: 1 / -1; max-width: 260px; justify-self: center; } .hv-off-name { font-size: 1.1rem; } }
+
+/* ปฏิทิน Google (วันหยุดราชการ) ใต้ปฏิทินกิจกรรม */
+#calendar-embed-root:not(:empty) { margin-top: 64px; }
+.hv-cal { max-width: 1200px; margin: 0 auto; }
+.hv-cal .hv-ev-head { margin-bottom: 20px !important; }
+.hv-cal-frame { border: 1px solid #e4dac4; border-radius: 4px; overflow: hidden; background: #fff; }
+.hv-cal-frame iframe { display: block; }

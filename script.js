@@ -75,14 +75,9 @@ function renderCalendar() {
     const url = SITE_DATA.calendarEmbedUrl;
     if (!url) { container.style.display = 'none'; return; }
     container.innerHTML = `
-        <div class="mt-16 max-w-4xl mx-auto" data-aos="fade-up">
-            <h3 class="text-xl font-['Pridi'] font-bold text-primary mb-6 flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <i class="fa-brands fa-google text-primary text-sm"></i>
-                </span>
-                ปฏิทิน Google
-            </h3>
-            <div class="rounded-3xl overflow-hidden shadow-xl border border-base-200">
+        <div class="hv-cal" data-aos="fade-up">
+            <h3 class="hv-ev-head"><i class="fa-brands fa-google"></i> วันหยุดราชการ (ปฏิทิน Google)</h3>
+            <div class="hv-cal-frame">
                 <iframe src="${url}&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&mode=MONTH&hl=th"
                     style="border:0" width="100%" height="500" frameborder="0" scrolling="no"
                     title="ปฏิทินกิจกรรมวัดโพธิ์แจ้"></iframe>
