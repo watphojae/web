@@ -140,4 +140,13 @@
         const a = e.target.closest('a[data-news]');
         if (a) { e.preventDefault(); hvClose(); window.showModal?.(a.dataset.news); }
     });
+
+    // ช่องทางลัด "ข่าวประชาสัมพันธ์" ใช้รูปของข่าวล่าสุด (รายการแรกใน static/data/news.json)
+    const newsTile = document.getElementById('hvTileNews');
+    if (newsTile) {
+        fetch('static/data/news.json').then((r) => (r.ok ? r.json() : null)).then((d) => {
+            const img = d && d.items && d.items[0] && d.items[0].image;
+            if (img) newsTile.style.setProperty('--img', `url('/${String(img).replace(/^\/+/, '').replace(/'/g, '%27')}')`);
+        }).catch(() => {});
+    }
 })();
