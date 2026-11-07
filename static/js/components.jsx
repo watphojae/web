@@ -79,19 +79,19 @@ const NewsSection = () => {
             id: 1,
             title: "พิธีบำเพ็ญกุศลอุทิศถวาย",
             description: "ขอเชิญร่วมพิธีบำเพ็ญกุศลอุทิศถวาย พระครูวิธานสุตโสภณ และพระครูสาครปิยธรรม วันศุกร์ที่ 23 มกราคม 2568 ณ ศาลาการเปรียญฯ ต.บางน้ำจืด อ.เมืองสมุทรสาคร จ.สมุทรสาคร",
-            image: "static/images/merit_ceremony_2025.jpg"
+            image: "static/images/merit_ceremony_2025.webp"
         },
         {
             id: 2,
             title: "งานประจำปี ปิดทองหลวงพ่อโต",
             description: "ขอเชิญเที่ยวงานประจำปี ปิดทองนมัสการหลวงพ่อโต และรอยพระพุทธบาทจำลอง ระหว่างวันที่ 24-26 มกราคม 2569 พร้อมชมมหรสพสมโภชฟรีตลอดงาน",
-            image: "static/images/annual_event_poster.jpg"
+            image: "static/images/annual_event_poster.webp"
         },
         {
             id: 3,
             title: "พิธีเจริญพระพุทธมนต์ฯ วันอาทิตย์",
             description: "ขอเชิญร่วมพิธีเจริญพระพุทธมนต์ ทำวัตรเย็นและเจริญกัมมัฏฐาน ทุกวันอาทิตย์ ตลอดเดือนมกราคม 2569 เวลา 17.30 น. เพื่อถวายเป็นพระราชกุศล",
-            image: "static/images/dhamma_sunday_poster.jpg"
+            image: "static/images/dhamma_sunday_poster.webp"
         }
     ]);
 

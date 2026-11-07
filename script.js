@@ -95,6 +95,8 @@ function renderCalendar() {
 let galleryShown = 12, galleryAlbums = null, galleryOpen = null;
 const thNum = (n) => String(n).replace(/\d/g, (d) => '๐๑๒๓๔๕๖๗๘๙'[d]);
 const qAttr = (t) => String(t || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+// Grid / cover size: the 1280 px copy of a gallery photo (the zoom view keeps the full-size file).
+const mediumOf = (src) => (/static\/gallery\/.+\.webp$/.test(src || '') && !/-m\.webp$/.test(src) ? src.replace(/\.webp$/, '-m.webp') : src);
 function albumPhotos(al) {
     return (al.photos || []).map((x) => (typeof x === 'string' ? { src: x, alt: al.title } : { alt: al.title, ...x }));
 }
@@ -120,7 +122,7 @@ function renderGallery() {
     container.innerHTML = `
         <div class="hv-alb">${galleryAlbums.map((x) => `
             <a class="hv-alb-card" href="#album-${encodeURIComponent(x.id)}" onclick="event.preventDefault(); openAlbum('${qAttr(x.id)}')">
-                <div class="hv-alb-cover"><img src="${x.cover || albumPhotos(x)[0].src}" alt="" loading="lazy"><span class="hv-alb-count"><i class="fa-regular fa-images"></i> ${thNum(x.photos.length)} รูป</span></div>
+                <div class="hv-alb-cover"><img src="${mediumOf(x.cover || albumPhotos(x)[0].src)}" alt="" loading="lazy"><span class="hv-alb-count"><i class="fa-regular fa-images"></i> ${thNum(x.photos.length)} รูป</span></div>
                 <div class="hv-alb-body">
                     ${x.date ? `<span class="hv-alb-date">${x.date}</span>` : ''}
                     <h3 class="hv-alb-title">${x.title}</h3>
@@ -150,7 +152,7 @@ function renderPhotoGrid(container, list, al) {
         </div>` : ''}
         <div class="hv-gal">${list.slice(0, galleryShown).map((img, i) => `
             <figure class="hv-gal-item" onclick="openImageModal(${i})">
-                <img src="${img.src}" alt="${img.alt || ''}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth*1.1)this.parentNode.classList.add('tall')">
+                <img src="${mediumOf(img.src)}" alt="${img.alt || ''}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth*1.1)this.parentNode.classList.add('tall')">
                 <figcaption>
                     <span>${img.alt || ''}</span>
                     <button type="button" title="แชร์รูปภาพ" aria-label="แชร์รูปภาพ"

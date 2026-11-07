@@ -44,7 +44,7 @@
                     <figure className="relative h-60 overflow-hidden shrink-0">
                         <div
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                            style={{ backgroundImage: `url('${news.image}')` }}
+                            style={{ backgroundImage: `url('${String(news.image).replace(/\.webp$/, '-m.webp')}')` }}
                             role="img"
                             aria-label={news.title}
                         ></div>
@@ -106,8 +106,9 @@
         };
         const Poster = ({ news, className }) => (
             <div className={className} role="img" aria-label={news.title}>
-                <div className="hv-news-blur" style={{ backgroundImage: `url('${news.image}')` }}></div>
-                <img src={news.image} alt="" loading="lazy" />
+                <div className="hv-news-blur" style={{ backgroundImage: `url('${String(news.image).replace(/\.webp$/, '-m.webp')}')` }}></div>
+                <img src={String(news.image).replace(/\.webp$/, '-m.webp')} alt="" loading="lazy"
+                    onError={(e) => { if (!e.currentTarget.dataset.full) { e.currentTarget.dataset.full = "1"; e.currentTarget.src = news.image; } }} />
             </div>
         );
         const NewsSection = () => {

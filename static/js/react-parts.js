@@ -57,7 +57,7 @@ const NewsCard = ({
   }, /*#__PURE__*/React.createElement("div", {
     className: "absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110",
     style: {
-      backgroundImage: `url('${news.image}')`
+      backgroundImage: `url('${String(news.image).replace(/\.webp$/, '-m.webp')}')`
     },
     role: "img",
     "aria-label": news.title
@@ -135,12 +135,18 @@ const Poster = ({
 }, /*#__PURE__*/React.createElement("div", {
   className: "hv-news-blur",
   style: {
-    backgroundImage: `url('${news.image}')`
+    backgroundImage: `url('${String(news.image).replace(/\.webp$/, '-m.webp')}')`
   }
 }), /*#__PURE__*/React.createElement("img", {
-  src: news.image,
+  src: String(news.image).replace(/\.webp$/, '-m.webp'),
   alt: "",
-  loading: "lazy"
+  loading: "lazy",
+  onError: e => {
+    if (!e.currentTarget.dataset.full) {
+      e.currentTarget.dataset.full = "1";
+      e.currentTarget.src = news.image;
+    }
+  }
 }));
 const NewsSection = () => {
   const [newsData, setNewsData] = useState(SITE_DATA.news);

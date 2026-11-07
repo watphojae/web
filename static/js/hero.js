@@ -8,12 +8,14 @@
     const data = () => (typeof SITE_DATA !== 'undefined' ? SITE_DATA : {});
 
     // ── Hero slideshow: one photo every 6 s, the next one loaded before it is shown ──
+    // WebP; screens up to ~1400 device pixels wide (phones, small tablets) get the 1280 px copy (-m.webp) when the screen needs ≤ 1300 px across.
+    const small = window.innerWidth * (window.devicePixelRatio || 1) <= 1300;
     const HERO_PHOTOS = [
         'IMG_4753_0.jpg', 'EOS-R6-124_0.JPG', 'IMG_4749_0.jpg', 'EOS-R6-664_0.JPG', 'LINE_ALBUM_โบสถ์_250301_7_0.jpg',
         'IMG_4249_0.jpg', 'EOS-R6-17_0.JPG', 'IMG_4763_0.jpg', 'EOS-R6-26_0.JPG', 'LINE_ALBUM_โบสถ์_250301_3_0.jpg',
         'IMG_4768_0.jpg', 'EOS-R6-661_0.JPG', 'IMG_4724_0.jpg', 'EOS-R6-25_0.JPG', 'LINE_ALBUM_โบสถ์_250301_8_0.jpg',
         'IMG_4792_0.jpg', 'EOS-R6-16_0.JPG', 'IMG_4726_0.jpg', 'IMG_4709_0.jpg', 'LINE_ALBUM_โบสถ์_250301_12_0.jpg',
-    ].map((f) => 'static/gallery/' + encodeURIComponent(f));
+    ].map((f) => 'static/gallery/' + encodeURIComponent(f.replace(/\.jpe?g$/i, small ? '-m.webp' : '.webp')));
     const slidesBox = document.getElementById('hvSlides');
     const count = document.getElementById('hvCount');
     if (slidesBox) {
@@ -44,6 +46,12 @@
         document.getElementById('hvNext')?.addEventListener('click', () => { show(current + 1); restart(); });
         document.getElementById('hvPrev')?.addEventListener('click', () => { show(current - 1, true); restart(); });
         if (count) count.textContent = `${th(1)} / ${th(HERO_PHOTOS.length)}`;
+        // The page starts with the small copy of the first photo (fast first paint); big screens then get the full one.
+        if (!small) {
+            const first = slidesBox.querySelector('.hv-slide.on'), full = new Image();
+            full.onload = () => { if (first && first.isConnected) first.style.backgroundImage = `url('${HERO_PHOTOS[0]}')`; };
+            full.src = HERO_PHOTOS[0];
+        }
         new Image().src = HERO_PHOTOS[1];
         restart();
     }
@@ -146,7 +154,7 @@
     if (newsTile) {
         fetch('static/data/news.json').then((r) => (r.ok ? r.json() : null)).then((d) => {
             const img = d && d.items && d.items[0] && d.items[0].image;
-            if (img) newsTile.style.setProperty('--img', `url('/${String(img).replace(/^\/+/, '').replace(/'/g, '%27')}')`);
+            if (img) newsTile.style.setProperty('--img', `url('/${String(img).replace(/^\/+/, '').replace(/\.webp$/, '-m.webp').replace(/'/g, '%27')}')`);
         }).catch(() => {});
     }
 })();
