@@ -520,8 +520,14 @@ header.hv-header.header-scrolled .hv-brand-text, header.hv-header.header-scrolle
 .hv-don-copy { border: 1px solid rgba(230,201,138,.7); background: transparent; color: #e6c98a; padding: 6px 14px; border-radius: 999px; font-size: .88rem; font-weight: 700; cursor: pointer; transition: .2s; }
 .hv-don-copy:hover { background: #e6c98a; color: #10291f; }
 .hv-don-copy.ok { background: #3fae7a; border-color: #3fae7a; color: #fff; }
-.hv-don-note { font-size: .9rem; line-height: 1.7; color: rgba(255,255,255,.72); margin: 0 0 22px; }
-.hv-don-note i { color: #e6c98a; margin-right: 6px; }
+.hv-don-note { display: flex; align-items: flex-start; gap: 14px; text-align: left; margin: 0 0 22px; padding: 14px 18px;
+  border: 1px solid rgba(230,201,138,.28); border-radius: 10px; background: rgba(230,201,138,.07); }
+.hv-don-note > i { flex: none; color: #e6c98a; font-size: 1.15rem; margin-top: 4px; }
+.hv-don-note strong { display: block; color: #e6c98a; font-size: .98rem; font-weight: 600; line-height: 1.5; }
+.hv-don-note span { display: block; color: rgba(255,255,255,.78); font-size: .9rem; line-height: 1.65; text-wrap: pretty; }
+.hv-br-md { display: none; }
+.hv-don-note .hv-nw { display: inline; white-space: nowrap; }
+@media (min-width: 768px) { .hv-br-md { display: inline; } }
 .hv-don-share { border: 0; background: #fff; color: #10291f; font-weight: 700; padding: 11px 22px; border-radius: 999px; cursor: pointer; transition: .2s; }
 .hv-don-share:hover { background: #e6c98a; }
 @media (max-width: 820px) {
