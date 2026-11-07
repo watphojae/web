@@ -91,7 +91,7 @@ const NewsSection = () => {
             id: 3,
             title: "พิธีเจริญพระพุทธมนต์ฯ วันอาทิตย์",
             description: "ขอเชิญร่วมพิธีเจริญพระพุทธมนต์ ทำวัตรเย็นและเจริญกัมมัฏฐาน ทุกวันอาทิตย์ ตลอดเดือนมกราคม 2569 เวลา 17.30 น. เพื่อถวายเป็นพระราชกุศล",
-            image: "static/images/dhamma_sunday_poster.png"
+            image: "static/images/dhamma_sunday_poster.jpg"
         }
     ]);
 
