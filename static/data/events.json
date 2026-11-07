@@ -89,6 +89,19 @@
       "endDate": "2026-11-01"
     },
     {
+      "month": "ธ.ค.",
+      "date": "31",
+      "badge": "ข้ามปี",
+      "badgeClass": "badge-primary",
+      "borderColor": "border-primary",
+      "dateClass": "bg-primary text-white",
+      "title": "สวดมนต์ข้ามปี ๒๕๖๙–๒๕๗๐",
+      "detail": "๓๑ ธ.ค. ๒๕๖๙ เวลา ๒๒.๐๐ น. ถึง ๑ ม.ค. ๒๕๗๐ เวลา ๐๐.๐๙ น.",
+      "endDate": "2027-01-01",
+      "start": "2026-12-31T22:00:00+07:00",
+      "end": "2027-01-01T00:09:00+07:00"
+    },
+    {
       "month": "ตลอดปี",
       "date": "2569",
       "badge": "ประจำสัปดาห์",

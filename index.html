@@ -37,8 +37,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="วัดโพธิ์แจ้">
     <link rel="sitemap" type="application/xml" href="sitemap.xml">
-    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600&family=Noto+Serif+Thai:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="static/css/hero.css?v=32">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- AOS Animation Library -->
@@ -49,28 +50,7 @@
 
     <!-- Tailwind CSS & DaisyUI CDN -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1b4d3e',
-                        gold: '#c5a059',
-                    },
-                    animation: {
-                        'slow-fade': 'fadeIn 2s ease-in-out',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Tailwind สร้างไว้ล่วงหน้า: static/css/tw.css (วิธีสร้างใหม่ดูที่ tools/tailwind.config.js) — โหลดท้าย head เหมือนตอนใช้ CDN -->
     <style>
         @keyframes zoom-slow {
             from {
@@ -84,9 +64,9 @@
     </style>
 
     <!-- React CDN & Babel -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+
 
     <!-- JSON-LD Structured Data for SEO -->
     <script type="application/ld+json">
@@ -137,261 +117,112 @@
     <script src="static/js/site-data.js?v=7"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <script src="script.js?v=12" defer></script>
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        // News Component
-        const NewsCard = ({ news }) => {
-            const handleShare = (platform) => {
-                const base = window.location.origin + window.location.pathname;
-                const url = `${base}#news-${news.id}`;
-                const text = `${news.title} — ${news.description}`;
-                switch (platform) {
-                    case 'facebook':
-                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(news.title)}`, '_blank', 'width=600,height=500');
-                        break;
-                    case 'line':
-                        window.open(`https://line.me/R/share?text=${encodeURIComponent(news.title + '\n' + url)}`, '_blank');
-                        break;
-                    case 'twitter':
-                        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
-                        break;
-                    case 'instagram':
-                        navigator.clipboard.writeText(url).then(() => {
-                            alert('คัดลอกลิงก์แล้ว!\nนำไปวางใน Story หรือ Bio บน Instagram ได้เลย');
-                        });
-                        break;
-                    case 'copy':
-                        navigator.clipboard.writeText(url).then(() => {
-                            const btn = document.querySelector('[data-share-copy]');
-                            if (btn) { btn.innerHTML = '<i class="fas fa-check"></i>'; setTimeout(() => { btn.innerHTML = '<i class="fas fa-link"></i>'; }, 2000); }
-                            else alert('คัดลอกลิงก์เรียบร้อยแล้ว');
-                        });
-                        break;
-                    default:
-                        if (navigator.share) {
-                            navigator.share({ title: news.title, text: text, url: url });
-                        }
-                }
-            };
-
-            return (
-                <article
-                    className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-500 border border-base-200 group overflow-hidden animate__animated animate__fadeInUp cursor-pointer h-full flex flex-col"
-                    onClick={() => window.showModal(news.id)}
-                >
-                    <figure className="relative h-60 overflow-hidden shrink-0">
-                        <div
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                            style={{ backgroundImage: `url('${news.image}')` }}
-                            role="img"
-                            aria-label={news.title}
-                        ></div>
-                        <div className="absolute bottom-4 left-4">
-                            <span className="badge badge-primary font-bold shadow-2xl backdrop-blur-md bg-primary border-2 border-white/40 px-4 py-3 h-auto text-white" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>ข่าวประกาศ</span>
-                        </div>
-                    </figure>
-                    <div className="card-body flex-1 flex flex-col">
-                        <h3 className="card-title text-primary group-hover:text-gold transition-colors text-xl font-['Pridi'] font-bold leading-tight">
-                            {news.title}
-                        </h3>
-                        <p className="text-base-content/70 line-clamp-3 text-sm leading-relaxed font-['Sarabun'] flex-1">
-                            {news.description}
-                        </p>
-                        <div className="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200" onClick={(e) => e.stopPropagation()}>
-                            <div className="flex gap-1">
-                                <button className="btn btn-circle btn-xs btn-ghost text-[#1877F2] hover:bg-[#1877F2] hover:text-white"
-                                    onClick={() => handleShare('facebook')} title="แชร์ไป Facebook">
-                                    <i className="fab fa-facebook-f"></i>
-                                </button>
-                                <button className="btn btn-circle btn-xs btn-ghost text-[#06C755] hover:bg-[#06C755] hover:text-white"
-                                    onClick={() => handleShare('line')} title="แชร์ไป LINE">
-                                    <i className="fab fa-line"></i>
-                                </button>
-                                <button className="btn btn-circle btn-xs btn-ghost text-[#E1306C] hover:bg-[#E1306C] hover:text-white"
-                                    onClick={() => handleShare('instagram')} title="แชร์ไป Instagram">
-                                    <i className="fab fa-instagram"></i>
-                                </button>
-                                {typeof navigator !== 'undefined' && navigator.share && (
-                                    <button className="btn btn-circle btn-xs btn-ghost text-primary hover:bg-primary hover:text-white"
-                                        onClick={() => handleShare('native')} title="แชร์">
-                                        <i className="fas fa-share-nodes"></i>
-                                    </button>
-                                )}
-                                <button data-share-copy className="btn btn-circle btn-xs btn-ghost text-gray-500 hover:bg-gray-200"
-                                    onClick={() => handleShare('copy')} title="คัดลอกลิงก์">
-                                    <i className="fas fa-link"></i>
-                                </button>
-                            </div>
-                            <button
-                                className="btn btn-primary btn-sm btn-outline rounded-full px-6 hover:scale-105 transition-transform group-hover:bg-primary group-hover:text-white"
-                                onClick={() => window.showModal(news.id)}
-                            >
-                                รายละเอียด
-                            </button>
-                        </div>
-                    </div>
-                </article>
-            );
-        };
-
-        const NewsSection = () => {
-            const [newsData, setNewsData] = useState(SITE_DATA.news);
-
-            useEffect(() => {
-                fetch('static/data/news.json')
-                    .then(r => r.ok ? r.json() : null)
-                    .then(d => { if (d && d.items) { setNewsData(d.items); SITE_DATA.news = d.items; } })
-                    .catch(() => {});
-            }, []);
-
-            return (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {newsData.map(news => <NewsCard key={news.id} news={news} />)}
-                </div>
-            );
-        };
-
-        // Visitor Counter Component
-        const VisitorCounter = () => {
-            const [count, setCount] = useState("------");
-
-            useEffect(() => {
-                fetch('https://counterapi.dev/api/watphojae-web/visits/up')
-                    .then(res => res.json())
-                    .then(data => {
-                        const num = data.value || 0;
-                        setCount(num.toString().padStart(6, '0'));
-                    })
-                    .catch(() => {
-                        let c = parseInt(localStorage.getItem('visitorCount') || '10250') + 1;
-                        localStorage.setItem('visitorCount', c);
-                        setCount(c.toString().padStart(6, '0'));
-                    });
-            }, []);
-
-            return (
-                <div className="flex items-center gap-3 bg-black/40 px-6 py-2 rounded-full border border-gold/30 shadow-inner">
-                    <span className="text-xs text-white/60 uppercase tracking-widest font-semibold">Visitors</span>
-                    <div className="flex gap-1">
-                        {count.split('').map((num, i) => (
-                            <span key={i} className="w-8 h-10 bg-gold/20 flex items-center justify-center rounded text-gold font-mono text-xl font-bold border border-gold/30">
-                                {num}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-            );
-        };
-
-        // Render Components
-        const rootNews = ReactDOM.createRoot(document.getElementById('news-react-root'));
-        rootNews.render(<NewsSection />);
-
-        const rootCounter = ReactDOM.createRoot(document.getElementById('visitor-react-root'));
-        rootCounter.render(<VisitorCounter />);
-    </script>
+    <script src="script.js?v=23" defer></script>
+    <script src="static/js/hero.js?v=8" defer></script>
+    <script src="static/js/react-parts.js?v=1" defer></script>
+    <link rel="stylesheet" href="static/css/tw.css?v=1">
 </head>
 
 <body>
 
-    <header class="fixed top-0 left-0 w-full z-[1000] transition-all bg-base-100/95 backdrop-blur shadow-md">
-        <div class="navbar container mx-auto px-4 py-2">
-            <div class="flex-1 lg:gap-4 md:gap-2">
-                <div class="flex items-center gap-4">
-                    <img src="static/images/temple_logo.png?v=2" alt="วัดโพธิ์แจ้ Logo"
-                        class="h-16 md:h-20 drop-shadow-md transition-all logo-glow">
-                    <div class="flex flex-col">
-                        <span
-                            class="font-['Pridi'] text-2xl md:text-3xl font-extrabold text-primary leading-tight shine-effect">วัดโพธิ์แจ้</span>
-                        <span class="brand-address font-semibold">ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร 74000</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex-none hidden lg:block">
-                <ul class="menu menu-horizontal px-1 font-semibold text-base">
-                    <li><a href="#hero" class="hover:text-gold transition-colors">หน้าแรก</a></li>
-                    <li><a href="#about" class="hover:text-gold transition-colors">ประวัติ</a></li>
-                    <li><a href="#news" class="hover:text-gold transition-colors">ข่าวสาร</a></li>
-                    <li><a href="#events" class="hover:text-gold transition-colors">ปฏิทินกิจกรรม</a></li>
-                    <li><a href="#gallery" class="hover:text-gold transition-colors">แกลเลอรี</a></li>
-                    <li><a href="#donation" class="hover:text-gold transition-colors">ทำบุญ</a></li>
-                    <li><a href="#abbots" class="hover:text-gold transition-colors">ทำเนียบเจ้าอาวาส</a></li>
-                    <li><a href="#officials" class="hover:text-gold transition-colors">พระสังฆาธิการ</a></li>
-                    <li><a href="#contact" class="hover:text-gold transition-colors">ติดต่อ</a></li>
-                </ul>
-            </div>
-
-            <!-- Dark Mode Toggle -->
-            <div class="flex-none ml-1">
-                <button onclick="toggleTheme()" class="btn btn-ghost btn-circle" title="เปลี่ยนธีม" aria-label="เปลี่ยนธีม">
-                    <i id="themeIcon" class="fas fa-moon text-lg"></i>
-                </button>
-            </div>
-
-            <div class="flex-none lg:hidden">
-                <div class="dropdown dropdown-end">
-                    <button tabindex="0" class="btn btn-ghost btn-circle">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h7" />
-                        </svg>
-                    </button>
-                    <ul tabindex="0"
-                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a href="#hero" onclick="document.activeElement?.blur()">หน้าแรก</a></li>
-                        <li><a href="#about" onclick="document.activeElement?.blur()">ประวัติ</a></li>
-                        <li><a href="#news" onclick="document.activeElement?.blur()">ข่าวสาร</a></li>
-                        <li><a href="#events" onclick="document.activeElement?.blur()">ปฏิทินกิจกรรม</a></li>
-                        <li><a href="#gallery" onclick="document.activeElement?.blur()">แกลเลอรี</a></li>
-                        <li><a href="#donation" onclick="document.activeElement?.blur()">ทำบุญ</a></li>
-                        <li><a href="#abbots" onclick="document.activeElement?.blur()">ทำเนียบเจ้าอาวาส</a></li>
-                        <li><a href="#officials" onclick="document.activeElement?.blur()">พระสังฆาธิการ</a></li>
-                        <li><a href="#contact" onclick="document.activeElement?.blur()">ติดต่อ</a></li>
-                    </ul>
-                </div>
-            </div>
+    <!-- ═══ ส่วนหัว: โลโก้ซ้าย ปุ่มค้นหา/เมนูขวา (โปร่งบนภาพหน้าแรก ทึบเมื่อเลื่อนลง) ═══ -->
+    <header class="hv-header">
+        <a href="#hero" class="hv-brand" aria-label="วัดโพธิ์แจ้ หน้าแรก">
+            <img src="static/images/temple_logo.png?v=2" alt="" class="hv-logo">
+            <span class="hv-brand-text">
+                <span class="hv-brand-name">วัดโพธิ์แจ้</span>
+                <span class="hv-brand-sub">ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร</span>
+            </span>
+        </a>
+        <a href="#news" class="hv-notice"><span class="hv-dot"></span><span id="hv-notice-text">ข่าวประชาสัมพันธ์ล่าสุด</span></a>
+        <div class="hv-actions">
+            <button type="button" class="hv-btn hv-btn-theme" onclick="toggleTheme()" title="เปลี่ยนธีม" aria-label="เปลี่ยนธีม">
+                <i id="themeIcon" class="fas fa-moon"></i>
+            </button>
+            <button type="button" class="hv-btn" onclick="hvOpen('search')" aria-label="ค้นหา">
+                <i class="fas fa-magnifying-glass"></i><span>ค้นหา</span>
+            </button>
+            <button type="button" class="hv-btn" onclick="hvOpen('menu')" aria-label="เมนู">
+                <i class="fas fa-bars"></i><span>เมนู</span>
+            </button>
         </div>
     </header>
 
+    <!-- ═══ เมนูเต็มจอ / ค้นหา ═══ -->
+    <div id="hvOverlay" class="hv-overlay" aria-hidden="true">
+        <div class="hv-overlay-bar">
+            <span class="hv-brand-name">วัดโพธิ์แจ้</span>
+            <button type="button" class="hv-btn" onclick="hvClose()" aria-label="ปิด"><i class="fas fa-xmark"></i><span>ปิด</span></button>
+        </div>
+        <div class="hv-overlay-body">
+            <div id="hvSearch" class="hv-search">
+                <label for="hvSearchInput" class="hv-kicker">ค้นหาในเว็บไซต์</label>
+                <input id="hvSearchInput" type="search" placeholder="พิมพ์คำที่ต้องการ เช่น กฐิน, ทำบุญ, เจ้าอาวาส" autocomplete="off">
+                <div id="hvSearchResults" class="hv-results"></div>
+            </div>
+            <nav id="hvMenu" class="hv-menu" aria-label="เมนูหลัก">
+                <a href="#hero">หน้าแรก</a>
+                <a href="#about">ประวัติวัด</a>
+                <a href="#news">ข่าวสาร</a>
+                <a href="#events">ปฏิทินกิจกรรม</a>
+                <a href="#gallery">แกลเลอรี</a>
+                <a href="#donation">ทำบุญออนไลน์</a>
+                <a href="#abbots">ทำเนียบเจ้าอาวาส</a>
+                <a href="#officials">พระสังฆาธิการ</a>
+                <a href="#contact">ติดต่อวัด</a>
+            </nav>
+        </div>
+    </div>
+
     <main>
-        <section id="hero"
-            class="relative h-[85vh] min-h-[480px] sm:min-h-[600px] flex items-center justify-center text-center overflow-hidden -mt-[100px]">
-            <!-- Hero Background with Zoom Animation -->
-            <div class="absolute inset-0 z-[-2] animate__animated animate__fadeIn">
-                <div
-                    class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center brightness-[0.9] transform scale-110 animate-[zoom-slow_20s_infinite_alternate]">
-                </div>
+        <!-- ═══ หน้าแรก: ภาพวัดเต็มจอ ข้อความใหญ่กลางภาพ ═══ -->
+        <section id="hero" class="hv-hero">
+            <!-- ภาพสไลด์: รายการรูปอยู่ใน static/js/hero.js (HERO_PHOTOS) -->
+            <div class="hv-slides" id="hvSlides" aria-hidden="true">
+                <div class="hv-slide on" style="background-image:url('static/gallery/IMG_4753_0.jpg')"></div>
             </div>
-            <!-- Overlay -->
-            <div class="absolute inset-0 z-[-1] bg-gradient-to-b from-primary/20 via-transparent to-primary/50"></div>
-
-            <!-- Collage Image (Original position — centered in hero) -->
-            <div class="container mx-auto px-4 z-10 pt-6 sm:pt-16 md:pt-28">
-                <div class="inline-block relative rounded-[2.5rem] p-2 bg-gradient-to-br from-gold via-white/50 to-gold shadow-[0_0_60px_-15px_rgba(197,160,89,0.6)] animate__animated animate__zoomIn hover:scale-105 transition-transform duration-500 cursor-pointer group"
-                    onclick="openImageModal(document.getElementById('main-collage-img'))">
-                    <div
-                        class="rounded-[2rem] p-3 bg-base-100/30 backdrop-blur-md border border-white/40 group-hover:bg-white/20 transition-colors duration-500">
-                        <img id="main-collage-img" src="static/images/main_collage.jpg" alt="Wat Pho Jae Main Collage"
-                            class="w-full max-w-4xl rounded-[1.5rem] shadow-inner border border-white/20 group-hover:brightness-110 transition-all duration-500">
-                    </div>
-                </div>
+            <div class="hv-shade"></div>
+            <div class="hv-nav">
+                <button type="button" class="hv-arrow" id="hvPrev" aria-label="รูปก่อนหน้า"><i class="fas fa-chevron-left"></i></button>
+                <span class="hv-count" id="hvCount"></span>
+                <button type="button" class="hv-arrow" id="hvNext" aria-label="รูปถัดไป"><i class="fas fa-chevron-right"></i></button>
             </div>
-
-            <!-- Floating Scroll Indicator -->
-            <div
-                class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 animate-bounce z-10">
-                <span class="text-white text-xs uppercase tracking-widest font-semibold">Scroll</span>
-                <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
-            </div>
+            <a href="#about" class="hv-scroll" aria-label="เลื่อนลง"><i class="fas fa-chevron-down"></i></a>
         </section>
 
         <!-- ป้ายจำนวนพระภิกษุ-สามเณรจำพรรษา ★ แก้ตัวเลขที่ static/data/site-settings.json → monks ★ -->
         <section id="monks-stat" class="relative z-20 -mt-12 pb-4 bg-transparent">
             <div id="monks-render-root" class="w-full mx-auto px-4 max-w-3xl"></div>
+        </section>
+
+        <!-- ปุ่มลัด 4 ช่อง (รูปพื้นหลังจาก static/gallery) -->
+        <section id="quick" class="hv-quick" aria-label="ทางลัด">
+            <div class="hv-quick-grid">
+                <a href="#donation" class="hv-tile" style="--img:url('/static/gallery/EOS-R6-16_0.JPG')">
+                    <span class="hv-tile-kicker"><i class="fas fa-hand-holding-heart"></i> ทำบุญ</span>
+                    <span class="hv-tile-title">ทำบุญออนไลน์</span>
+                    <span class="hv-tile-sub">สแกน QR หรือโอนเข้าบัญชีวัด</span>
+                    <span class="hv-tile-go" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="#events" class="hv-tile" style="--img:url('/static/gallery/EOS-R6-664_0.JPG')">
+                    <span class="hv-tile-kicker"><i class="fas fa-calendar-days"></i> กิจกรรม</span>
+                    <span class="hv-tile-title">ปฏิทินกิจกรรม</span>
+                    <span class="hv-tile-sub">งานประจำปี วันสำคัญ และกิจกรรมประจำสัปดาห์</span>
+                    <span class="hv-tile-go" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="#news" class="hv-tile" style="--img:url('/static/gallery/IMG_4792_0.jpg')">
+                    <span class="hv-tile-kicker"><i class="fas fa-newspaper"></i> ข่าวสาร</span>
+                    <span class="hv-tile-title">ข่าวประชาสัมพันธ์</span>
+                    <span class="hv-tile-sub">ประกาศและข่าวล่าสุดจากวัด</span>
+                    <span class="hv-tile-go" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="#contact" class="hv-tile" style="--img:url('/static/gallery/EOS-R6-26_0.JPG')">
+                    <span class="hv-tile-kicker"><i class="fas fa-location-dot"></i> การเดินทาง</span>
+                    <span class="hv-tile-title">แผนที่และการติดต่อ</span>
+                    <span class="hv-tile-sub">ที่ตั้ง เส้นทาง และเบอร์โทรศัพท์</span>
+                    <span class="hv-tile-go" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
         </section>
 
         <section id="about" class="py-20 bg-base-100 relative overflow-hidden">
@@ -401,13 +232,46 @@
             </div>
 
             <div class="container mx-auto px-4 relative z-10">
-                <div class="max-w-4xl mx-auto bg-base-100 p-8 md:p-14 rounded-[2rem] shadow-2xl border border-base-200">
-                    <h2
-                        class="text-3xl md:text-5xl font-['Pridi'] text-center text-primary mb-16 relative flex flex-col items-center font-bold">
-                        ประวัติวัดโพธิ์แจ้
-                        <span class="w-24 h-1.5 bg-gold rounded-full mt-6"></span>
-                    </h2>
+                <div class="max-w-6xl mx-auto bg-base-100 p-8 md:p-14 rounded-[2rem] shadow-2xl border border-base-200">
+                    <div class="hv-sec-head">
+                        <span class="hv-sec-kicker">History</span>
+                        <h2 class="hv-sec-title">ประวัติวัดโพธิ์แจ้</h2>
+                        <span class="hv-sec-rule" aria-hidden="true"><i></i></span>
+                    </div>
 
+                    <div class="hv-about-intro">
+                        <figure class="hv-about-photo">
+                            <img src="static/gallery/IMG_4709_0.jpg" alt="พระอุโบสถวัดโพธิ์แจ้" loading="lazy">
+                            <figcaption>พระอุโบสถหลังใหม่ เริ่มสร้าง พ.ศ. ๒๕๒๑</figcaption>
+                        </figure>
+                        <div class="hv-about-text">
+                            <p class="hv-about-lead">วัดโพธิ์แจ้ ตั้งอยู่เลขที่ ๑ หมู่ที่ ๓ ถนนเอกชัย ตำบลบางน้ำจืด อำเภอเมืองสมุทรสาคร จังหวัดสมุทรสาคร สังกัดคณะสงฆ์มหานิกาย</p>
+                            <p>ก่อตั้งขึ้นราว พ.ศ. ๒๔๕๔ จากสำนักสงฆ์ที่ชาวบ้านเรียกว่า “วัดตายิ้ม” ภายหลังเปลี่ยนนามเป็น “วัดโพธิ์แจ้” ตามชื่อชุมชนบ้านโพธิ์แจ้ ซึ่งในอดีตมีต้นโพธิ์แจ้ขึ้นอยู่เป็นจำนวนมาก</p>
+                            <dl class="hv-about-facts">
+                                <div><dt>ก่อตั้ง</dt><dd>ราว พ.ศ. ๒๔๕๔</dd></div>
+                                <div><dt>เนื้อที่</dt><dd>๒๔ ไร่ ๘.๕ ตร.ว.</dd></div>
+                                <div><dt>สังกัด</dt><dd>มหานิกาย</dd></div>
+                                <div><dt>พระประธาน</dt><dd>หลวงพ่อโต</dd></div>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="hv-tl-wrap">
+                        <h3 class="hv-tl-head">ลำดับเหตุการณ์สำคัญ</h3>
+                        <ol class="hv-tl">
+                            <li><span class="hv-tl-year">๒๔๕๔</span><span class="hv-tl-title">ก่อตั้งเป็นสำนักสงฆ์</span><span class="hv-tl-text">ชาวบ้านเรียก “วัดตายิ้ม” ตามชื่อนายยิ้ม จูพราย ผู้ริเริ่ม</span></li>
+                            <li><span class="hv-tl-year">๒๔๖๖</span><span class="hv-tl-title">อุโบสถหลังแรกแล้วเสร็จ</span><span class="hv-tl-text">หน้าบันจารึกนาม “วัดโพธิ์สิริราช จ๊ะ” ภายหลังเปลี่ยนเป็น “วัดโพธิ์แจ้”</span></li>
+                            <li><span class="hv-tl-year">๒๔๖๙</span><span class="hv-tl-title">อัญเชิญหลวงพ่อโต</span><span class="hv-tl-text">พระประธานปางมารวิชัย จากวัดบางประทุน (วัดแก้วไพฑูรย์)</span></li>
+                            <li><span class="hv-tl-year">๒๕๐๖</span><span class="hv-tl-title">พระครูสาครปิยธรรม</span><span class="hv-tl-text">เริ่มดำรงตำแหน่งเจ้าอาวาส ยาวนานถึง ๕๔ ปี</span></li>
+                            <li><span class="hv-tl-year">๒๕๒๐</span><span class="hv-tl-title">วิสุงคามสีมา</span><span class="hv-tl-text">ได้รับพระราชทานเมื่อวันที่ ๓๐ สิงหาคม</span></li>
+                            <li><span class="hv-tl-year">๒๕๒๑</span><span class="hv-tl-title">อุโบสถหลังใหม่</span><span class="hv-tl-text">เริ่มสร้างเมื่อวันที่ ๑๒ มกราคม</span></li>
+                            <li><span class="hv-tl-year">๒๕๒๙</span><span class="hv-tl-title">ผูกพัทธสีมา</span><span class="hv-tl-text">ประกอบพิธีเมื่อวันที่ ๖ กุมภาพันธ์</span></li>
+                            <li><span class="hv-tl-year">๒๕๖๐</span><span class="hv-tl-title">พระครูวัชรธรรมสาคร ดร.</span><span class="hv-tl-text">เจ้าอาวาสรูปปัจจุบัน ตั้งแต่วันที่ ๑ พฤษภาคม</span></li>
+                        </ol>
+                    </div>
+
+                    <details class="hv-more">
+                        <summary><span class="hv-more-open">อ่านประวัติเต็ม</span><span class="hv-more-close">ย่อประวัติ</span> <i class="fas fa-chevron-down"></i></summary>
                     <div class="space-y-12 text-base-content/80 leading-relaxed font-['Sarabun',sans-serif]">
                         <!-- 1. ข้อมูลทั่วไปและที่ตั้ง -->
                         <div class="section-block">
@@ -593,6 +457,7 @@
                                 </div>
                             </div>
                         </div>
+                    </details>
                     </div>
                 </div>
             </div>
@@ -600,11 +465,10 @@
 
         <section id="news" class="bg-base-200/50 py-24">
             <div class="container mx-auto px-4">
-                <h2
-                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
-                    ข่าวประชาสัมพันธ์
-                </h2>
-                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
+                <div class="hv-sec-head">
+                    <span class="hv-sec-kicker">News</span>
+                    <h2 class="hv-sec-title">ข่าวประชาสัมพันธ์</h2>
+                    <span class="hv-sec-rule" aria-hidden="true"><i></i></span>
                 </div>
 
                 <!-- React Section for News -->
@@ -619,11 +483,11 @@
         <!-- ปฏิทินกิจกรรม -->
         <section id="events" class="py-24 bg-base-100">
             <div class="container mx-auto px-4">
-                <h2
-                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
-                    ปฏิทินกิจกรรม
-                </h2>
-                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-4 opacity-0 animate-[fadeIn_1s_forwards_0.5s]"></div>
+                <div class="hv-sec-head">
+                    <span class="hv-sec-kicker">Events</span>
+                    <h2 class="hv-sec-title">ปฏิทินกิจกรรม</h2>
+                    <span class="hv-sec-rule" aria-hidden="true"><i></i></span>
+                </div>
                 <div class="flex justify-center mb-12">
                     <button onclick="shareContent('#events','ปฏิทินกิจกรรม — วัดโพธิ์แจ้','กิจกรรมและวันสำคัญทางพระพุทธศาสนา | วัดโพธิ์แจ้ จ.สมุทรสาคร')"
                         class="btn btn-ghost btn-xs rounded-full gap-1 text-base-content/40 hover:text-primary">
@@ -640,11 +504,11 @@
         <!-- แกลเลอรีภาพ -->
         <section id="gallery" class="py-24 bg-base-200/50">
             <div class="container mx-auto px-4">
-                <h2
-                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
-                    แกลเลอรีภาพ
-                </h2>
-                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-4 opacity-0 animate-[fadeIn_1s_forwards_0.5s]"></div>
+                <div class="hv-sec-head">
+                    <span class="hv-sec-kicker">Gallery</span>
+                    <h2 class="hv-sec-title">แกลเลอรีภาพ</h2>
+                    <span class="hv-sec-rule" aria-hidden="true"><i></i></span>
+                </div>
                 <div class="flex justify-center mb-12">
                     <button onclick="shareContent('#gallery','แกลเลอรีภาพ — วัดโพธิ์แจ้','ภาพถ่ายกิจกรรมและสถานที่ | วัดโพธิ์แจ้ จ.สมุทรสาคร')"
                         class="btn btn-ghost btn-xs rounded-full gap-1 text-base-content/40 hover:text-primary">
@@ -660,80 +524,36 @@
         <!-- บริจาค / ทำบุญออนไลน์ -->
         <section id="donation" class="py-24 bg-base-100">
             <div class="container mx-auto px-4">
-                <h2
-                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
-                    ทำบุญออนไลน์
-                </h2>
-                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
+                <div class="hv-sec-head">
+                    <span class="hv-sec-kicker">Make Merit</span>
+                    <h2 class="hv-sec-title">ทำบุญออนไลน์</h2>
+                    <span class="hv-sec-rule" aria-hidden="true"><i></i></span>
                 </div>
 
-                <div class="max-w-3xl mx-auto" data-aos="fade-up">
-                    <div class="donation-card">
-                        <div class="flex flex-col md:flex-row items-center gap-10">
-                            <!-- QR Code -->
-                            <div class="flex flex-col items-center gap-4 flex-shrink-0">
-                                <div class="donation-qr-frame cursor-zoom-in">
-                                    <img src="static/images/qr_donation.jpg" alt="QR Code ทำบุญวัดโพธิ์แจ้"
-                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                                        onclick="openImageModal(this)"
-                                        class="w-full h-full object-contain">
-                                    <div class="qr-placeholder" style="display:none;">
-                                        <i class="fa-solid fa-qrcode text-5xl text-primary/30 mb-2"></i>
-                                        <span
-                                            class="text-sm text-base-content/50 text-center">กรุณาอัปโหลด<br>qr_donation.jpg</span>
-                                    </div>
-                                </div>
-                                <p class="text-xs text-base-content/50 text-center">สแกน QR Code เพื่อโอนเงิน</p>
-                            </div>
-
-                            <!-- Info -->
-                            <div class="flex-1 text-center md:text-left">
-                                <div class="flex items-center justify-center md:justify-start gap-3 mb-6">
-                                    <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center">
-                                        <i class="fa-solid fa-hand-holding-heart text-gold"></i>
-                                    </div>
-                                    <h3 class="text-2xl font-['Pridi'] font-bold text-primary">ทำบุญออนไลน์</h3>
-                                </div>
-
-                                <p class="text-base-content/70 mb-6 leading-relaxed font-['Sarabun']">
-                                    ร่วมทำบุญบำรุงวัดโพธิ์แจ้ เพื่อสืบสานพระพุทธศาสนาและพัฒนาวัดให้เจริญรุ่งเรือง
-                                    สาธุชนสามารถโอนผ่าน QR Code PromptPay ได้เลย
-                                </p>
-
-                                <!-- ★ แก้ข้อมูลที่ static/js/site-data.js → SITE_DATA.donation ★ -->
-                                <div class="space-y-3 text-sm">
-                                    <div class="donation-info-row">
-                                        <i class="fa-solid fa-building-columns text-primary w-5"></i>
-                                        <span class="text-base-content/60">ธนาคาร:</span>
-                                        <span id="donation-bank" class="font-semibold text-base-content"></span>
-                                    </div>
-                                    <div class="donation-info-row">
-                                        <i class="fa-solid fa-user text-primary w-5"></i>
-                                        <span class="text-base-content/60">ชื่อบัญชี:</span>
-                                        <span id="donation-account-name" class="font-semibold text-base-content"></span>
-                                    </div>
-                                    <div class="donation-info-row">
-                                        <i class="fa-solid fa-hashtag text-primary w-5"></i>
-                                        <span class="text-base-content/60">เลขบัญชี:</span>
-                                        <span id="donation-account-number"
-                                            class="font-semibold text-base-content"></span>
-                                    </div>
-                                </div>
-
-                                <div class="mt-8 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
-                                    <p class="text-sm text-primary/80 font-['Sarabun']">
-                                        <i class="fa-solid fa-circle-info mr-2"></i>
-                                        ผู้บริจาคสามารถใช้สิทธิลดหย่อนภาษีได้ทันที โดยธนาคารจะเป็นผู้ส่งข้อมูลการบริจาคให้กรมสรรพากรตามที่ผู้บริจาคแจ้งความประสงค์
-                                    </p>
-                                </div>
-                                <div class="mt-6 flex justify-center">
-                                    <button onclick="shareContent('#donation','ร่วมทำบุญวัดโพธิ์แจ้','ร่วมทำบุญออนไลน์ได้ที่วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร')"
-                                        class="btn btn-outline btn-sm rounded-full gap-2 text-primary border-primary hover:bg-primary hover:text-white">
-                                        <i class="fas fa-share-nodes"></i> แชร์ช่องทางทำบุญ
-                                    </button>
-                                </div>
-                            </div>
+                <!-- ★ ข้อมูลบัญชีแก้ที่ static/data/donation.json ★ (สไตล์อยู่ใน static/css/hero.css → .hv-don) -->
+                <div class="hv-don" data-aos="fade-up">
+                    <div class="hv-don-qr">
+                        <div class="hv-don-qr-frame" title="กดเพื่อดูภาพใหญ่">
+                            <img src="static/images/qr_donation.jpg" alt="QR Code ทำบุญวัดโพธิ์แจ้"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                onclick="openImageModal(this)">
+                            <div class="hv-don-qr-missing" style="display:none;"><i class="fa-solid fa-qrcode"></i><span>กรุณาอัปโหลด qr_donation.jpg</span></div>
                         </div>
+                        <p class="hv-don-qr-cap"><i class="fa-solid fa-mobile-screen-button"></i> สแกนด้วยแอปธนาคารใดก็ได้</p>
+                        <a class="hv-don-save" href="static/images/qr_donation.jpg" download="QR-ทำบุญวัดโพธิ์แจ้.jpg"><i class="fa-solid fa-download"></i> บันทึกรูป QR</a>
+                    </div>
+                    <div class="hv-don-info">
+                        <span class="hv-don-kicker">สแกน QR PromptPay หรือโอนเข้าบัญชีวัด</span>
+                        <p class="hv-don-lead">ร่วมทำบุญบำรุงวัดโพธิ์แจ้ เพื่อสืบสานพระพุทธศาสนาและพัฒนาวัดให้เจริญรุ่งเรือง</p>
+                        <dl class="hv-don-acct">
+                            <div><dt>ธนาคาร</dt><dd id="donation-bank"></dd></div>
+                            <div><dt>ชื่อบัญชี</dt><dd id="donation-account-name"></dd></div>
+                            <div class="is-number"><dt>เลขที่บัญชี</dt>
+                                <dd><span id="donation-account-number"></span>
+                                    <button type="button" class="hv-don-copy" onclick="copyDonationAccount(this)"><i class="fa-regular fa-copy"></i> <span>คัดลอก</span></button></dd></div>
+                        </dl>
+                        <p class="hv-don-note"><i class="fa-solid fa-circle-info"></i> ผู้บริจาคสามารถใช้สิทธิลดหย่อนภาษีได้ทันที โดยธนาคารจะเป็นผู้ส่งข้อมูลการบริจาคให้กรมสรรพากรตามที่ผู้บริจาคแจ้งความประสงค์</p>
+                        <button type="button" class="hv-don-share" onclick="shareContent('#donation','ร่วมทำบุญวัดโพธิ์แจ้','ร่วมทำบุญออนไลน์ได้ที่วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร')"><i class="fas fa-share-nodes"></i> แชร์ช่องทางทำบุญ</button>
                     </div>
                 </div>
             </div>
@@ -742,11 +562,11 @@
         <!-- ทำเนียบเจ้าอาวาส -->
         <section id="abbots" class="py-24 bg-base-100">
             <div class="container mx-auto px-4">
-                <h2
-                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
-                    ทำเนียบเจ้าอาวาส
-                </h2>
-                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-4 opacity-0 animate-[fadeIn_1s_forwards_0.5s]"></div>
+                <div class="hv-sec-head">
+                    <span class="hv-sec-kicker">Abbots</span>
+                    <h2 class="hv-sec-title">ทำเนียบเจ้าอาวาส</h2>
+                    <span class="hv-sec-rule" aria-hidden="true"><i></i></span>
+                </div>
                 <div class="flex justify-center mb-12">
                     <button onclick="shareContent('#abbots','ทำเนียบเจ้าอาวาส — วัดโพธิ์แจ้','ทำเนียบเจ้าอาวาสวัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร')"
                         class="btn btn-ghost btn-xs rounded-full gap-1 text-base-content/40 hover:text-primary">
@@ -763,11 +583,11 @@
         <!-- พระสังฆาธิการ -->
         <section id="officials" class="py-24 bg-base-200/50">
             <div class="container mx-auto px-4">
-                <h2
-                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
-                    พระสังฆาธิการ
-                </h2>
-                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-4 opacity-0 animate-[fadeIn_1s_forwards_0.5s]"></div>
+                <div class="hv-sec-head">
+                    <span class="hv-sec-kicker">Sangha Officials</span>
+                    <h2 class="hv-sec-title">พระสังฆาธิการ</h2>
+                    <span class="hv-sec-rule" aria-hidden="true"><i></i></span>
+                </div>
                 <div class="flex justify-center mb-12">
                     <button onclick="shareContent('#officials','พระสังฆาธิการ — วัดโพธิ์แจ้','รายชื่อพระสังฆาธิการวัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร')"
                         class="btn btn-ghost btn-xs rounded-full gap-1 text-base-content/40 hover:text-primary">
@@ -787,188 +607,89 @@
 
         <section id="contact" class="py-24 bg-white relative">
             <div class="container mx-auto px-4">
-                <h2
-                    class="text-3xl md:text-4xl font-['Pridi'] text-center text-primary mb-4 animate__animated animate__fadeIn">
-                    ติดต่อสอบถาม
-                </h2>
-                <div class="w-20 h-1 bg-gold rounded-full mx-auto mb-16 opacity-0 animate-[fadeIn_1s_forwards_0.5s]">
+                <div class="hv-sec-head">
+                    <span class="hv-sec-kicker">Contact</span>
+                    <h2 class="hv-sec-title">ติดต่อสอบถาม</h2>
+                    <span class="hv-sec-rule" aria-hidden="true"><i></i></span>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
-                    <!-- Left: Info & Map -->
-                    <div class="space-y-8 animate__animated animate__fadeInLeft">
-                        <div class="card bg-base-100 shadow-xl border border-base-200 overflow-hidden group">
-                            <div class="card-body p-0 flex flex-col sm:flex-row">
-                                <div
-                                    class="bg-primary p-5 sm:p-8 flex items-center justify-center text-white text-3xl group-hover:bg-gold transition-colors duration-500 sm:flex-shrink-0">
-                                    <i class="fas fa-map-marked-alt"></i>
-                                </div>
-                                <div class="p-5 sm:p-8">
-                                    <h3 class="text-xl font-bold text-primary mb-2 font-['Pridi']">ที่ตั้งวัด</h3>
-                                    <p class="text-base-content/70 mb-4">เลขที่ 1 หมู่ 3 ต.บางน้ำจืด อ.เมืองสมุทรสาคร
-                                        จ.สมุทรสาคร 74000</p>
-                                    <a href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B9%82%E0%B8%9E%E0%B8%98%E0%B8%B4%E0%B9%8C%E0%B9%81%E0%B8%88%E0%B9%89/@13.6178556,100.3618304,15z/data=!4m6!3m5!1s0x30e2bc1dcf3946b3:0x62af2ea2acd1d039!8m2!3d13.6221866!4d100.3517209!16s%2Fg%2F1hc37td5y?entry=ttu"
-                                        target="_blank"
-                                        class="btn btn-primary rounded-full px-4 sm:px-8 text-sm sm:text-base shadow-lg hover:shadow-primary/30">
-                                        <i class="fas fa-location-arrow mr-2"></i> นำทางผ่าน Google Maps
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+            </div>
 
-                        <!-- Google Maps Embed -->
-                        <div class="rounded-3xl overflow-hidden shadow-xl border border-base-200">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3878.0!2d100.3517209!3d13.6221866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2bc1dcf3946b3%3A0x62af2ea2acd1d039!2z4Lin4Lij4Li04LiB4Liy4Lij4LiE4Liy4Lij!5e0!3m2!1sth!2sth!4v1700000000000!5m2!1sth!2sth"
-                                width="100%" height="260" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade" title="แผนที่วัดโพธิ์แจ้"></iframe>
-                        </div>
+            <!-- แผนที่เต็มความกว้าง + กล่องข้อมูลติดต่อวางทับ ★ ข้อมูลแก้ที่ static/data/contact.json ★ (สไตล์ใน static/css/hero.css → .hv-ct) -->
+            <div class="hv-ct">
+                <iframe class="hv-ct-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3878.0!2d100.3517209!3d13.6221866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2bc1dcf3946b3%3A0x62af2ea2acd1d039!2z4Lin4Lij4Li04LiB4Liy4Lij4LiE4Liy4Lij!5e0!3m2!1sth!2sth!4v1700000000000!5m2!1sth!2sth" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade" title="แผนที่วัดโพธิ์แจ้"></iframe>
+                <div class="hv-ct-card" data-aos="fade-up">
+                    <span class="hv-ct-kicker"><i class="fas fa-location-dot"></i> ที่ตั้งวัด</span>
+                    <p class="hv-ct-addr">วัดโพธิ์แจ้ เลขที่ ๑ หมู่ ๓ ถนนเอกชัย<br>ต.บางน้ำจืด อ.เมืองสมุทรสาคร<br>จ.สมุทรสาคร ๗๔๐๐๐</p>
+                    <a class="hv-ct-nav" href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B9%82%E0%B8%9E%E0%B8%98%E0%B8%B4%E0%B9%8C%E0%B9%81%E0%B8%88%E0%B9%89/@13.6178556,100.3618304,15z/data=!4m6!3m5!1s0x30e2bc1dcf3946b3:0x62af2ea2acd1d039!8m2!3d13.6221866!4d100.3517209!16s%2Fg%2F1hc37td5y?entry=ttu" target="_blank" rel="noopener"><i class="fas fa-location-arrow"></i> นำทางด้วย Google Maps</a>
+                    <ul class="hv-ct-list">
+                        <li><a id="contact-phone-url" href="tel:0877740111"><i class="fas fa-phone"></i><span><small>โทรศัพท์</small><b id="contact-phone"></b></span></a></li>
+                        <li><a id="contact-line-url" href="https://line.me/ti/p/~watphojae" target="_blank" rel="noopener"><i class="fab fa-line"></i><span><small>LINE ID</small><b id="contact-line-id"></b></span></a></li>
+                        <li><a id="contact-facebook-url" href="#" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i><span><small>Facebook</small><b id="contact-facebook-name"></b></span></a></li>
+                        <li><a id="contact-email-url" href="#"><i class="fas fa-envelope"></i><span><small>อีเมล</small><b id="contact-email"></b></span></a></li>
+                    </ul>
+                </div>
+            </div>
 
-                        <div class="card bg-base-100 shadow-xl border border-base-200 overflow-hidden group">
-                            <div class="card-body p-0 flex flex-col sm:flex-row">
-                                <div
-                                    class="bg-primary/5 p-5 sm:p-8 flex items-center justify-center text-primary text-3xl group-hover:bg-primary group-hover:text-white transition-colors duration-500 sm:flex-shrink-0">
-                                    <i class="fas fa-user-plus"></i>
-                                </div>
-                                <div class="p-5 sm:p-8">
-                                    <h3 class="text-xl font-bold text-primary mb-2 font-['Pridi']">การสมัครบวช</h3>
-                                    <p class="text-base-content/70">กรุณาเดินทางมาแจ้งความจำนงที่วัดด้วยตนเอง
-                                        เพื่อสอบทานคุณสมบัติเบื้องต้น</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right: Contact Grid ★ แก้ที่ static/js/site-data.js → SITE_DATA.contact ★ -->
-                    <div class="flex flex-col gap-6 animate__animated animate__fadeInRight">
-
-                        <!-- LINE QR Card (full width) -->
-                        <div class="card bg-base-100 shadow-lg border border-[#06C755]/30 p-6 text-center">
-                            <div class="flex items-center justify-center gap-2 mb-4">
-                                <i class="fab fa-line text-2xl text-[#06C755]"></i>
-                                <h3 class="font-bold text-lg font-['Pridi'] text-primary">เพิ่มเพื่อน LINE วัดโพธิ์แจ้</h3>
-                            </div>
-                            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                                <img src="static/images/line_qr.jpg" alt="QR Code LINE วัดโพธิ์แจ้"
-                                    class="w-36 h-36 object-contain rounded-2xl border border-base-200 shadow-sm">
-                                <div class="text-left space-y-2">
-                                    <p class="text-base-content/70 text-sm leading-relaxed">สแกน QR Code ด้วยแอป LINE<br>เพื่อเพิ่มเพื่อนกับวัดโพธิ์แจ้</p>
-                                    <p class="text-xs text-base-content/50 flex items-center gap-1">
-                                        <i class="fas fa-info-circle"></i> LINE ID: <span id="contact-line-id" class="font-bold"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 2-col grid: Phone, Facebook, Email -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div class="card bg-base-100 shadow-lg p-6 border border-base-200 hover:border-primary transition-all text-center group">
-                                <i class="fas fa-phone-alt text-3xl text-primary mb-3 group-hover:scale-110 transition-transform"></i>
-                                <h3 class="text-xs text-secondary-content uppercase font-bold mb-1">โทรศัพท์</h3>
-                                <p id="contact-phone" class="text-lg font-bold text-primary"></p>
-                            </div>
-
-                            <a id="contact-facebook-url" href="#" target="_blank"
-                                class="card bg-base-100 shadow-lg p-6 border border-base-200 hover:bg-[#1877F2] hover:text-white transition-all text-center group">
-                                <i class="fab fa-facebook-f text-3xl text-[#1877F2] mb-3 group-hover:text-white group-hover:scale-110 transition-transform"></i>
-                                <h3 class="text-xs uppercase font-bold mb-1 opacity-70 group-hover:opacity-100">Facebook</h3>
-                                <p id="contact-facebook-name" class="text-sm font-bold"></p>
-                            </a>
-
-                            <a id="contact-email-url" href="#"
-                                class="card bg-base-100 shadow-lg p-6 border border-base-200 hover:border-primary transition-all text-center group">
-                                <i class="fas fa-envelope text-3xl text-primary mb-3 group-hover:scale-110 transition-transform"></i>
-                                <h3 class="text-xs text-secondary-content uppercase font-bold mb-1">อีเมล</h3>
-                                <p id="contact-email" class="text-sm font-bold truncate"></p>
-                            </a>
-                        </div>
+            <div class="hv-ct-more">
+                <div class="hv-ct-box">
+                    <img src="static/images/line_qr.jpg" alt="QR Code LINE วัดโพธิ์แจ้" loading="lazy" onclick="openImageModal(this)">
+                    <div>
+                        <h3>เพิ่มเพื่อน LINE วัดโพธิ์แจ้</h3>
+                        <p>สแกน QR Code ด้วยแอป LINE เพื่อรับข่าวสารและกิจกรรมของวัด</p>
+                        <a class="hv-ct-line" href="https://line.me/ti/p/~watphojae" target="_blank" rel="noopener"><i class="fab fa-line"></i> เพิ่มเพื่อน LINE</a>
                     </div>
                 </div>
-
-                <!-- ช่องทางการติดตาม -->
-                <div class="max-w-4xl mx-auto mt-12" data-aos="fade-up">
-                    <h3 class="text-xl font-['Pridi'] font-bold text-primary mb-6 flex items-center gap-3">
-                        <span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                            <i class="fas fa-share-nodes text-primary text-sm"></i>
-                        </span>
-                        ช่องทางการติดตาม
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <!-- Facebook Card -->
-                        <a href="https://www.facebook.com/watphojae" target="_blank" rel="noopener"
-                            class="group flex flex-col items-center gap-5 p-8 rounded-3xl bg-base-100 shadow-lg border border-base-200 hover:border-[#1877F2]/40 hover:shadow-xl transition-all duration-300">
-                            <div class="w-20 h-20 rounded-2xl bg-[#1877F2] flex items-center justify-center text-white text-4xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                <i class="fab fa-facebook-f"></i>
-                            </div>
-                            <div class="text-center">
-                                <p class="font-['Pridi'] font-bold text-xl text-base-content mb-1">Facebook Page</p>
-                                <p class="text-base-content/60 text-sm mb-4">วัดโพธิ์แจ้ — ข่าวสาร กิจกรรม ภาพถ่าย</p>
-                                <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#1877F2] text-white text-sm font-bold group-hover:bg-[#1565c0] transition-colors">
-                                    <i class="fab fa-facebook-f text-xs"></i> กดไลค์และติดตาม
-                                </span>
-                            </div>
-                        </a>
-                        <!-- LINE Card -->
-                        <a href="https://line.me/ti/p/~watphojae" target="_blank" rel="noopener"
-                            class="group flex flex-col items-center gap-5 p-8 rounded-3xl bg-base-100 shadow-lg border border-base-200 hover:border-[#06C755]/40 hover:shadow-xl transition-all duration-300">
-                            <div class="w-20 h-20 rounded-2xl bg-[#06C755] flex items-center justify-center text-white text-4xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                <i class="fab fa-line"></i>
-                            </div>
-                            <div class="text-center">
-                                <p class="font-['Pridi'] font-bold text-xl text-base-content mb-1">LINE Official</p>
-                                <p class="text-base-content/60 text-sm mb-4">รับแจ้งเตือนข่าวสารและกิจกรรม</p>
-                                <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#06C755] text-white text-sm font-bold group-hover:bg-[#05a847] transition-colors">
-                                    <i class="fab fa-line text-xs"></i> เพิ่มเพื่อน LINE
-                                </span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="flex justify-center mt-8">
-                        <button onclick="shareContent('#contact','ติดต่อวัดโพธิ์แจ้','วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร โทร. 087-774-0111')"
-                            class="btn btn-outline btn-sm rounded-full gap-2 text-primary border-primary hover:bg-primary hover:text-white">
-                            <i class="fas fa-share-nodes"></i> แชร์ข้อมูลติดต่อ
-                        </button>
+                <div class="hv-ct-box">
+                    <i class="hv-ct-box-icon fas fa-user-plus"></i>
+                    <div>
+                        <h3>การสมัครบวช</h3>
+                        <p>กรุณาเดินทางมาแจ้งความจำนงที่วัดด้วยตนเอง เพื่อสอบทานคุณสมบัติเบื้องต้น</p>
                     </div>
                 </div>
-
+            </div>
+            <div class="hv-ct-share">
+                <button type="button" onclick="shareContent('#contact','ติดต่อวัดโพธิ์แจ้','วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร โทร. 087-774-0111')"><i class="fas fa-share-nodes"></i> แชร์ข้อมูลติดต่อ</button>
             </div>
         </section>
     </main>
 
-    <footer>
-        <div class="footer-marquee-container">
-            <div class="footer-marquee-text">
-                วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร 74000 &nbsp;&nbsp;|&nbsp;&nbsp; โทร. <span id="footer-phone"></span>
+    <!-- ท้ายเว็บ (สไตล์อยู่ใน static/css/hero.css → .hv-foot) -->
+    <footer class="hv-foot">
+        <div class="hv-foot-grid">
+            <div class="hv-foot-brand">
+                <a href="#hero" class="hv-foot-logo"><img src="static/images/temple_logo.png?v=2" alt=""><span>วัดโพธิ์แจ้</span></a>
+                <p>เลขที่ ๑ หมู่ ๓ ถนนเอกชัย ตำบลบางน้ำจืด<br>อำเภอเมืองสมุทรสาคร จังหวัดสมุทรสาคร ๗๔๐๐๐</p>
+                <p class="hv-foot-phone"><i class="fas fa-phone"></i> โทร. <span id="footer-phone"></span></p>
+            </div>
+            <div class="hv-foot-col" role="navigation" aria-label="หัวข้อในเว็บ">
+                <h3>เกี่ยวกับวัด</h3>
+                <a href="#about">ประวัติวัด</a>
+                <a href="#abbots">ทำเนียบเจ้าอาวาส</a>
+                <a href="#officials">พระสังฆาธิการ</a>
+                <a href="#gallery">แกลเลอรีภาพ</a>
+            </div>
+            <div class="hv-foot-col" role="navigation" aria-label="บริการ">
+                <h3>ร่วมกิจกรรม</h3>
+                <a href="#news">ข่าวประชาสัมพันธ์</a>
+                <a href="#events">ปฏิทินกิจกรรม</a>
+                <a href="#donation">ทำบุญออนไลน์</a>
+                <a href="#contact">ติดต่อและการเดินทาง</a>
+            </div>
+            <div class="hv-foot-col">
+                <h3>ติดตามวัด</h3>
+                <div class="hv-foot-social">
+                    <a href="https://www.facebook.com/watphojae" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://line.me/ti/p/~watphojae" target="_blank" rel="noopener" aria-label="LINE"><i class="fab fa-line"></i></a>
+                    <a href="mailto:watphojae@gmail.com" aria-label="อีเมล"><i class="fas fa-envelope"></i></a>
+                </div>
+                <a class="hv-foot-staff" href="https://office.watphojae.com/" rel="noopener"><i class="fas fa-lock"></i> ระบบสำหรับเจ้าหน้าที่</a>
             </div>
         </div>
-
-        <div
-            class="container mx-auto px-4 py-16 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/10 mt-10">
-            <div class="text-center md:text-left">
-                <p class="text-white/60 text-sm mb-2 uppercase tracking-widest font-semibold">Copyright</p>
-                <p class="text-lg font-['Pridi']">© 2569 วัดโพธิ์แจ้ จ.สมุทรสาคร</p>
-            </div>
-
-            <div class="flex flex-col items-center gap-2">
-                <!-- React Section for Visitor Counter -->
-                <div id="visitor-react-root"></div>
-                <p class="text-[10px] text-white/40 uppercase tracking-[0.2em]">Live Monitoring</p>
-            </div>
-
-            <div class="flex gap-4">
-                <a href="https://www.facebook.com/watphojae" target="_blank"
-                    class="btn btn-ghost btn-circle text-white hover:bg-gold hover:text-primary transition-all">
-                    <i class="fab fa-facebook-f text-xl"></i>
-                </a>
-                <a href="#contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;"
-                    class="btn btn-ghost btn-circle text-white hover:bg-gold hover:text-primary transition-all">
-                    <i class="fab fa-line text-xl"></i>
-                </a>
-                <a href="mailto:watphojae@gmail.com"
-                    class="btn btn-ghost btn-circle text-white hover:bg-gold hover:text-primary transition-all">
-                    <i class="fas fa-envelope text-xl"></i>
-                </a>
-            </div>
+        <div class="hv-foot-bar">
+            <p>© <span id="hv-year">๒๕๖๙</span> วัดโพธิ์แจ้ จังหวัดสมุทรสาคร</p>
+            <div class="hv-foot-visits"><span>ผู้เข้าชม</span><div id="visitor-react-root"></div></div>
         </div>
     </footer>
 

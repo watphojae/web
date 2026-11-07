@@ -94,22 +94,92 @@ function renderCalendar() {
 // ══════════════════════════════════════════════
 // Render: แกลเลอรีภาพ
 // ══════════════════════════════════════════════
+// แกลเลอรีแบบอัลบั้มตามงาน: static/data/albums.json (ไม่มีไฟล์นี้ = แสดงรูปทั้งหมดจาก SITE_DATA.gallery แบบเดิม)
+// หน้าแรกของแกลเลอรีแสดงปกอัลบั้ม กดเข้าไปเห็นรูปในอัลบั้มทีละ 12 รูป ลิงก์ตรงเข้าอัลบั้ม: #album-<id>
+// (สไตล์อยู่ใน static/css/hero.css → .hv-alb, .hv-gal)
+let galleryShown = 12, galleryAlbums = null, galleryOpen = null;
+const thNum = (n) => String(n).replace(/\d/g, (d) => '๐๑๒๓๔๕๖๗๘๙'[d]);
+const qAttr = (t) => String(t || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+function albumPhotos(al) {
+    return (al.photos || []).map((x) => (typeof x === 'string' ? { src: x, alt: al.title } : { alt: al.title, ...x }));
+}
 function renderGallery() {
     const container = document.getElementById('gallery-render-root');
     if (!container) return;
-    container.innerHTML = SITE_DATA.gallery.map((img, i) => `
-        <div class="gallery-item${img.wide ? ' gallery-wide' : ''}" data-aos="fade-up" data-aos-delay="${Math.min(i * 50, 300)}" onclick="openImageModal(${i})">
-            <img src="${img.src}" alt="${img.alt}" class="gallery-img" loading="lazy">
-            <div class="gallery-overlay">
-                <span>${img.alt}</span>
-                <button class="btn btn-xs btn-ghost text-white border border-white/40 rounded-full gap-1 mt-2"
-                    onclick="event.stopPropagation();shareContent('#gallery','${img.alt.replace(/'/g,"\\'")} — วัดโพธิ์แจ้','ภาพ: ${img.alt.replace(/'/g,"\\'")} จากวัดโพธิ์แจ้')" title="แชร์รูปภาพ">
-                    <i class="fas fa-share-nodes text-xs"></i> แชร์
-                </button>
-            </div>
+    container.className = 'hv-gal-wrap';
+    if (galleryAlbums === null) {
+        galleryAlbums = [];
+        fetch('static/data/albums.json').then((r) => (r.ok ? r.json() : null)).then((d) => {
+            galleryAlbums = (d?.items || []).filter((al) => al.photos?.length);
+            const m = location.hash.match(/^#album-(.+)$/);
+            if (m) { openAlbum(decodeURIComponent(m[1]), true); return; }
+            renderGallery();
+        }).catch(() => renderGallery());
+        return;
+    }
+    // ไม่มีอัลบั้ม: แสดงรูปทั้งหมดแบบเดิม
+    if (!galleryAlbums.length) { window.galleryModalItems = null; return renderPhotoGrid(container, dedupe(SITE_DATA.gallery), null); }
+    const al = galleryAlbums.find((x) => x.id === galleryOpen);
+    if (al) return renderPhotoGrid(container, albumPhotos(al), al);
+    window.galleryModalItems = null;
+    container.innerHTML = `
+        <div class="hv-alb">${galleryAlbums.map((x) => `
+            <a class="hv-alb-card" href="#album-${encodeURIComponent(x.id)}" onclick="event.preventDefault(); openAlbum('${qAttr(x.id)}')">
+                <div class="hv-alb-cover"><img src="${x.cover || albumPhotos(x)[0].src}" alt="" loading="lazy"><span class="hv-alb-count"><i class="fa-regular fa-images"></i> ${thNum(x.photos.length)} รูป</span></div>
+                <div class="hv-alb-body">
+                    ${x.date ? `<span class="hv-alb-date">${x.date}</span>` : ''}
+                    <h3 class="hv-alb-title">${x.title}</h3>
+                    ${x.description ? `<p class="hv-alb-desc">${x.description}</p>` : ''}
+                </div>
+            </a>`).join('')}
         </div>
-    `).join('');
+        <p class="hv-gal-count">${thNum(galleryAlbums.length)} อัลบั้ม · ${thNum(galleryAlbums.reduce((n, x) => n + x.photos.length, 0))} รูป</p>`;
 }
+function dedupe(list) {
+    const seen = new Set();
+    return (list || []).filter((img) => { const k = String(img.src).replace(/_\d+(\.\w+)$/, '$1').toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; });
+}
+function renderPhotoGrid(container, list, al) {
+    window.galleryModalItems = list; // หน้าต่างดูรูปเลื่อนเฉพาะรูปในอัลบั้มนี้
+    const q = qAttr;
+    container.innerHTML = `
+        ${al ? `<div class="hv-alb-head">
+            <button type="button" class="hv-alb-back" onclick="closeAlbum()"><i class="fas fa-arrow-left"></i> อัลบั้มทั้งหมด</button>
+            <div class="hv-alb-head-text">
+                ${al.date ? `<span class="hv-alb-date">${al.date}</span>` : ''}
+                <h3 class="hv-alb-head-title">${al.title}</h3>
+                ${al.description ? `<p class="hv-alb-desc">${al.description}</p>` : ''}
+            </div>
+            <button type="button" class="hv-alb-share" title="แชร์อัลบั้ม" aria-label="แชร์อัลบั้ม"
+                onclick="shareContent('#album-${q(encodeURIComponent(al.id))}','${q(al.title)} — วัดโพธิ์แจ้','อัลบั้มภาพ: ${q(al.title)} ${q(al.date)}')"><i class="fas fa-share-nodes"></i> แชร์อัลบั้ม</button>
+        </div>` : ''}
+        <div class="hv-gal">${list.slice(0, galleryShown).map((img, i) => `
+            <figure class="hv-gal-item" onclick="openImageModal(${i})">
+                <img src="${img.src}" alt="${img.alt || ''}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth*1.1)this.parentNode.classList.add('tall')">
+                <figcaption>
+                    <span>${img.alt || ''}</span>
+                    <button type="button" title="แชร์รูปภาพ" aria-label="แชร์รูปภาพ"
+                        onclick="event.stopPropagation();shareContent('#gallery','${q(img.alt)} — วัดโพธิ์แจ้','ภาพ: ${q(img.alt)} จากวัดโพธิ์แจ้')"><i class="fas fa-share-nodes"></i></button>
+                </figcaption>
+            </figure>`).join('')}
+        </div>
+        ${list.length > galleryShown ? `<button type="button" class="hv-gal-more" onclick="galleryShown += 12; renderGallery();">ดูรูปเพิ่ม <span>(อีก ${thNum(list.length - galleryShown)} รูป)</span></button>` : ''}
+        <p class="hv-gal-count">${al ? `${al.title} · ` : ''}ทั้งหมด ${thNum(list.length)} รูป</p>`;
+}
+window.openAlbum = (id, fromHash) => {
+    galleryOpen = id; galleryShown = 12;
+    renderGallery();
+    if (!fromHash) history.replaceState(null, '', '#album-' + encodeURIComponent(id));
+    const g = document.getElementById('gallery');
+    if (g) window.scrollTo({ top: g.getBoundingClientRect().top + window.scrollY - 72, behavior: fromHash ? 'auto' : 'smooth' });
+};
+window.closeAlbum = () => {
+    galleryOpen = null; galleryShown = 12;
+    renderGallery();
+    history.replaceState(null, '', '#gallery');
+    const g = document.getElementById('gallery');
+    if (g) window.scrollTo({ top: g.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+};
 
 // ══════════════════════════════════════════════
 // Render: ป้ายจำนวนพระภิกษุ-สามเณรจำพรรษา
@@ -120,31 +190,32 @@ function renderMonks() {
     if (!root || !m || m.show === false) { root?.closest('section')?.classList.add('hidden'); return; }
     const th = n => String(n).replace(/\d/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]);
     const b = Number(m.bhikkhu) || 0, s = Number(m.samanera) || 0;
-    const item = (icon, label, n, cls) => `
-        <div class="flex flex-col items-center justify-center px-2 sm:px-4 py-4 sm:py-5 min-w-0 ${cls}">
-            <i class="${icon} text-gold text-xl sm:text-2xl mb-2"></i>
-            <span class="text-sm text-base-content/60">${label}</span>
-            <span class="font-['Pridi'] text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary leading-tight">${th(n)}</span>
-            <span class="text-sm text-base-content/60">รูป</span>
+    // แถบเขียวเข้มเต็มความกว้าง: หัวข้อซ้าย ตัวเลขใหญ่สีทองขวา (สไตล์อยู่ใน static/css/hero.css → .hv-monks)
+    const item = (label, n, total) => `
+        <div class="hv-monks-item${total ? ' total' : ''}">
+            <span class="hv-monks-num">${th(n)}</span>
+            <span class="hv-monks-label">${label} <small>รูป</small></span>
         </div>`;
+    const share = (key, icon, title) => `<button type="button" onclick="shareMonks('${key}')" title="${title}" aria-label="${title}"><i class="${icon}"></i></button>`;
     root.innerHTML = `
-        <div class="bg-base-100 rounded-3xl shadow-xl border border-gold/30 overflow-hidden" data-aos="fade-up">
-            <div class="bg-primary text-white text-center py-3 px-3 font-['Pridi'] font-bold text-base sm:text-lg md:text-xl leading-snug">
-                <i class="fa-solid fa-dharmachakra text-gold mr-2"></i>พระภิกษุ-สามเณร อยู่จำพรรษา พ.ศ. ${th(m.year)}
+        <div class="hv-monks" data-aos="fade-up">
+            <div class="hv-monks-head">
+                <span class="hv-sec-kicker">Vassa ${m.year}</span>
+                <h2 class="hv-monks-title">พระภิกษุ-สามเณร<br><span class="nw">อยู่จำพรรษา พ.ศ. ${th(m.year)}</span></h2>
+                <div class="hv-monks-share">
+                    <span>แชร์</span>
+                    ${share('facebook', 'fab fa-facebook-f', 'แชร์ไป Facebook')}
+                    ${share('line', 'fab fa-line', 'แชร์ไป LINE')}
+                    ${share('twitter', 'fab fa-x-twitter', 'แชร์ไป X')}
+                    ${share('instagram', 'fab fa-instagram', 'แชร์ไป Instagram')}
+                    ${navigator.share ? share('native', 'fas fa-share-nodes', 'แชร์') : ''}
+                    <button type="button" id="monks-share-copy" onclick="shareMonks('copy')" title="คัดลอกลิงก์" aria-label="คัดลอกลิงก์"><i class="fas fa-link"></i></button>
+                </div>
             </div>
-            <div class="grid grid-cols-3 divide-x divide-gold/20">
-                ${item('fa-solid fa-user', 'พระภิกษุ', b, '')}
-                ${item('fa-regular fa-user', 'สามเณร', s, '')}
-                ${item('fa-solid fa-users', 'รวมทั้งสิ้น', b + s, 'bg-gold/5')}
-            </div>
-            <div class="flex flex-wrap items-center justify-center gap-1 sm:gap-2 border-t border-gold/20 py-2 px-3">
-                <span class="text-xs text-base-content/50 mr-1">แชร์:</span>
-                <button class="btn btn-circle btn-sm btn-ghost text-[#1877F2] hover:bg-[#1877F2] hover:text-white" onclick="shareMonks('facebook')" title="แชร์ไป Facebook"><i class="fab fa-facebook-f"></i></button>
-                <button class="btn btn-circle btn-sm btn-ghost text-[#06C755] hover:bg-[#06C755] hover:text-white" onclick="shareMonks('line')" title="แชร์ไป LINE"><i class="fab fa-line"></i></button>
-                <button class="btn btn-circle btn-sm btn-ghost text-base-content hover:bg-black hover:text-white" onclick="shareMonks('twitter')" title="แชร์ไป X"><i class="fab fa-x-twitter"></i></button>
-                <button class="btn btn-circle btn-sm btn-ghost text-[#E1306C] hover:bg-[#E1306C] hover:text-white" onclick="shareMonks('instagram')" title="แชร์ไป Instagram"><i class="fab fa-instagram"></i></button>
-                ${navigator.share ? `<button class="btn btn-circle btn-sm btn-ghost text-primary hover:bg-primary hover:text-white" onclick="shareMonks('native')" title="แชร์"><i class="fas fa-share-nodes"></i></button>` : ''}
-                <button id="monks-share-copy" class="btn btn-circle btn-sm btn-ghost text-gray-500 hover:bg-gray-200" onclick="shareMonks('copy')" title="คัดลอกลิงก์"><i class="fas fa-link"></i></button>
+            <div class="hv-monks-nums">
+                ${item('พระภิกษุ', b)}
+                ${item('สามเณร', s)}
+                ${item('รวมทั้งสิ้น', b + s, true)}
             </div>
         </div>`;
 }
@@ -174,143 +245,168 @@ function shareMonks(platform) {
 // Render: ปฏิทินกิจกรรม
 // ══════════════════════════════════════════════
 function renderEvents() {
+    // กล่องนับถอยหลังกิจกรรมถัดไป + ปฏิทิน 3 คอลัมน์ (สไตล์อยู่ใน static/css/hero.css → .hv-ev)
     const container = document.getElementById('events-render-root');
     if (!container) return;
-    const { regular, holidays, holidaysYear, upcoming } = SITE_DATA.events;
+    const { regular = [], holidays = [], holidaysYear, upcoming = [] } = SITE_DATA.events;
+    const th = (n) => String(n).replace(/\d/g, (d) => '๐๑๒๓๔๕๖๗๘๙'[d]);
+    const MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const q = (t) => String(t).replace(/'/g, "\\'").replace(/<[^>]*>/g, ' ');
 
-    const regularHTML = regular.map(e => `
-        <div class="event-list-item">
-            <div class="event-date-badge ${e.color}">
-                <span class="text-xs font-bold">${e.day1}</span>
-                <span class="text-lg font-extrabold font-['Pridi']">${e.day2}</span>
-            </div>
-            <div class="event-info">
-                <p class="font-semibold text-base-content">${e.title}</p>
-                <p class="text-sm text-base-content/60 mt-1">
-                    <i class="fa-regular fa-clock mr-1"></i>เวลา ${e.time} &nbsp;|&nbsp; ${e.location}
-                </p>
-            </div>
-        </div>
-    `).join('');
+    const dateBlock = (top, big, cls = '') => `
+        <div class="hv-ev-date ${cls}${String(big).length > 3 ? ' is-long' : ''}"><span class="hv-ev-mon">${top}</span><span class="hv-ev-day">${th(big)}</span></div>`;
+    const row = (date, title, detail, extra = '', cls = '') => `
+        <div class="hv-ev-row ${cls}">${date}<div class="hv-ev-info"><p class="hv-ev-title">${title}</p>${detail ? `<p class="hv-ev-detail">${detail}</p>` : ''}${extra}</div></div>`;
 
-    const holidaysHTML = holidays.map(h => `
-        <div class="event-list-item">
-            <div class="event-date-badge ${h.color}">
-                <span class="text-xs font-bold">${h.date}</span>
-                <span class="text-sm font-extrabold font-['Pridi']">${h.name}</span>
-            </div>
-            <div class="event-info">
-                <p class="font-semibold text-base-content">${h.title}</p>
-                <p class="text-sm text-base-content/60 mt-1">${h.detail}</p>
-            </div>
-        </div>
-    `).join('');
+    // กิจกรรมที่กำลังจะมาถึง (ซ่อนเองเมื่อเลย endDate)
+    const active = upcoming.filter((e) => !e.endDate || new Date(e.endDate) >= today);
+    const upcomingHTML = active.map((e) => row(
+        dateBlock(e.month, e.date, 'is-main'),
+        `${e.badge ? `<span class="hv-ev-badge">${e.badge}</span>` : ''}${e.title}`,
+        e.detail,
+        `<button type="button" class="hv-ev-share" title="แชร์กิจกรรม" aria-label="แชร์กิจกรรม" onclick="shareContent('#events','${q(e.title)} — ${q(e.month)} ${q(e.date)}','${q(e.title)} ${q(e.detail)}')"><i class="fas fa-share-nodes"></i></button>`
+    )).join('') || '<p class="hv-ev-empty">ยังไม่มีกิจกรรมที่ประกาศ</p>';
 
-    const today = new Date(); today.setHours(0,0,0,0);
-    const activeUpcoming = upcoming.filter(e => !e.endDate || new Date(e.endDate) >= today);
-    const upcomingHTML = activeUpcoming.map(e => `
-        <div class="event-list-item border-l-4 ${e.borderColor}">
-            <div class="event-date-badge ${e.dateClass}">
-                <span class="text-xs font-bold">${e.month}</span>
-                <span class="text-2xl font-extrabold font-['Pridi']">${e.date}</span>
-            </div>
-            <div class="event-info flex-1">
-                <div class="flex items-center justify-between gap-2 mb-1">
-                    <span class="badge ${e.badgeClass} badge-xs text-white">${e.badge}</span>
-                    <button class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary rounded-full gap-1"
-                        onclick="shareContent('#events','${e.title.replace(/'/g,"\\'")} — ${e.month} ${e.date}','${e.title.replace(/'/g,"\\'")} ${e.detail.replace(/'/g,"\\'")} วันที่ ${e.month} ${e.date}')" title="แชร์กิจกรรม">
-                        <i class="fas fa-share-nodes text-xs"></i>
-                    </button>
-                </div>
-                <p class="font-semibold text-base-content">${e.title}</p>
-                <p class="text-sm text-base-content/60 mt-1">${e.detail}</p>
-            </div>
-        </div>
-    `).join('');
+    const regularHTML = regular.map((e) => row(
+        dateBlock(e.day1, e.day2, 'is-week'),
+        e.title,
+        `<i class="fa-regular fa-clock"></i> ${e.time}${e.location ? ` · ${e.location}` : ''}`
+    )).join('');
+
+    // วันสำคัญ: วันที่ผ่านไปแล้วในปีนี้แสดงจางลง
+    const yearAD = (Number(holidaysYear) || today.getFullYear() + 543) - 543;
+    const holidaysHTML = holidays.map((h) => {
+        const m = String(h.date).match(/(\d+)\s*(\S+)/);
+        const mi = m ? MONTHS.indexOf(m[2]) : -1;
+        const past = mi >= 0 && new Date(yearAD, mi, +m[1]) < today;
+        return row(dateBlock(m ? m[2] : '', m ? m[1] : h.date), h.title, h.detail, past ? '<span class="hv-ev-past">ผ่านไปแล้ว</span>' : '', past ? 'is-past' : '');
+    }).join('');
 
     container.innerHTML = `
-        <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div data-aos="fade-right">
-                <h3 class="text-xl font-['Pridi'] font-bold text-primary mb-6 flex items-center gap-3">
-                    <span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <i class="fa-solid fa-rotate text-primary text-sm"></i>
-                    </span>
-                    กิจกรรมประจำ
-                </h3>
-                <div class="space-y-4">${regularHTML}</div>
-
-                <h3 class="text-xl font-['Pridi'] font-bold text-primary mt-10 mb-6 flex items-center gap-3">
-                    <span class="w-9 h-9 rounded-xl bg-gold/10 flex items-center justify-center">
-                        <i class="fa-solid fa-star text-gold text-sm"></i>
-                    </span>
-                    วันสำคัญทางพระพุทธศาสนา ${holidaysYear}
-                </h3>
-                <div class="space-y-4">${holidaysHTML}</div>
+        <div id="hv-ev-next"></div>
+        <div class="hv-ev">
+            <div class="hv-ev-col" data-aos="fade-up">
+                <h3 class="hv-ev-head"><i class="fa-solid fa-calendar-days"></i> กิจกรรมที่กำลังจะมาถึง</h3>
+                ${upcomingHTML}
             </div>
-
-            <div data-aos="fade-left">
-                <h3 class="text-xl font-['Pridi'] font-bold text-primary mb-6 flex items-center gap-3">
-                    <span class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <i class="fa-solid fa-calendar-days text-primary text-sm"></i>
-                    </span>
-                    กิจกรรมที่กำลังจะมาถึง
-                </h3>
-                <div class="space-y-4">${upcomingHTML}</div>
+            <div class="hv-ev-col" data-aos="fade-up" data-aos-delay="100">
+                <h3 class="hv-ev-head"><i class="fa-solid fa-rotate"></i> กิจกรรมประจำ</h3>
+                ${regularHTML}
             </div>
-        </div>
-    `;
+            <div class="hv-ev-col" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="hv-ev-head"><i class="fa-solid fa-star"></i> วันสำคัญทางพระพุทธศาสนา ${th(holidaysYear || '')}</h3>
+                ${holidaysHTML}
+            </div>
+        </div>`;
+    renderNextEvent(upcoming);
+}
+
+// กล่องนับถอยหลัง: กิจกรรมแรกที่มีเวลาเริ่ม (start) และยังไม่จบ (end)
+let nextEventTimer = null;
+function renderNextEvent(upcoming) {
+    const box = document.getElementById('hv-ev-next');
+    if (!box) return;
+    const th = (n) => String(n).replace(/\d/g, (d) => '๐๑๒๓๔๕๖๗๘๙'[d]);
+    const now = Date.now();
+    const ev = (upcoming || []).filter((e) => e.start && !isNaN(Date.parse(e.start)))
+        .map((e) => ({ ...e, t0: Date.parse(e.start), t1: Date.parse(e.end || e.start) }))
+        .filter((e) => e.t1 > now).sort((a, b) => a.t0 - b.t0)[0];
+    clearInterval(nextEventTimer);
+    if (!ev) { box.innerHTML = ''; return; }
+    box.innerHTML = `
+        <div class="hv-ev-next" data-aos="fade-up">
+            <div class="hv-ev-next-text">
+                <span class="hv-ev-next-kicker">กิจกรรมถัดไป</span>
+                <h3 class="hv-ev-next-title">${ev.title}</h3>
+                <p class="hv-ev-next-detail">${ev.detail || ''}</p>
+            </div>
+            <div class="hv-ev-count" aria-live="off">
+                <div><b data-u="d">-</b><span>วัน</span></div>
+                <div><b data-u="h">-</b><span>ชั่วโมง</span></div>
+                <div><b data-u="m">-</b><span>นาที</span></div>
+                <div><b data-u="s">-</b><span>วินาที</span></div>
+            </div>
+        </div>`;
+    const set = (u, v) => { const el = box.querySelector(`[data-u="${u}"]`); if (el) el.textContent = v; };
+    const tick = () => {
+        const left = ev.t0 - Date.now();
+        if (left <= 0) {
+            if (Date.now() > ev.t1) return renderNextEvent(upcoming);
+            box.querySelector('.hv-ev-count').innerHTML = '<p class="hv-ev-live">กำลังจัดอยู่ขณะนี้</p>';
+            clearInterval(nextEventTimer); nextEventTimer = setInterval(() => { if (Date.now() > ev.t1) renderNextEvent(upcoming); }, 30000);
+            return;
+        }
+        const s = Math.floor(left / 1000);
+        set('d', th(Math.floor(s / 86400)));
+        set('h', th(String(Math.floor((s % 86400) / 3600)).padStart(2, '0')));
+        set('m', th(String(Math.floor((s % 3600) / 60)).padStart(2, '0')));
+        set('s', th(String(s % 60).padStart(2, '0')));
+    };
+    tick();
+    if (ev.t0 > Date.now()) nextEventTimer = setInterval(tick, 1000);
 }
 
 // ══════════════════════════════════════════════
 // Render: ทำเนียบเจ้าอาวาส
 // ══════════════════════════════════════════════
 function renderAbbots() {
+    // เจ้าอาวาสรูปปัจจุบันเด่นด้านบน แล้วเรียงรูปก่อน ๆ ตามลำดับสมัยบนเส้นเวลา (สไตล์อยู่ใน static/css/hero.css → .hv-abb)
     const container = document.getElementById('abbots-render-root');
     if (!container) return;
-    container.innerHTML = SITE_DATA.abbots.map((a, i) => `
-        <div class="temple-directory-card ${a.isCurrent ? 'border-gold border-2 shadow-2xl animate__animated animate__zoomIn' : 'animate__animated animate__fadeInUp'}"
-             style="animation-delay: ${i * 0.1}s">
-            <div class="portrait-frame${a.isCurrent ? ' border-gold' : ''}">
-                ${a.image
-                    ? `<img src="${a.image}" alt="${a.name.replace(/<br>/g, ' ')}" class="cursor-zoom-in" onclick="openImageModal(this)">`
-                    : PORTRAIT_PLACEHOLDER}
+    const th = (t) => String(t || '').replace(/\d/g, (d) => '๐๑๒๓๔๕๖๗๘๙'[d]);
+    const plain = (t) => String(t || '').replace(/<br>/g, ' ');
+    const q = (t) => plain(t).replace(/'/g, "\\'");
+    const share = (a) => `shareContent('#abbots','${q(a.name)} — เจ้าอาวาสวัดโพธิ์แจ้','${q(a.name)} เจ้าอาวาสวัดโพธิ์แจ้ ${q(a.years)} | วัดโพธิ์แจ้')`;
+    const seq = (a) => th(String(a.sequence || '').replace(/\D/g, ''));
+    const photo = (a, cls) => a.image
+        ? `<img src="${a.image}" alt="${plain(a.name)}" class="${cls}" loading="lazy" onclick="openImageModal(this)">`
+        : `<div class="${cls} hv-abb-noimg" aria-label="ไม่ปรากฏรูป"><i class="fa-solid fa-dharmachakra"></i><span>ไม่ปรากฏรูป</span></div>`;
+    const current = SITE_DATA.abbots.find((a) => a.isCurrent);
+    const past = SITE_DATA.abbots.filter((a) => !a.isCurrent);
+    container.className = 'hv-abb';
+    container.innerHTML = `
+        ${current ? `<div class="hv-abb-now" data-aos="fade-up">
+            ${photo(current, 'hv-abb-now-img')}
+            <div class="hv-abb-now-text">
+                <span class="hv-abb-now-kicker">เจ้าอาวาสรูปปัจจุบัน · ลำดับที่ ${seq(current)}</span>
+                <h3 class="hv-abb-now-name">${current.name}</h3>
+                <p class="hv-abb-now-years">${th(current.years)}</p>
+                <button type="button" class="hv-abb-share" onclick="${share(current)}"><i class="fas fa-share-nodes"></i> แชร์</button>
             </div>
-            <div class="space-y-1">
-                <span class="badge ${a.isCurrent ? 'badge-warning font-bold badge-sm' : 'badge-outline badge-warning badge-xs'}">
-                    ${a.isCurrent ? 'ปัจจุบัน' : a.sequence}
-                </span>
-                <h3 class="monk-name leading-tight">${a.name}</h3>
-                <p class="monk-title ${a.isCurrent ? 'text-primary font-bold' : 'italic'}">${a.years}</p>
-                <button class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary rounded-full gap-1 mt-1"
-                    onclick="shareContent('#abbots','${a.name.replace(/<br>/g,' ').replace(/'/g,"\\'")} — เจ้าอาวาสวัดโพธิ์แจ้','${a.name.replace(/<br>/g,' ').replace(/'/g,"\\'")} เจ้าอาวาสวัดโพธิ์แจ้ ${a.years.replace(/'/g,"\\'")} | วัดโพธิ์แจ้')">
-                    <i class="fas fa-share-nodes text-xs"></i> แชร์
-                </button>
-            </div>
-        </div>
-    `).join('');
+        </div>` : ''}
+        <h3 class="hv-abb-tl-head">ลำดับเจ้าอาวาสในอดีต</h3>
+        <ol class="hv-abb-tl">${past.map((a) => `
+            <li data-aos="fade-up">
+                <span class="hv-abb-seq">${seq(a)}</span>
+                ${photo(a, 'hv-abb-img')}
+                <h4 class="hv-abb-name">${a.name}</h4>
+                <p class="hv-abb-years">${th(a.years)}</p>
+                <button type="button" class="hv-abb-share sm" title="แชร์" aria-label="แชร์" onclick="${share(a)}"><i class="fas fa-share-nodes"></i></button>
+            </li>`).join('')}
+        </ol>`;
 }
 
 // ══════════════════════════════════════════════
 // Render: พระสังฆาธิการ
 // ══════════════════════════════════════════════
 function renderOfficials() {
+    // รูปแนวตั้งในกรอบบาง ตำแหน่งสีทองเหนือชื่อ (สไตล์อยู่ใน static/css/hero.css → .hv-off)
     const container = document.getElementById('officials-render-root');
     if (!container) return;
+    const plain = (t) => String(t || '').replace(/<br>/g, ' ');
+    const q = (t) => plain(t).replace(/'/g, "\\'");
+    container.className = 'hv-off';
     container.innerHTML = SITE_DATA.officials.map((o, i) => `
-        <div class="temple-directory-card animate__animated animate__fadeInUp" style="animation-delay: ${i * 0.1}s">
-            <div class="portrait-frame${o.frameBorder ? ' ' + o.frameBorder : ''}">
-                <img src="${o.image}" alt="${o.name.replace(/<br>/g, ' ')}" class="cursor-zoom-in" onclick="openImageModal(this)"/>
-            </div>
-            <div class="pt-2">
-                <span class="badge ${o.badgeClass} badge-sm mb-2">${o.position}</span>
-                <h3 class="monk-name leading-tight">${o.name}</h3>
-                <button class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary rounded-full gap-1 mt-1"
-                    onclick="shareContent('#officials','${o.position.replace(/'/g,"\\'")} ${o.name.replace(/<br>/g,' ').replace(/'/g,"\\'")} — วัดโพธิ์แจ้','${o.position.replace(/'/g,"\\'")} ${o.name.replace(/<br>/g,' ').replace(/'/g,"\\'")} | วัดโพธิ์แจ้')">
-                    <i class="fas fa-share-nodes text-xs"></i> แชร์
-                </button>
-            </div>
-        </div>
-    `).join('');
+        <figure class="hv-off-item${i === 0 ? ' is-head' : ''}" data-aos="fade-up" data-aos-delay="${i * 100}">
+            <img src="${o.image}" alt="${plain(o.name)}" loading="lazy" onclick="openImageModal(this)">
+            <figcaption>
+                <span class="hv-off-pos">${o.position}</span>
+                <h3 class="hv-off-name">${o.name}</h3>
+                <button type="button" class="hv-abb-share sm" title="แชร์" aria-label="แชร์"
+                    onclick="shareContent('#officials','${q(o.position)} ${q(o.name)} — วัดโพธิ์แจ้','${q(o.position)} ${q(o.name)} | วัดโพธิ์แจ้')"><i class="fas fa-share-nodes"></i></button>
+            </figcaption>
+        </figure>`).join('');
 }
 
 // ══════════════════════════════════════════════
@@ -318,8 +414,10 @@ function renderOfficials() {
 // ══════════════════════════════════════════════
 function updateDonation() {
     const d = SITE_DATA.donation;
-    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    // ตัดขีดตกแต่ง "— ... —" ที่ใส่ไว้ในไฟล์ข้อมูลออก
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = String(val || '').replace(/^[\s—–-]+|[\s—–-]+$/g, ''); };
     const setHref = (id, val) => { const el = document.getElementById(id); if (el) el.href = val; };
+    if (d.qrImage) document.querySelectorAll('.hv-don-qr img, .hv-don-save').forEach((el) => { el[el.tagName === 'A' ? 'href' : 'src'] = d.qrImage; });
     set('donation-bank', d.bank);
     set('donation-account-name', d.accountName);
     set('donation-account-number', d.accountNumber);
@@ -327,6 +425,14 @@ function updateDonation() {
     const lineText = document.getElementById('donation-line-text');
     if (lineText) lineText.textContent = 'LINE ' + d.lineId;
 }
+// ปุ่มคัดลอกเลขบัญชี: คัดลอกเฉพาะตัวเลข เอาไปวางในแอปธนาคารได้ทันที
+window.copyDonationAccount = (btn) => {
+    const num = (document.getElementById('donation-account-number')?.textContent || '').replace(/\D/g, '');
+    if (!num) return;
+    const done = () => { const t = btn.querySelector('span'); btn.classList.add('ok'); if (t) t.textContent = 'คัดลอกแล้ว'; setTimeout(() => { btn.classList.remove('ok'); if (t) t.textContent = 'คัดลอก'; }, 2000); };
+    if (navigator.clipboard) navigator.clipboard.writeText(num).then(done).catch(() => prompt('เลขที่บัญชี', num));
+    else prompt('เลขที่บัญชี', num);
+};
 
 // ══════════════════════════════════════════════
 // Update: ข้อมูลติดต่อสอบถาม
@@ -342,6 +448,8 @@ function updateContact() {
     set('contact-email', c.email);
     setHref('contact-facebook-url', c.facebook);
     setHref('contact-email-url', 'mailto:' + c.email);
+    setHref('contact-phone-url', 'tel:' + String(c.phone || '').replace(/[^\d+]/g, ''));
+    if (c.lineUrl) setHref('contact-line-url', c.lineUrl);
 }
 
 // ══════════════════════════════════════════════
@@ -595,7 +703,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const modal = document.getElementById('imageModal');
         if (!modal) return;
         if (typeof idxOrEl === 'number') {
-            _modalItems = SITE_DATA.gallery;
+            _modalItems = window.galleryModalItems || SITE_DATA.gallery;
             _showModalAt(idxOrEl);
         } else {
             const el = typeof idxOrEl === 'string' ? null : idxOrEl;
@@ -647,4 +755,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
+});
+
+// ลิงก์อัลบั้ม (#album-<id>) ที่กดขณะเปิดหน้าเว็บอยู่แล้ว
+window.addEventListener('hashchange', () => {
+    const m = location.hash.match(/^#album-(.+)$/);
+    if (m && Array.isArray(galleryAlbums) && galleryAlbums.length) openAlbum(decodeURIComponent(m[1]), true);
 });

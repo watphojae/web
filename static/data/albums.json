@@ -1,0 +1,87 @@
+{
+  "items": [
+    {
+      "id": "ubosot-interior",
+      "title": "ภายในพระอุโบสถ",
+      "date": "1 มี.ค. 2568",
+      "description": "พระประธานและจิตรกรรมฝาผนังภายในพระอุโบสถ",
+      "cover": "static/gallery/LINE_ALBUM_โบสถ์_250301_7_0.jpg",
+      "photos": [
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_1_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_2_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_3_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_4_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_5_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_6_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_7_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_8_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_9_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_10_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_11_0.jpg",
+        "static/gallery/LINE_ALBUM_โบสถ์_250301_12_0.jpg"
+      ]
+    },
+    {
+      "id": "ubosot-exterior",
+      "title": "พระอุโบสถและหน้าบัน",
+      "date": "",
+      "description": "หน้าบัน ลวดลายปูนปั้น และทวารบาลหน้าพระอุโบสถ",
+      "cover": "static/gallery/IMG_4753_0.jpg",
+      "photos": [
+        "static/gallery/IMG_4249_0.jpg",
+        "static/gallery/IMG_4251_0.jpg",
+        "static/gallery/IMG_4709_0.jpg",
+        "static/gallery/IMG_4713_0.jpg",
+        "static/gallery/IMG_4724_0.jpg",
+        "static/gallery/IMG_4726_0.jpg",
+        "static/gallery/IMG_4737_0.jpg",
+        "static/gallery/IMG_4744_0.jpg",
+        "static/gallery/IMG_4749_0.jpg",
+        "static/gallery/IMG_4753_0.jpg",
+        "static/gallery/IMG_4754_0.jpg",
+        "static/gallery/IMG_4757_0.jpg",
+        "static/gallery/IMG_4763_0.jpg",
+        "static/gallery/IMG_4764_0.jpg",
+        "static/gallery/IMG_4768_0.jpg",
+        "static/gallery/IMG_4792_0.jpg"
+      ]
+    },
+    {
+      "id": "temple-grounds",
+      "title": "บรรยากาศภายในวัด",
+      "date": "",
+      "description": "วิหารหลวงพ่อโต รูปเหมือน ระฆัง และบรรยากาศรอบวัด",
+      "cover": "static/gallery/EOS-R6-124_0.JPG",
+      "photos": [
+        "static/gallery/EOS-R6-10_0.JPG",
+        "static/gallery/EOS-R6-14_0.JPG",
+        "static/gallery/EOS-R6-15_0.JPG",
+        "static/gallery/EOS-R6-16_0.JPG",
+        "static/gallery/EOS-R6-17_0.JPG",
+        "static/gallery/EOS-R6-18_0.JPG",
+        "static/gallery/EOS-R6-19_0.JPG",
+        "static/gallery/EOS-R6-24_0.JPG",
+        "static/gallery/EOS-R6-25_0.JPG",
+        "static/gallery/EOS-R6-26_0.JPG",
+        "static/gallery/EOS-R6-124_0.JPG",
+        "static/gallery/EOS-R6-127_0.JPG",
+        "static/gallery/EOS-R6-129_0.JPG",
+        "static/gallery/EOS-R6-652_0.JPG",
+        "static/gallery/EOS-R6-653_0.JPG",
+        "static/gallery/EOS-R6-654_0.JPG",
+        "static/gallery/EOS-R6-655_0.JPG",
+        "static/gallery/EOS-R6-656_0.JPG",
+        "static/gallery/EOS-R6-657_0.JPG",
+        "static/gallery/EOS-R6-658_0.JPG",
+        "static/gallery/EOS-R6-659_0.JPG",
+        "static/gallery/EOS-R6-660_0.JPG",
+        "static/gallery/EOS-R6-661_0.JPG",
+        "static/gallery/EOS-R6-662_0.JPG",
+        "static/gallery/EOS-R6-663_0.JPG",
+        "static/gallery/EOS-R6-664_0.JPG",
+        "static/gallery/EOS-R6-665_0.JPG",
+        "static/gallery/EOS-R6-666_0.JPG"
+      ]
+    }
+  ]
+}
