@@ -2,9 +2,7 @@
   "items": [
     {
       "id": "ubosot-interior",
-      "title": "ภายในพระอุโบสถ",
-      "date": "1 มี.ค. 2568",
-      "description": "พระประธานและจิตรกรรมฝาผนังภายในพระอุโบสถ",
+      "title": "อัลบั้ม ๑",
       "cover": "static/gallery/LINE_ALBUM_โบสถ์_250301_7_0.jpg",
       "photos": [
         "static/gallery/LINE_ALBUM_โบสถ์_250301_1_0.jpg",
@@ -23,9 +21,7 @@
     },
     {
       "id": "ubosot-exterior",
-      "title": "พระอุโบสถและหน้าบัน",
-      "date": "",
-      "description": "หน้าบัน ลวดลายปูนปั้น และทวารบาลหน้าพระอุโบสถ",
+      "title": "อัลบั้ม ๒",
       "cover": "static/gallery/IMG_4753_0.jpg",
       "photos": [
         "static/gallery/IMG_4249_0.jpg",
@@ -48,9 +44,7 @@
     },
     {
       "id": "temple-grounds",
-      "title": "บรรยากาศภายในวัด",
-      "date": "",
-      "description": "วิหารหลวงพ่อโต รูปเหมือน ระฆัง และบรรยากาศรอบวัด",
+      "title": "อัลบั้ม ๓",
       "cover": "static/gallery/EOS-R6-124_0.JPG",
       "photos": [
         "static/gallery/EOS-R6-10_0.JPG",
