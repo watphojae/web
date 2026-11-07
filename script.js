@@ -248,19 +248,28 @@ function renderEvents() {
     const MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
     const today = new Date(); today.setHours(0, 0, 0, 0);
     const q = (t) => String(t).replace(/'/g, "\\'").replace(/<[^>]*>/g, ' ');
+    // ข้อความให้เป็นระเบียบ: เลขไทยทั้งหมด, เวลา 17:30 → ๑๗.๓๐, "… ถึง …" ขึ้นบรรทัดใหม่,
+    // ไม่ตัดคำกลางวงเล็บหรือพระนาม (สมเด็จ…)
+    const nw = (m) => `<span class="hv-nw">${m}</span>`;
+    const fmt = (t) => th(String(t || '').replace(/(\d{1,2}):(\d{2})/g, '$1.$2'))
+        .replace(/\s+ถึง\s+/g, '<br>ถึง ')
+        .replace(/\s*\|\s*/g, '<br>')
+        .replace(/\([^)<]*\)/g, nw)
+        .replace(/สมเด็จ[^\s<]*/g, nw);
 
     const dateBlock = (top, big, cls = '') => `
         <div class="hv-ev-date ${cls}${String(big).length > 3 ? ' is-long' : ''}"><span class="hv-ev-mon">${top}</span><span class="hv-ev-day">${th(big)}</span></div>`;
-    const row = (date, title, detail, extra = '', cls = '') => `
-        <div class="hv-ev-row ${cls}">${date}<div class="hv-ev-info"><p class="hv-ev-title">${title}</p>${detail ? `<p class="hv-ev-detail">${detail}</p>` : ''}${extra}</div></div>`;
+    const row = (date, title, detail, extra = '', cls = '', badge = '') => `
+        <div class="hv-ev-row ${cls}">${date}<div class="hv-ev-info">${badge ? `<span class="hv-ev-badge">${badge}</span>` : ''}<p class="hv-ev-title">${fmt(title)}</p>${detail ? `<p class="hv-ev-detail">${fmt(detail)}</p>` : ''}${extra}</div></div>`;
 
     // กิจกรรมที่กำลังจะมาถึง (ซ่อนเองเมื่อเลย endDate)
     const active = upcoming.filter((e) => !e.endDate || new Date(e.endDate) >= today);
     const upcomingHTML = active.map((e) => row(
         dateBlock(e.month, e.date, 'is-main'),
-        `${e.badge ? `<span class="hv-ev-badge">${e.badge}</span>` : ''}${e.title}`,
+        e.title,
         e.detail,
-        `<button type="button" class="hv-ev-share" title="แชร์กิจกรรม" aria-label="แชร์กิจกรรม" onclick="shareContent('#events','${q(e.title)} — ${q(e.month)} ${q(e.date)}','${q(e.title)} ${q(e.detail)}')"><i class="fas fa-share-nodes"></i></button>`
+        `<button type="button" class="hv-ev-share" title="แชร์กิจกรรม" aria-label="แชร์กิจกรรม" onclick="shareContent('#events','${q(e.title)} — ${q(e.month)} ${q(e.date)}','${q(e.title)} ${q(e.detail)}')"><i class="fas fa-share-nodes"></i></button>`,
+        '', e.badge || ''
     )).join('') || '<p class="hv-ev-empty">ยังไม่มีกิจกรรมที่ประกาศ</p>';
 
     const regularHTML = regular.map((e) => row(
