@@ -645,6 +645,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Service Worker (PWA)
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/web/sw.js').catch(() => {});
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
 });

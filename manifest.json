@@ -2,8 +2,8 @@
     "name": "วัดโพธิ์แจ้",
     "short_name": "วัดโพธิ์แจ้",
     "description": "วัดโพธิ์แจ้ ต.บางน้ำจืด อ.เมืองสมุทรสาคร จ.สมุทรสาคร",
-    "start_url": "/web/",
-    "scope": "/web/",
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
     "orientation": "portrait",
     "background_color": "#f9fbf9",
@@ -28,17 +28,17 @@
     "shortcuts": [
         {
             "name": "ข่าวสาร",
-            "url": "/web/#news",
+            "url": "/#news",
             "description": "ข่าวประชาสัมพันธ์"
         },
         {
             "name": "ทำบุญออนไลน์",
-            "url": "/web/#donation",
+            "url": "/#donation",
             "description": "บริจาคและทำบุญ"
         },
         {
             "name": "ติดต่อ",
-            "url": "/web/#contact",
+            "url": "/#contact",
             "description": "ติดต่อสอบถาม"
         }
     ]

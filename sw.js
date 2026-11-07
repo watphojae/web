@@ -1,25 +1,25 @@
-const CACHE = 'watphojae-v10';
+const CACHE = 'watphojae-v11';
 const ASSETS = [
-    '/web/',
-    '/web/index.html',
-    '/web/style.css',
-    '/web/script.js',
-    '/web/static/js/site-data.js',
-    '/web/static/images/temple_logo.png',
-    '/web/static/images/qr_donation.jpg',
-    '/web/static/images/line_qr.jpg',
-    '/web/manifest.json'
+    '/',
+    '/index.html',
+    '/style.css',
+    '/script.js',
+    '/static/js/site-data.js',
+    '/static/images/temple_logo.png',
+    '/static/images/qr_donation.jpg',
+    '/static/images/line_qr.jpg',
+    '/manifest.json'
 ];
 // ไฟล์ข้อมูล CMS — ไม่ cache เพื่อให้อัปเดตทันที
 const DATA_URLS = [
-    '/web/static/data/news.json',
-    '/web/static/data/contact.json',
-    '/web/static/data/events.json',
-    '/web/static/data/gallery.json',
-    '/web/static/data/abbots.json',
-    '/web/static/data/officials.json',
-    '/web/static/data/donation.json',
-    '/web/static/data/site-settings.json'
+    '/static/data/news.json',
+    '/static/data/contact.json',
+    '/static/data/events.json',
+    '/static/data/gallery.json',
+    '/static/data/abbots.json',
+    '/static/data/officials.json',
+    '/static/data/donation.json',
+    '/static/data/site-settings.json'
 ];
 
 self.addEventListener('install', e => {
@@ -43,7 +43,7 @@ self.addEventListener('fetch', e => {
     if (!url.protocol.startsWith('http')) return;
 
     // Network only สำหรับ JSON data (ข่าว/ติดต่อ) — อัปเดตทันที
-    if (DATA_URLS.some(u => url.pathname.includes(u.replace('/web', '')))) {
+    if (DATA_URLS.some(u => url.pathname.includes(u))) {
         e.respondWith(fetch(e.request));
         return;
     }
