@@ -649,10 +649,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
         header.classList.toggle('header-scrolled', window.scrollY > 50);
-    });
+    }, { passive: true });
 
     // AOS — refresh หลัง renderGallery เพิ่ม elements เข้า DOM แล้ว
-    AOS.init({ once: true, duration: 800, offset: 100 });
+    // Phones/tablets: no scroll-in animation. Sections hidden until they animate in showed as
+    // blank white flashes while scrolling on mobile, so content is simply shown there.
+    AOS.init({ once: true, duration: 800, offset: 100, disable: () => window.innerWidth < 1100 });
     AOS.refresh();
 
     // Back to Top + Mobile Share FAB
@@ -672,7 +674,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             mobileFab.classList.toggle('opacity-100', visible);
             mobileFab.classList.toggle('translate-y-0', visible);
         }
-    });
+    }, { passive: true });
 
     // Hash-based news link: #news-5 → open modal
     const openNewsFromHash = () => {

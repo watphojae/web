@@ -63,8 +63,12 @@ header.hv-header.header-scrolled .hv-logo { height: 46px; width: 46px; }
 .hv-slides { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
 .hv-slide {
     position: absolute; inset: 0; background-size: cover; background-position: center;
-    opacity: 0; transition: opacity 2s ease-in-out; will-change: opacity, transform;
+    opacity: 0; transition: opacity 2s ease-in-out;
 }
+/* Scrolled past the hero: the drift stops (hero.js also stops changing photos) so phones do not
+   keep repainting full-screen photos while the reader scrolls. */
+.hv-hero.hv-paused .hv-slide { animation-play-state: paused; }
+.hv-hero.hv-paused .hv-slides { visibility: hidden; } /* off screen anyway; frees the full-screen photo layers */
 /* Each photo fades in and drifts slowly closer while it is shown. */
 .hv-slide.on { opacity: 1; animation: hv-drift 9s ease-out forwards; }
 .hv-slide.off, .hv-slide.off-right { opacity: 0; }
@@ -163,7 +167,7 @@ html, body { overflow-x: clip; }
     .hv-notice {
         display: flex; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 10px;
         max-width: calc(100% - 24px); padding: 7px 16px; border-radius: 999px; font-size: .92rem;
-        background: rgba(10, 24, 19, .72); backdrop-filter: blur(6px);
+        background: rgba(10, 24, 19, .8); /* no backdrop blur on phones: re-blurring under a fixed header on every scroll frame flickers */
     }
     .hv-notice { width: max-content; }
     .hv-notice span:last-child { text-align: center; line-height: 1.45; }

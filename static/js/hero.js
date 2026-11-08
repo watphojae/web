@@ -54,6 +54,14 @@
         }
         new Image().src = HERO_PHOTOS[1];
         restart();
+        // Change photos only while the hero is on screen; scrolled away, stop (saves repaint while scrolling).
+        const hero = slidesBox.closest('.hv-hero');
+        if (hero && 'IntersectionObserver' in window) {
+            new IntersectionObserver(([entry]) => {
+                hero.classList.toggle('hv-paused', !entry.isIntersecting);
+                if (entry.isIntersecting) restart(); else clearInterval(timer);
+            }).observe(hero);
+        }
     }
 
     window.hvOpen = (mode) => {
