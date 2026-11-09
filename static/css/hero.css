@@ -720,3 +720,6 @@ body.lb-open #mobileShareFab, body.lb-open #backToTop { opacity: 0 !important; p
 /* กล่อง "ทุก / อาทิตย์": สระล่างของ "ทุก" ชนสระบนของ "อาทิตย์" — เว้นระยะบรรทัดให้พอสำหรับอักษรไทย */
 .hv-ev-date.is-week .hv-ev-mon, .hv-ev-date.is-long .hv-ev-mon { line-height: 1.5; margin-bottom: 4px; }
 .hv-ev-date.is-week .hv-ev-day, .hv-ev-date.is-long .hv-ev-day { line-height: 1.6; }
+
+/* บรรทัดเงินสด ใต้ข้อความลดหย่อนภาษี */
+.hv-don-note .hv-don-cash { display: block; margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(230,201,138,.3); }
