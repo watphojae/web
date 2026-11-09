@@ -40,7 +40,7 @@
     <link rel="sitemap" type="application/xml" href="sitemap.xml">
     <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@300;400;600&family=Noto+Serif+Thai:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2">
-    <link rel="stylesheet" href="static/css/hero.css?v=39">
+    <link rel="stylesheet" href="static/css/hero.css?v=42">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- AOS Animation Library -->
@@ -118,9 +118,9 @@
     <script src="static/js/site-data.js?v=7"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <script src="script.js?v=28" defer></script>
+    <script src="script.js?v=30" defer></script>
     <script src="static/js/hero.js?v=12" defer></script>
-    <script src="static/js/react-parts.js?v=3" defer></script>
+    <script src="static/js/react-parts.js?v=4" defer></script>
     <link rel="stylesheet" href="static/css/tw.css?v=1">
 </head>
 
@@ -129,9 +129,9 @@
     <!-- ═══ ส่วนหัว: โลโก้ซ้าย ปุ่มค้นหา/เมนูขวา (โปร่งบนภาพหน้าแรก ทึบเมื่อเลื่อนลง) ═══ -->
     <header class="hv-header">
         <a href="#hero" class="hv-brand" aria-label="วัดโพธิ์แจ้ หน้าแรก">
-            <img src="static/images/temple_logo_256.png" alt="" class="hv-logo" width="52" height="52">
+            <img src="static/images/temple_logo_256.png" alt="ตราวัดโพธิ์แจ้" class="hv-logo" width="52" height="52">
             <span class="hv-brand-text">
-                <span class="hv-brand-name">วัดโพธิ์แจ้</span>
+                <h1 class="hv-brand-name">วัดโพธิ์แจ้</h1>
                 <span class="hv-brand-sub">ต.บางน้ำจืด อ.เมือง จ.สมุทรสาคร</span>
             </span>
         </a>
@@ -666,7 +666,7 @@
     <footer class="hv-foot">
         <div class="hv-foot-grid">
             <div class="hv-foot-brand">
-                <a href="#hero" class="hv-foot-logo"><img src="static/images/temple_logo_256.png" alt=""><span>วัดโพธิ์แจ้</span></a>
+                <a href="#hero" class="hv-foot-logo"><img src="static/images/temple_logo_256.png" alt="ตราวัดโพธิ์แจ้"><span>วัดโพธิ์แจ้</span></a>
                 <p>เลขที่ ๑ หมู่ ๓ ถนนเอกชัย ตำบลบางน้ำจืด<br>อำเภอเมืองสมุทรสาคร จังหวัดสมุทรสาคร ๗๔๐๐๐</p>
                 <p class="hv-foot-phone"><i class="fas fa-phone"></i> โทร. <span id="footer-phone"></span></p>
             </div>
@@ -716,26 +716,6 @@
             <div id="modalBody" class="p-2">
                 <!-- Content will be injected by JS -->
             </div>
-        </div>
-    </div>
-
-    <!-- Image Modal -->
-    <div id="imageModal" class="temple-modal-overlay items-center justify-center p-4" onclick="closeImageModal()">
-        <div class="relative max-w-5xl max-h-screen" onclick="event.stopPropagation()">
-            <div class="absolute -top-12 right-0 flex items-center gap-2">
-                <button id="imageModalShareBtn"
-                    class="btn btn-circle btn-sm btn-ghost text-white bg-black/20 hover:bg-white/20 border-none"
-                    title="แชร์รูปภาพ">
-                    <i class="fas fa-share-nodes"></i>
-                </button>
-                <button
-                    class="btn btn-circle btn-sm md:btn-md btn-ghost text-white bg-black/20 hover:bg-white/20 border-none text-2xl"
-                    onclick="closeImageModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <img id="modalImage" src="" alt="Full view"
-                class="max-w-full max-h-[85vh] rounded-lg shadow-2xl object-contain animate__animated animate__zoomIn">
         </div>
     </div>
 
@@ -859,7 +839,7 @@
                 aria-label="ก่อนหน้า"><i class="fas fa-chevron-left"></i></button>
             <!-- รูป -->
             <div id="imageModalScroll" class="flex-1 overflow-y-auto flex justify-center items-start px-4 md:px-20 py-2 h-full">
-                <img id="modalImage" src="" alt="" class="max-w-full rounded-lg shadow-2xl">
+                <img id="modalImage" src="" alt="ภาพขยายจากแกลเลอรีวัดโพธิ์แจ้" class="max-w-full rounded-lg shadow-2xl">
             </div>
             <!-- ลูกศรขวา (คอม) -->
             <button onclick="navigateImageModal(1)"

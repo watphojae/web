@@ -105,9 +105,9 @@
             else navigator.clipboard.writeText(url).then(() => alert('คัดลอกลิงก์เรียบร้อยแล้ว'));
         };
         const Poster = ({ news, className }) => (
-            <div className={className} role="img" aria-label={news.title}>
+            <div className={className}>
                 <div className="hv-news-blur" style={{ backgroundImage: `url('${String(news.image).replace(/\.webp$/, '-m.webp')}')` }}></div>
-                <img src={String(news.image).replace(/\.webp$/, '-m.webp')} alt="" loading="lazy"
+                <img src={String(news.image).replace(/\.webp$/, '-m.webp')} alt={news.title} loading="lazy"
                     onError={(e) => { if (!e.currentTarget.dataset.full) { e.currentTarget.dataset.full = "1"; e.currentTarget.src = news.image; } }} />
             </div>
         );

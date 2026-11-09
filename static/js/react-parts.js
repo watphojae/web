@@ -129,9 +129,7 @@ const Poster = ({
   news,
   className
 }) => /*#__PURE__*/React.createElement("div", {
-  className: className,
-  role: "img",
-  "aria-label": news.title
+  className: className
 }, /*#__PURE__*/React.createElement("div", {
   className: "hv-news-blur",
   style: {
@@ -139,7 +137,7 @@ const Poster = ({
   }
 }), /*#__PURE__*/React.createElement("img", {
   src: String(news.image).replace(/\.webp$/, '-m.webp'),
-  alt: "",
+  alt: news.title,
   loading: "lazy",
   onError: e => {
     if (!e.currentTarget.dataset.full) {

@@ -673,3 +673,43 @@ footer.hv-foot { background: #0c1f18 !important; color: rgba(255,255,255,.72); p
 .hv-cal .hv-ev-head { margin-bottom: 20px !important; }
 .hv-cal-frame { border: 1px solid #e4dac4; border-radius: 4px; overflow: hidden; background: #fff; }
 .hv-cal-frame iframe { display: block; }
+
+/* ปุ่มแชร์ลอย (มือถือ) — ใช้สีเขียวของวัดทั้งโหมดสว่างและมืด (btn-primary ในธีมมืดของ daisyUI เป็นสีม่วง) */
+#mobileShareFab, #mobileShareFab:hover { background: var(--hv-green) !important; border-color: var(--hv-green) !important; color: #fff !important; }
+[data-theme="dark"] #mobileShareFab { border-color: var(--hv-gold) !important; }
+
+/* ปุ่ม × ล้างคำค้น — แทนปุ่มสีน้ำเงินของเบราว์เซอร์ด้วยสีทอง */
+.hv-search input::-webkit-search-cancel-button {
+    -webkit-appearance: none; appearance: none; width: 22px; height: 22px; cursor: pointer;
+    background: var(--hv-gold);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6l12 12M18 6L6 18' stroke='black' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6l12 12M18 6L6 18' stroke='black' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* กล่องติดตามข่าวสาร: บนมือถือย่อให้เล็ก และซ่อนปุ่มลอยไว้ระหว่างที่กล่องแสดงอยู่ จะได้ไม่บังกัน */
+@media (max-width: 767px) {
+    #notifToast { bottom: 12px; }
+    #notifToast > div { padding: 10px 12px; align-items: center; }
+    #notifToast > div > div:first-child { display: none; }
+    #notifToast p.text-xs { display: none; }
+    #notifToast .flex.gap-2 { margin-top: 6px; }
+    body.notif-open #mobileShareFab, body.notif-open #backToTop { opacity: 0 !important; pointer-events: none; }
+}
+
+/* ชื่อวัดบนแถบหัวเป็น <h1> ของหน้า — คงหน้าตาเดิม */
+h1.hv-brand-name { margin: 0; line-height: inherit; }
+
+/* ปุ่มและลิงก์บนมือถือ: พื้นที่แตะสูงอย่างน้อย 44px (มาตรฐานการแตะด้วยนิ้ว) */
+@media (max-width: 767px) {
+    .btn-xs { min-height: 44px !important; height: auto !important; padding-left: 14px; padding-right: 14px; }
+    .btn-xs.btn-circle { width: 44px !important; height: 44px !important; padding: 0; }
+    .btn-sm { min-height: 44px !important; height: auto !important; }
+    .btn-sm.btn-circle { width: 44px !important; height: 44px !important; }
+    #imageModal button[aria-label="ปิด"] { width: 44px; height: 44px; }
+    .hv-ev-share, .hv-abb-share.sm, .hv-news-share button, .hv-monks-share button,
+    .hv-arrow, .hv-scroll { width: 44px !important; height: 44px !important; min-width: 44px; }
+    .hv-abb-share, .hv-don-copy, .hv-ct-line, .hv-foot-staff { min-height: 44px; }
+    .hv-don-save { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 10px; }
+    .hv-foot-col > a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0; }
+    .hv-news-share, .hv-monks-share { flex-wrap: wrap; }
+}

@@ -1,3 +1,5 @@
+// ข้อความ alt ของรูป — กันเครื่องหมายคำพูด/แท็กหลุดออกจาก attribute
+const escAlt = (t) => String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 /**
  * script.js - Interactive features for วัดโพธิ์แจ้ website
  * ข้อมูลทั้งหมดอยู่ใน static/js/site-data.js
@@ -122,7 +124,7 @@ function renderGallery() {
     container.innerHTML = `
         <div class="hv-alb">${galleryAlbums.map((x) => `
             <a class="hv-alb-card" href="#album-${encodeURIComponent(x.id)}" onclick="event.preventDefault(); openAlbum('${qAttr(x.id)}')">
-                <div class="hv-alb-cover"><img src="${mediumOf(x.cover || albumPhotos(x)[0].src)}" alt="" loading="lazy"><span class="hv-alb-count"><i class="fa-regular fa-images"></i> ${thNum(x.photos.length)} รูป</span></div>
+                <div class="hv-alb-cover"><img src="${mediumOf(x.cover || albumPhotos(x)[0].src)}" alt="ภาพปก${escAlt(x.title || 'อัลบั้ม')}" loading="lazy"><span class="hv-alb-count"><i class="fa-regular fa-images"></i> ${thNum(x.photos.length)} รูป</span></div>
                 <div class="hv-alb-body">
                     ${x.date ? `<span class="hv-alb-date">${x.date}</span>` : ''}
                     <h3 class="hv-alb-title">${x.title}</h3>
@@ -152,7 +154,7 @@ function renderPhotoGrid(container, list, al) {
         </div>` : ''}
         <div class="hv-gal">${list.slice(0, galleryShown).map((img, i) => `
             <figure class="hv-gal-item" onclick="openImageModal(${i})">
-                <img src="${mediumOf(img.src)}" alt="${img.alt || ''}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth*1.1)this.parentNode.classList.add('tall')">
+                <img src="${mediumOf(img.src)}" alt="${escAlt(img.alt || ((al ? al.title : 'แกลเลอรีวัดโพธิ์แจ้') + ' รูปที่ ' + (i + 1)))}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth*1.1)this.parentNode.classList.add('tall')">
                 <figcaption>
                     <span>${img.alt || ''}</span>
                     <button type="button" title="แชร์รูปภาพ" aria-label="แชร์รูปภาพ"
@@ -469,7 +471,7 @@ window.showModal = (newsId) => {
     if (data && modal && modalBody) {
         const visualContent = data.image ? `
             <div style="background:#000;border-radius:1rem;overflow:hidden;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px -5px rgba(0,0,0,0.1);">
-                <img src="${data.image}" style="width:100%;max-height:80vh;object-fit:contain;display:block;">
+                <img src="${data.image}" alt="${escAlt(data.title || 'ข่าววัดโพธิ์แจ้')}" style="width:100%;max-height:80vh;object-fit:contain;display:block;">
             </div>` : '';
 
         modalBody.innerHTML = `
@@ -592,7 +594,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             const toast = document.getElementById('notifToast');
             if (toast) {
                 toast.classList.remove('hidden');
+                document.body.classList.add('notif-open');
                 sessionStorage.setItem('notif_shown', '1');
+                // ปิดเองหลัง 12 วินาที ไม่ให้บังหน้าจอมือถือนาน
+                setTimeout(() => toast.classList.add('hidden'), 12000);
+                // ปุ่มปิด/ลิงก์ในกล่องเพิ่ม class hidden → คืนปุ่มลอย
+                new MutationObserver(() => {
+                    if (toast.classList.contains('hidden')) document.body.classList.remove('notif-open');
+                }).observe(toast, { attributes: true, attributeFilter: ['class'] });
             }
         }, 4000);
     }
@@ -699,7 +708,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         _modalIndex = idx;
         const item = _modalItems[idx];
         modalImg.src = item.src;
-        modalImg.alt = item.alt;
+        modalImg.alt = item.alt || 'ภาพขยายจากแกลเลอรีวัดโพธิ์แจ้';
         const counter = document.getElementById('imageModalCounter');
         if (counter) counter.textContent = `${idx + 1} / ${_modalItems.length}`;
         const shareBtn = document.getElementById('imageModalShareBtn');
@@ -722,6 +731,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        const toast = document.getElementById('notifToast');
+        if (toast) toast.classList.add('hidden'); // กล่องติดตามข่าวสารอยู่ชั้นบนกว่า — ปิดไม่ให้บังรูป
     };
 
     window.navigateImageModal = (dir) => {
