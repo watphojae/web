@@ -154,7 +154,7 @@ function renderPhotoGrid(container, list, al) {
         </div>` : ''}
         <div class="hv-gal">${list.slice(0, galleryShown).map((img, i) => `
             <figure class="hv-gal-item" onclick="openImageModal(${i})">
-                <img src="${mediumOf(img.src)}" alt="${escAlt(img.alt || ((al ? al.title : 'แกลเลอรีวัดโพธิ์แจ้') + ' รูปที่ ' + (i + 1)))}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth*1.1)this.parentNode.classList.add('tall')">
+                <img src="${mediumOf(img.src)}" alt="${escAlt(img.alt && (!al || img.alt !== al.title) ? img.alt : (al ? al.title : 'แกลเลอรีวัดโพธิ์แจ้') + ' รูปที่ ' + thNum(i + 1))}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth*1.1)this.parentNode.classList.add('tall')">
                 <figcaption>
                     <span>${img.alt || ''}</span>
                     <button type="button" title="แชร์รูปภาพ" aria-label="แชร์รูปภาพ"
@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         _modalIndex = idx;
         const item = _modalItems[idx];
         modalImg.src = item.src;
-        modalImg.alt = item.alt || 'ภาพขยายจากแกลเลอรีวัดโพธิ์แจ้';
+        modalImg.alt = (item.alt || 'ภาพขยายจากแกลเลอรีวัดโพธิ์แจ้') + (_modalItems.length > 1 ? ' รูปที่ ' + thNum(idx + 1) : '');
         const counter = document.getElementById('imageModalCounter');
         if (counter) counter.textContent = `${idx + 1} / ${_modalItems.length}`;
         const shareBtn = document.getElementById('imageModalShareBtn');
@@ -733,6 +733,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.body.style.overflow = 'hidden';
         const toast = document.getElementById('notifToast');
         if (toast) toast.classList.add('hidden'); // กล่องติดตามข่าวสารอยู่ชั้นบนกว่า — ปิดไม่ให้บังรูป
+        document.body.classList.add('lb-open'); // ซ่อนปุ่มลอยที่มองทะลุพื้นดำ
     };
 
     window.navigateImageModal = (dir) => {
@@ -745,6 +746,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (modal) {
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+            document.body.classList.remove('lb-open');
             setTimeout(() => { const m = document.getElementById('modalImage'); if (m) m.src = ''; }, 200);
         }
     };

@@ -2,7 +2,7 @@
   "items": [
     {
       "id": "ubosot-interior",
-      "title": "อัลบั้ม ๑",
+      "title": "อัลบั้มที่ ๑",
       "cover": "static/gallery/LINE_ALBUM_โบสถ์_250301_7_0.webp",
       "photos": [
         "static/gallery/LINE_ALBUM_โบสถ์_250301_1_0.webp",
@@ -21,7 +21,7 @@
     },
     {
       "id": "ubosot-exterior",
-      "title": "อัลบั้ม ๒",
+      "title": "อัลบั้มที่ ๒",
       "cover": "static/gallery/IMG_4753_0.webp",
       "photos": [
         "static/gallery/IMG_4249_0.webp",
@@ -44,7 +44,7 @@
     },
     {
       "id": "temple-grounds",
-      "title": "อัลบั้ม ๓",
+      "title": "อัลบั้มที่ ๓",
       "cover": "static/gallery/EOS-R6-124_0.webp",
       "photos": [
         "static/gallery/EOS-R6-10_0.webp",

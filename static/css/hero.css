@@ -713,3 +713,10 @@ h1.hv-brand-name { margin: 0; line-height: inherit; }
     .hv-foot-col > a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0; }
     .hv-news-share, .hv-monks-share { flex-wrap: wrap; }
 }
+
+/* ระหว่างเปิดดูรูป ซ่อนปุ่มลอย (แชร์/กลับขึ้นบน) ที่มองทะลุพื้นดำ */
+body.lb-open #mobileShareFab, body.lb-open #backToTop { opacity: 0 !important; pointer-events: none !important; }
+
+/* กล่อง "ทุก / อาทิตย์": สระล่างของ "ทุก" ชนสระบนของ "อาทิตย์" — เว้นระยะบรรทัดให้พอสำหรับอักษรไทย */
+.hv-ev-date.is-week .hv-ev-mon, .hv-ev-date.is-long .hv-ev-mon { line-height: 1.5; margin-bottom: 4px; }
+.hv-ev-date.is-week .hv-ev-day, .hv-ev-date.is-long .hv-ev-day { line-height: 1.6; }
