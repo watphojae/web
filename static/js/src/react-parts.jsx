@@ -173,16 +173,21 @@
             const [count, setCount] = useState("------");
 
             useEffect(() => {
-                fetch('https://counterapi.dev/api/watphojae-web/visits/up')
-                    .then(res => res.json())
+                // ตัวนับกลาง (ทุกเครื่องเห็นเลขเดียวกัน) — นับ 1 ครั้งต่อการเข้าชม (session)
+                const API = 'https://abacus.jasoncameron.dev';
+                let counted = false;
+                try { counted = sessionStorage.getItem('wpjCounted') === '1'; } catch (e) {}
+                fetch(API + (counted ? '/get' : '/hit') + '/watphojae-com/visits')
+                    .then(res => { if (!res.ok) throw new Error(res.status); return res.json(); })
                     .then(data => {
-                        const num = data.value || 0;
-                        setCount(num.toString().padStart(6, '0'));
+                        if (typeof data.value !== 'number') throw new Error('bad');
+                        try { sessionStorage.setItem('wpjCounted', '1'); localStorage.setItem('visitorCountLast', data.value); } catch (e) {}
+                        setCount(String(data.value).padStart(6, '0'));
                     })
                     .catch(() => {
-                        let c = parseInt(localStorage.getItem('visitorCount') || '10250') + 1;
-                        localStorage.setItem('visitorCount', c);
-                        setCount(c.toString().padStart(6, '0'));
+                        let last = null;
+                        try { last = localStorage.getItem('visitorCountLast'); } catch (e) {}
+                        if (last) setCount(String(last).padStart(6, '0'));
                     });
             }, []);
 
